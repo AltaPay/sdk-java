@@ -10,10 +10,12 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.codec.binary.Base64;
+
 
 public class HTTPHelper {
 	
-	public InputStream doPost(String urlString, Map<String, String> postVars) throws IOException {
+	public InputStream doPost(String urlString, Map<String, String> postVars, String username, String password) throws IOException {
 		// URL of CGI-Bin script.
 		URL url = new URL(urlString);
 
@@ -39,6 +41,9 @@ public class HTTPHelper {
 
 		// Specify the content type.
 		urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		
+		String encoded = new String(Base64.encodeBase64((username+":"+password).getBytes()));
+		urlConn.setRequestProperty("Authorization", "Basic "+encoded);
 		
 		// Send POST output.
 		DataOutputStream printout = new DataOutputStream(urlConn.getOutputStream());
