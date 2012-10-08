@@ -1,17 +1,7 @@
 package com.pensio.api;
 
-public class PaymentRequestResponse 
-{
-	private String url;
+public interface PaymentRequestResponse {
 
-	public String getUrl() 
-	{
-		return url;
-	}
+	public abstract String getUrl();
 
-	public PaymentRequestResponse setUrl(String url) 
-	{
-		this.url = url;
-		return this;
-	}
 }
