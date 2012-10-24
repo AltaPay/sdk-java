@@ -214,6 +214,8 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			<xs:element name="PaymentSchemeName" type="xs:string"
+				maxOccurs="1" minOccurs="0" />
 			<xs:element name="PaymentNatureService"
 				type="PaymentNatureService" />
 			<xs:element name="FraudRiskScore" type="xs:double"
@@ -234,7 +236,7 @@
 				type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ChargebackEvents"
 				type="ChargebackEvents" maxOccurs="1" minOccurs="0" />
-			<xs:element name="TransactionInfo" type="TransactionInfo" />
+			<xs:element name="PaymentInfos" type="PaymentInfos" />
 			<xs:element name="CustomerInfo" type="CustomerInfo"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
@@ -283,10 +285,18 @@
 		<xs:attribute name="name" type="xs:string" />
 	</xs:complexType>
 	
-	<xs:complexType name="TransactionInfo">
+	<xs:complexType name="PaymentInfos">
 		<xs:sequence>
-			<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="PaymentInfo" type="PaymentInfo"  minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="PaymentInfo">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" />
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 	
 	<xs:complexType name="CustomerInfo">

@@ -120,7 +120,7 @@ public class PensioMerchantAPI {
 			}
 		}
 		
-		APIResponse response = getAPIResponse("login", params);
+		APIResponse response = getAPIResponse("createPaymentRequest", params);
 		return new PaymentRequestResponseImpl()
 			.setUrl(response.getBody().getUrl());
 		
