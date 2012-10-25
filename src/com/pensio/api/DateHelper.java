@@ -1,5 +1,6 @@
 package com.pensio.api;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -117,6 +118,16 @@ public class DateHelper
 		return dateFormat.format(date);
 	}
 
+	public static Date parseDate(String format, String date) throws ParseException
+	{
+		if(date == null)
+			return null;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		
+		return dateFormat.parse(date);
+	}
+	
 	public Date add(Date date, DateValue dateValue)
 	{
 		Calendar calendar = Calendar.getInstance();

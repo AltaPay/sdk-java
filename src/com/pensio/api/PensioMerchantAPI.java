@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -22,6 +25,8 @@ import request.RefundRequest;
 import request.ReleaseReservationRequest;
 import request.ReserveSubscriptionChargeRequest;
 
+import com.csvreader.CsvReader;
+import com.pensio.Amount;
 import com.pensio.api.generated.APIResponse;
 
 public class PensioMerchantAPI {
@@ -129,6 +134,50 @@ public class PensioMerchantAPI {
 		return getAPIResponse("fundingList", params);
 	}
 	
+	public List<FundingRecord> downloadFunding(String downloadLink) throws PensioAPIException
+	{
+		try
+		{
+			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<String, String>(), username, password);
+			
+			CsvReader reader = new CsvReader(inStream,';', Charset.forName("UTF-8"));
+			ArrayList<FundingRecord> result = new ArrayList<FundingRecord>();
+			
+			if(reader.readHeaders())
+			{
+				while(reader.readRecord())
+				{
+					FundingRecord record = new FundingRecord();
+					record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd hh:mm:ss", reader.get("Date")));
+					record.setRecordType(reader.get("Type"));
+					record.setId(reader.get("ID"));
+					record.setReconciliationIdentifier(reader.get("Reconciliation Identifier"));
+					record.setPaymentId(reader.get("Payment"));
+					record.setOrderId(reader.get("Order"));
+					record.setTerminal(reader.get("Terminal"));
+					record.setShop(reader.get("Shop"));
+					record.setPaymentAmount(Amount.get(reader.get("Transaction Amount"), reader.get("Transaction Currency")));
+					record.setFundingAmount(Amount.get(reader.get("Settlement Amount"), reader.get("Settlement Currency")));
+					record.setExchangeRate(Double.parseDouble(reader.get("Exchange Rate")));
+					record.setFixedFeeAmount(Amount.get(reader.get("Fixed Fee"), reader.get("Settlement Currency")));
+					record.setFixedFeeVatAmount(Amount.get(reader.get("Fixed Fee VAT"), reader.get("Settlement Currency")));
+					record.setRateBasedFeeAmount(Amount.get(reader.get("Rate Based Fee"), reader.get("Settlement Currency")));
+					record.setRateBasedFeeVatAmount(Amount.get(reader.get("Rate Based Fee VAT"), reader.get("Settlement Currency")));
+					
+					result.add(record);
+					
+				}
+			}
+			reader.close();
+			
+			
+			return result;
+		}
+		catch (Exception e)
+		{
+			throw new PensioAPIException(e);
+		}
+	}
 	
 	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 
 	{

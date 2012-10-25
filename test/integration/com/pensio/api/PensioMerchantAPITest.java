@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
@@ -177,6 +178,27 @@ public class PensioMerchantAPITest
 			currentResult = extraResult;
 		} 
 		assertEquals("FunctionalTestContractID",currentResult.getBody().getFundings().getFunding().get(currentResult.getBody().getFundings().getFunding().size()-1).getContractIdentifier());
+	}
+
+	@Test
+	public void fundingDownloadTest() throws Throwable 
+	{
+		APIResponse result = api.fundingList(new FundingListRequest());
+		APIResponse currentResult = result;
+		assertNotNull(result.getBody().getFundings());
+		
+		int page = 0;
+		while(++page < result.getBody().getFundings().getNumberOfPages())
+		{
+			APIResponse extraResult = api.fundingList(new FundingListRequest(page));
+			assertTrue(extraResult.getBody().getFundings().getFunding().size() > 0);
+			currentResult = extraResult;
+		} 
+		String downloadLink = currentResult.getBody().getFundings().getFunding().get(currentResult.getBody().getFundings().getFunding().size()-1).getDownloadLink();
+		
+		List<FundingRecord> fundingRecords = api.downloadFunding(downloadLink);
+		
+		assertEquals("Pensio Functional Test Shop", fundingRecords.get(0).getShop());
 	}
 	
 	private String getOrderId() throws Throwable
