@@ -12,11 +12,13 @@ import org.junit.Test;
 
 import request.AuthType;
 import request.CaptureReservationRequest;
+import request.ChargeSubscriptionRequest;
 import request.CreditCard;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
-import request.RefundReservationRequest;
+import request.RefundRequest;
 import request.ReleaseReservationRequest;
+import request.ReserveSubscriptionChargeRequest;
 
 import com.pensio.Amount;
 import com.pensio.Currency;
@@ -110,7 +112,28 @@ public class PensioMerchantAPITest
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.refund(
-			new RefundReservationRequest(paymentId)
+			new RefundRequest(paymentId)
+			.setAmount(Amount.get(2.00, Currency.EUR))
+			.setReconciliationIdentifier(orderId)
+		);
+		
+		assertEquals("Success",captureResult.getBody().getResult());
+	}
+	
+	@Test
+	public void chargeSubscription() throws Throwable 
+	{
+		String orderId = getOrderId();
+		APIResponse result = api.reservation(new PaymentReservationRequest()
+			.setAmount(Amount.get(3.00, Currency.EUR))
+			.setShopOrderId(orderId)
+			.setTerminal("Pensio Test Terminal")
+			.setAuthType(AuthType.subscription)
+			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		);
+		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.chargeSubscription(
+			new ChargeSubscriptionRequest(paymentId)
 			.setAmount(Amount.get(2.00, Currency.EUR))
 			.setReconciliationIdentifier(orderId)
 		);
@@ -118,6 +141,26 @@ public class PensioMerchantAPITest
 		assertEquals("Success",captureResult.getBody().getResult());
 	}
 
+	@Test
+	public void reserveSubscriptionCharge() throws Throwable 
+	{
+		String orderId = getOrderId();
+		APIResponse result = api.reservation(new PaymentReservationRequest()
+			.setAmount(Amount.get(3.00, Currency.EUR))
+			.setShopOrderId(orderId)
+			.setTerminal("Pensio Test Terminal")
+			.setAuthType(AuthType.subscription)
+			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		);
+		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.reserveSubscriptionCharge(
+			new ReserveSubscriptionChargeRequest(paymentId)
+			.setAmount(Amount.get(2.00, Currency.EUR))
+		);
+		
+		assertEquals("Success",captureResult.getBody().getResult());
+	}
+	
 	private String getOrderId() throws Throwable
 	{
 		MessageDigest digest = MessageDigest.getInstance("MD5");

@@ -14,10 +14,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import request.CaptureReservationRequest;
+import request.ChargeSubscriptionRequest;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
-import request.RefundReservationRequest;
+import request.RefundRequest;
 import request.ReleaseReservationRequest;
+import request.ReserveSubscriptionChargeRequest;
 
 import com.pensio.api.generated.APIResponse;
 
@@ -89,7 +91,7 @@ public class PensioMerchantAPI {
 		return getAPIResponse("captureReservation", params);
 	}
 
-	public APIResponse refund(RefundReservationRequest request) throws PensioAPIException 
+	public APIResponse refund(RefundRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transaction_id", request.getPaymentId());
@@ -97,6 +99,25 @@ public class PensioMerchantAPI {
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		
 		return getAPIResponse("refundCapturedReservation", params);
+	}
+	
+	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getSubscriptionId());
+		addParam(params, "amount", request.getAmountString());
+		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
+		
+		return getAPIResponse("chargeSubscription", params);
+	}
+	
+	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getSubscriptionId());
+		addParam(params, "amount", request.getAmountString());
+		
+		return getAPIResponse("reserveSubscriptionCharge", params);
 	}
 	
 	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 

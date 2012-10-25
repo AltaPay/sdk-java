@@ -2,20 +2,20 @@ package request;
 
 import com.pensio.Amount;
 
-public class RefundReservationRequest
+public class ChargeSubscriptionRequest
 {
-	private String paymentId;
+	private String subscriptionId;
 	private Amount amount;
 	private String reconciliationIdentifier;
 	
-	public RefundReservationRequest(String paymentId)
+	public ChargeSubscriptionRequest(String subscriptionId)
 	{
-		this.paymentId = paymentId;
+		this.subscriptionId = subscriptionId;
 	}
 
-	public String getPaymentId()
+	public String getSubscriptionId()
 	{
-		return paymentId;
+		return subscriptionId;
 	}
 
 	public Amount getAmount()
@@ -32,7 +32,7 @@ public class RefundReservationRequest
 		return amount.getAmountString();
 	}
 
-	public RefundReservationRequest setAmount(Amount amount)
+	public ChargeSubscriptionRequest setAmount(Amount amount)
 	{
 		this.amount = amount;
 		return this;
@@ -43,7 +43,7 @@ public class RefundReservationRequest
 		return reconciliationIdentifier;
 	}
 
-	public RefundReservationRequest setReconciliationIdentifier(String reconciliationIdentifier)
+	public ChargeSubscriptionRequest setReconciliationIdentifier(String reconciliationIdentifier)
 	{
 		this.reconciliationIdentifier = reconciliationIdentifier;
 		return this;
