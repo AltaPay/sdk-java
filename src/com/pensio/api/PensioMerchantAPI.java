@@ -16,6 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import request.CaptureReservationRequest;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
+import request.ReleaseReservationRequest;
 
 import com.pensio.api.generated.APIResponse;
 
@@ -87,6 +88,14 @@ public class PensioMerchantAPI {
 		return getAPIResponse("captureReservation", params);
 	}
 
+	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getPaymentId());
+		
+		return getAPIResponse("releaseReservation", params);
+	}
+	
 	private void setCreditCardRequestParameters(
 			PaymentReservationRequest request, HashMap<String, String> params)
 	{
