@@ -2,21 +2,22 @@ package com.pensio.api;
 
 import java.util.Date;
 
+import com.pensio.Amount;
+
 public class PaymentRequest
 {
-	private String shopOrderId;
-	private String terminal;
-	private String currency;
-	private String authType;
-	private String language;
-	private String creditCardToken;
-	private String amount;
-	private String cookie;
-	private String shippingMethod;
-	private Date customerCreateAt;
+	protected String shopOrderId;
+	protected String terminal;
+	protected String authType;
+	protected String language;
+	protected String creditCardToken;
+	protected Amount amount;
+	protected String cookie;
+	protected String shippingMethod;
+	protected Date customerCreateAt;
 	
-	private PaymentRequestConfig config;
-	private CustomerInfo customerInfo;
+	protected PaymentRequestConfig config;
+	protected CustomerInfo customerInfo;
 
 	public String getShopOrderId()
 	{
@@ -37,17 +38,6 @@ public class PaymentRequest
 	public PaymentRequest setTerminal(String terminal)
 	{
 		this.terminal = terminal;
-		return this;
-	}
-
-	public String getCurrency()
-	{
-		return currency;
-	}
-
-	public PaymentRequest setCurrency(String currency)
-	{
-		this.currency = currency;
 		return this;
 	}
 
@@ -84,12 +74,12 @@ public class PaymentRequest
 		return this;
 	}
 
-	public String getAmount()
+	public Amount getAmount()
 	{
 		return amount;
 	}
 
-	public PaymentRequest setAmount(String amount)
+	public PaymentRequest setAmount(Amount amount)
 	{
 		this.amount = amount;
 		return this;

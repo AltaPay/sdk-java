@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="devlib/junit-4.6.jar"/>
 	<classpathentry kind="lib" path="devlib/mockito-all-1.8.5.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PensioBaseLibrary"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.pensio.Amount;
+import com.pensio.Currency;
+import com.pensio.api.generated.APIResponse;
+
 public class PensioMerchantAPITest 
 {
 	private PensioMerchantAPI api;
@@ -20,8 +24,7 @@ public class PensioMerchantAPITest
 	public void createPaymentRequest() throws Throwable 
 	{
 		PaymentRequestResponse result = api.createPaymentRequest(new PaymentRequest()
-			.setAmount("1.00")
-			.setCurrency("EUR")
+			.setAmount(Amount.get(1.00, Currency.EUR))
 			.setShopOrderId("orderid")
 			.setTerminal("Pensio Test Terminal")
 		);
@@ -29,4 +32,16 @@ public class PensioMerchantAPITest
 		assertNotNull(result.getUrl());
 	}
 
+	@Test
+	public void createMotoReservation() throws Throwable 
+	{
+		APIResponse result = api.reservation((PaymentReservationRequest) new PaymentReservationRequest()
+			.setAmount(Amount.get(1.00, Currency.EUR))
+			.setShopOrderId("orderid")
+			.setTerminal("Pensio Test Terminal")
+			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		);
+		
+		assertEquals("Success",result.getBody().getResult());
+	}
 }

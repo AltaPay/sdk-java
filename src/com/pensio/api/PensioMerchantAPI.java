@@ -1,8 +1,12 @@
 package com.pensio.api;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -42,14 +46,24 @@ public class PensioMerchantAPI {
 
 		try 
 		{
+//			System.out.println(this.baseURL+"/merchant/API/"+method);
+//			System.out.println(postVars);
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
+//			System.out.println(getString(inStream));
+//			return null;
+			//inStream.reset();
+			
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
+			
 			APIResponse response = result.getValue();
+			
 			if(response.getHeader().getErrorCode() != 0)
 			{
 				throw new PensioAPIException(response.getHeader());
 			}
+			
+			
 			return response;
 		} 
 		catch (Exception e) 
@@ -57,6 +71,7 @@ public class PensioMerchantAPI {
 			throw new PensioAPIException(e);
 		} 
 	}
+
 
 	public boolean login() throws PensioAPIException 
 	{
@@ -69,9 +84,57 @@ public class PensioMerchantAPI {
 	public PaymentRequestResponse createPaymentRequest(PaymentRequest paymentRequest) throws PensioAPIException
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
+		setPaymentRequestParameters(paymentRequest, params);
+		
+		APIResponse response = getAPIResponse("createPaymentRequest", params);
+		return new PaymentRequestResponseImpl()
+			.setUrl(response.getBody().getUrl());
+		
+	}
+	
+	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		setPaymentRequestParameters(request, params);
+		setCreditCardRequestParameters(request, params);
+		
+		return getAPIResponse("reservation", params);
+	}
+
+	private void setCreditCardRequestParameters(
+			PaymentReservationRequest request, HashMap<String, String> params)
+	{
+		if(request.getCreditCard() == null)
+		{
+			return;
+		}
+		
+		if(request.getCreditCard().getToken() != null)
+		{
+			addParam(params, "credit_card_token", request.getCreditCard().getToken());
+		}
+		else
+		{
+			addParam(params, "cardnum", request.getCreditCard().getCardNumber());
+			addParam(params, "emonth", request.getCreditCard().getExpiryMonth());
+			addParam(params, "eyear", request.getCreditCard().getExpiryYear());
+		}
+		
+		if(request.getCreditCard().getCvc() != null)
+		{
+			addParam(params, "cvc", request.getCreditCard().getCvc());
+		}
+		
+	}
+
+	protected void setPaymentRequestParameters(
+		  PaymentRequest paymentRequest
+		, HashMap<String, String> params
+	) 
+	{
 		addParam(params, "terminal", paymentRequest.getTerminal());
-		addParam(params, "amount", paymentRequest.getAmount());
-		addParam(params, "currency", paymentRequest.getCurrency());
+		addParam(params, "amount", paymentRequest.getAmount().getAmountString());
+		addParam(params, "currency", paymentRequest.getAmount().getCurrency().name());
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
 		addParam(params, "auth_type", paymentRequest.getAuthType());
 		addParam(params, "cookie", paymentRequest.getCookie());
@@ -119,11 +182,6 @@ public class PensioMerchantAPI {
 				addParam(params, "customer_info[shipping_region]", paymentRequest.getCustomerInfo().getShippingAddress().getRegion());
 			}
 		}
-		
-		APIResponse response = getAPIResponse("createPaymentRequest", params);
-		return new PaymentRequestResponseImpl()
-			.setUrl(response.getBody().getUrl());
-		
 	}
 
 	private void addParam(HashMap<String, String> params, String key, String value) 
@@ -133,4 +191,17 @@ public class PensioMerchantAPI {
 			params.put(key, value);
 		}
 	}
+
+	private String getString(InputStream inStream) throws IOException 
+	{
+	    BufferedReader br = new BufferedReader( new InputStreamReader( inStream ) );
+	    StringBuffer text = new StringBuffer();
+	    for ( String line; (line = br.readLine()) != null; )
+	    {
+	        text.append( line );
+	    }
+	    		
+	    return text.toString();
+	}
+
 }
