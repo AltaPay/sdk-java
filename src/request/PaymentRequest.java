@@ -8,7 +8,7 @@ public class PaymentRequest
 {
 	protected String shopOrderId;
 	protected String terminal;
-	protected String authType;
+	protected AuthType authType;
 	protected String language;
 	protected String creditCardToken;
 	protected Amount amount;
@@ -41,12 +41,12 @@ public class PaymentRequest
 		return this;
 	}
 
-	public String getAuthType()
+	public AuthType getAuthType()
 	{
 		return authType;
 	}
 
-	public PaymentRequest setAuthType(String authType)
+	public PaymentRequest setAuthType(AuthType authType)
 	{
 		this.authType = authType;
 		return this;

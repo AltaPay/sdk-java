@@ -10,10 +10,12 @@ import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
+import request.AuthType;
 import request.CaptureReservationRequest;
 import request.CreditCard;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
+import request.RefundReservationRequest;
 import request.ReleaseReservationRequest;
 
 import com.pensio.Amount;
@@ -90,6 +92,27 @@ public class PensioMerchantAPITest
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.release(
 			new ReleaseReservationRequest(paymentId)
+		);
+		
+		assertEquals("Success",captureResult.getBody().getResult());
+	}
+	
+	@Test
+	public void refundReservation() throws Throwable 
+	{
+		String orderId = getOrderId();
+		APIResponse result = api.reservation(new PaymentReservationRequest()
+			.setAmount(Amount.get(3.00, Currency.EUR))
+			.setShopOrderId(orderId)
+			.setTerminal("Pensio Test Terminal")
+			.setAuthType(AuthType.paymentAndCapture)
+			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		);
+		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.refund(
+			new RefundReservationRequest(paymentId)
+			.setAmount(Amount.get(2.00, Currency.EUR))
+			.setReconciliationIdentifier(orderId)
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());

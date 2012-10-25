@@ -40,9 +40,9 @@ public class PaymentReservationRequest
 	}
 	
 	@Override
-	public PaymentReservationRequest setAuthType(String authType)
+	public PaymentReservationRequest setAuthType(AuthType paymentandcapture)
 	{
-		super.setAuthType(authType);
+		super.setAuthType(paymentandcapture);
 		return this;
 	}
 	

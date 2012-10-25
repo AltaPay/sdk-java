@@ -16,6 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import request.CaptureReservationRequest;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
+import request.RefundReservationRequest;
 import request.ReleaseReservationRequest;
 
 import com.pensio.api.generated.APIResponse;
@@ -88,6 +89,16 @@ public class PensioMerchantAPI {
 		return getAPIResponse("captureReservation", params);
 	}
 
+	public APIResponse refund(RefundReservationRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getPaymentId());
+		addParam(params, "amount", request.getAmountString());
+		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
+		
+		return getAPIResponse("refundCapturedReservation", params);
+	}
+	
 	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
@@ -122,7 +133,10 @@ public class PensioMerchantAPI {
 		addParam(params, "amount", paymentRequest.getAmount().getAmountString());
 		addParam(params, "currency", paymentRequest.getAmount().getCurrency().name());
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
-		addParam(params, "auth_type", paymentRequest.getAuthType());
+		if(paymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
 		addParam(params, "cookie", paymentRequest.getCookie());
 		addParam(params, "ccToken", paymentRequest.getCreditCardToken());
 		addParam(params, "language", paymentRequest.getLanguage());
