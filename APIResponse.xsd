@@ -124,7 +124,7 @@
 
 	<xs:complexType name="Transaction">
 		<xs:all>
-			<xs:element name="TransactionId" type="xs:int"></xs:element>
+			<xs:element name="TransactionId" type="xs:string"></xs:element>
 			<xs:element name="AuthType" type="xs:string" />
 			<xs:element name="CardStatus">
 				<xs:simpleType>

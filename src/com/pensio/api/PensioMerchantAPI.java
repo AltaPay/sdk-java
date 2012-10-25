@@ -13,6 +13,10 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import request.CaptureReservationRequest;
+import request.PaymentRequest;
+import request.PaymentReservationRequest;
+
 import com.pensio.api.generated.APIResponse;
 
 public class PensioMerchantAPI {
@@ -20,7 +24,6 @@ public class PensioMerchantAPI {
 	private String baseURL;
 	private String username;
 	private String password;
-	private boolean connected = false;
 	private Unmarshaller u = null;
 	private HTTPHelper httpHelper;
 
@@ -35,50 +38,21 @@ public class PensioMerchantAPI {
 		{
 			JAXBContext jc = JAXBContext.newInstance("com.pensio.api.generated");
 			u = jc.createUnmarshaller();
-		} catch (JAXBException e) {
+		} 
+		catch (JAXBException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 
-	protected APIResponse getAPIResponse(String method,
-			Map<String, String> postVars) throws PensioAPIException 
-	{
 
-		try 
-		{
-//			System.out.println(this.baseURL+"/merchant/API/"+method);
-//			System.out.println(postVars);
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
-//			System.out.println(getString(inStream));
-//			return null;
-			//inStream.reset();
-			
-			@SuppressWarnings("unchecked")
-			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
-			
-			APIResponse response = result.getValue();
-			
-			if(response.getHeader().getErrorCode() != 0)
-			{
-				throw new PensioAPIException(response.getHeader());
-			}
-			
-			
-			return response;
-		} 
-		catch (Exception e) 
-		{
-			throw new PensioAPIException(e);
-		} 
-	}
 
 
 	public boolean login() throws PensioAPIException 
 	{
 		APIResponse response = getAPIResponse("login",
 				new HashMap<String, String>());
-		connected = "Success".equals(response.getBody().getResult());
-		return connected;
+		return "Success".equals(response.getBody().getResult());
 	}
 	
 	public PaymentRequestResponse createPaymentRequest(PaymentRequest paymentRequest) throws PensioAPIException
@@ -100,6 +74,18 @@ public class PensioMerchantAPI {
 		
 		return getAPIResponse("reservation", params);
 	}
+	
+	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getPaymentId());
+		addParam(params, "amount", request.getAmountString());
+		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
+		addParam(params, "invoice_number", request.getInvoiceNumber());
+		addParam(params, "sales_tax", request.getSalesTax());
+		
+		return getAPIResponse("captureReservation", params);
+	}
 
 	private void setCreditCardRequestParameters(
 			PaymentReservationRequest request, HashMap<String, String> params)
@@ -109,21 +95,12 @@ public class PensioMerchantAPI {
 			return;
 		}
 		
-		if(request.getCreditCard().getToken() != null)
-		{
-			addParam(params, "credit_card_token", request.getCreditCard().getToken());
-		}
-		else
-		{
-			addParam(params, "cardnum", request.getCreditCard().getCardNumber());
-			addParam(params, "emonth", request.getCreditCard().getExpiryMonth());
-			addParam(params, "eyear", request.getCreditCard().getExpiryYear());
-		}
+		addParam(params, "credit_card_token", request.getCreditCard().getToken());
+		addParam(params, "cardnum", request.getCreditCard().getCardNumber());
+		addParam(params, "emonth", request.getCreditCard().getExpiryMonth());
+		addParam(params, "eyear", request.getCreditCard().getExpiryYear());
 		
-		if(request.getCreditCard().getCvc() != null)
-		{
-			addParam(params, "cvc", request.getCreditCard().getCvc());
-		}
+		addParam(params, "cvc", request.getCreditCard().getCvc());
 		
 	}
 
@@ -204,4 +181,34 @@ public class PensioMerchantAPI {
 	    return text.toString();
 	}
 
+	protected APIResponse getAPIResponse(String method,
+			Map<String, String> postVars) throws PensioAPIException 
+	{
+
+		try 
+		{
+//			System.out.println(this.baseURL+"/merchant/API/"+method);
+//			System.out.println(postVars);
+			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
+//			System.out.println(getString(inStream));
+//			return null;
+			
+			@SuppressWarnings("unchecked")
+			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
+			
+			APIResponse response = result.getValue();
+			
+			if(response.getHeader().getErrorCode() != 0)
+			{
+				throw new PensioAPIException(response.getHeader());
+			}
+			
+			
+			return response;
+		} 
+		catch (Exception e) 
+		{
+			throw new PensioAPIException(e);
+		} 
+	}
 }

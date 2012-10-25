@@ -1,4 +1,4 @@
-package com.pensio.api;
+package request;
 
 public class CustomerInfoAddress
 {
