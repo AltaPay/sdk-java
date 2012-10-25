@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 
 import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
+import request.FundingListRequest;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
 import request.RefundRequest;
@@ -119,6 +120,15 @@ public class PensioMerchantAPI {
 		
 		return getAPIResponse("reserveSubscriptionCharge", params);
 	}
+	
+	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "page", String.valueOf(request.getPage()));
+		
+		return getAPIResponse("fundingList", params);
+	}
+	
 	
 	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 
 	{

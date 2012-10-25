@@ -75,6 +75,7 @@
 				minOccurs="0">
 			</xs:element>
 			<xs:element name="RecurringDefaultAmount" type="xs:double" maxOccurs="1" minOccurs="0"></xs:element>
+			<xs:element name="Fundings" type="Fundings" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
@@ -105,6 +106,33 @@
 			<xs:element name="Transaction" type="Transaction" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:complexType name="Fundings">
+		<xs:sequence>
+			<xs:element name="Funding" type="Funding" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="numberOfPages" type="xs:int" />
+	</xs:complexType>
+
+	<xs:complexType name="Funding">
+		<xs:all>
+			<xs:element name="Filename" type="xs:string"></xs:element>
+			<xs:element name="ContractIdentifier" type="xs:string"></xs:element>
+			<xs:element name="Shops" type="Shops" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Acquirer" type="xs:string"></xs:element>
+			<xs:element name="FundingDate" type="xs:date"></xs:element>
+			<xs:element name="Amount" type="xs:string"></xs:element>
+			<xs:element name="CreatedDate" type="xs:date"></xs:element>
+			<xs:element name="DownloadLink" type="xs:string"></xs:element>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="Shops">
+		<xs:sequence>
+			<xs:element name="Shop" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
 
 	<xs:complexType name="ChargebackEvent">
 		<xs:all>
@@ -370,4 +398,6 @@
 			<xs:element name="PostalCode" type="xs:string"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+
 </xs:schema>

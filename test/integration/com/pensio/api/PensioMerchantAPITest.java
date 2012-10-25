@@ -14,6 +14,7 @@ import request.AuthType;
 import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
 import request.CreditCard;
+import request.FundingListRequest;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
 import request.RefundRequest;
@@ -159,6 +160,23 @@ public class PensioMerchantAPITest
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+	}
+	
+	@Test
+	public void fundingListTest() throws Throwable 
+	{
+		APIResponse result = api.fundingList(new FundingListRequest());
+		APIResponse currentResult = result;
+		assertNotNull(result.getBody().getFundings());
+		
+		int page = 0;
+		while(++page < result.getBody().getFundings().getNumberOfPages())
+		{
+			APIResponse extraResult = api.fundingList(new FundingListRequest(page));
+			assertTrue(extraResult.getBody().getFundings().getFunding().size() > 0);
+			currentResult = extraResult;
+		} 
+		assertEquals("FunctionalTestContractID",currentResult.getBody().getFundings().getFunding().get(currentResult.getBody().getFundings().getFunding().size()-1).getContractIdentifier());
 	}
 	
 	private String getOrderId() throws Throwable
