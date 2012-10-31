@@ -7,6 +7,11 @@ public class PensioAPIException
 {
 	private static final long serialVersionUID = -3118826446758364976L;
 	
+	public PensioAPIException(String message) 
+	{
+		super(message);
+	}
+	
 	public PensioAPIException(Exception e) 
 	{
 		super(e);
