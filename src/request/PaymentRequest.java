@@ -18,12 +18,14 @@ public class PaymentRequest
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
+	private PaymentInfos paymentInfos;
 
 	public PaymentRequest(String shopOrderId, String terminal, Amount amount)
 	{
 		this.shopOrderId = shopOrderId;
 		this.terminal = terminal;
 		this.amount = amount;
+		paymentInfos = new PaymentInfos();
 	}
 
 	public String getShopOrderId()
@@ -146,5 +148,15 @@ public class PaymentRequest
 		this.customerInfo = customerInfo;
 		return this;
 	}
+
+	public PaymentInfos getPaymentInfos()
+	{
+		return paymentInfos;
+	}
 	
+	public PaymentRequest addPaymentInfo(String key, String value)
+	{
+		paymentInfos.add(key, value);
+		return this;
+	}
 }

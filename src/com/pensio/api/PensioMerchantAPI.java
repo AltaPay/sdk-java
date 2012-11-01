@@ -21,6 +21,7 @@ import javax.xml.bind.Unmarshaller;
 import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
 import request.FundingListRequest;
+import request.PaymentInfo;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
 import request.RefundRequest;
@@ -271,6 +272,11 @@ public class PensioMerchantAPI {
 				addParam(params, "customer_info[shipping_postal]", paymentRequest.getCustomerInfo().getShippingAddress().getPostal());
 				addParam(params, "customer_info[shipping_region]", paymentRequest.getCustomerInfo().getShippingAddress().getRegion());
 			}
+		}
+		
+		for(PaymentInfo paymentInfo : paymentRequest.getPaymentInfos().getAll())
+		{
+			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
 		}
 	}
 
