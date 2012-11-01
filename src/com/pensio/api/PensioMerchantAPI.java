@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,12 +69,20 @@ public class PensioMerchantAPI {
 	
 	public PaymentRequestResponse createPaymentRequest(PaymentRequest paymentRequest) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
-		setPaymentRequestParameters(paymentRequest, params);
+		try
+		{
+			HashMap<String, String> params = new HashMap<String, String>();
+			setPaymentRequestParameters(paymentRequest, params);
+			
+			APIResponse response = getAPIResponse("createPaymentRequest", params);
 		
-		APIResponse response = getAPIResponse("createPaymentRequest", params);
-		return new PaymentRequestResponseImpl()
-			.setUrl(response.getBody().getUrl());
+			return new PaymentRequestResponseImpl()
+				.setUrl(new URL(response.getBody().getUrl()));
+		}
+		catch (MalformedURLException e)
+		{
+			throw new PensioAPIException(e);
+		}
 		
 	}
 	

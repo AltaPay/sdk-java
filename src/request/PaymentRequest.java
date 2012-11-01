@@ -19,6 +19,13 @@ public class PaymentRequest
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
 
+	public PaymentRequest(String shopOrderId, String terminal, Amount amount)
+	{
+		this.shopOrderId = shopOrderId;
+		this.terminal = terminal;
+		this.amount = amount;
+	}
+
 	public String getShopOrderId()
 	{
 		return shopOrderId;

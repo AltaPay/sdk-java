@@ -40,10 +40,8 @@ public class PensioMerchantAPITest
 	@Test
 	public void createPaymentRequest() throws Throwable 
 	{
-		PaymentRequestResponse result = api.createPaymentRequest(new PaymentRequest()
-			.setAmount(Amount.get(1.00, Currency.EUR))
-			.setShopOrderId(getOrderId())
-			.setTerminal("Pensio Test Terminal")
+		PaymentRequestResponse result = api.createPaymentRequest(
+			new PaymentRequest(getOrderId(), "Pensio Test Terminal", Amount.get(1.00, Currency.EUR))
 		);
 		
 		assertNotNull(result.getUrl());
@@ -52,11 +50,9 @@ public class PensioMerchantAPITest
 	@Test
 	public void createMotoReservation() throws Throwable 
 	{
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(1.00, Currency.EUR))
-			.setShopOrderId(getOrderId())
-			.setTerminal("Pensio Test Terminal")
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(getOrderId(), "Pensio Test Terminal", Amount.get(1.00, Currency.EUR))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		
 		assertEquals("Success",result.getBody().getResult());
@@ -66,11 +62,9 @@ public class PensioMerchantAPITest
 	public void captureReservation() throws Throwable 
 	{
 		String orderId = getOrderId();
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(3.00, Currency.EUR))
-			.setShopOrderId(orderId)
-			.setTerminal("Pensio Test Terminal")
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.capture(
@@ -87,11 +81,9 @@ public class PensioMerchantAPITest
 	@Test
 	public void releaseReservation() throws Throwable 
 	{
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(3.00, Currency.EUR))
-			.setShopOrderId(getOrderId())
-			.setTerminal("Pensio Test Terminal")
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(getOrderId(), "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.release(
@@ -105,12 +97,10 @@ public class PensioMerchantAPITest
 	public void refundReservation() throws Throwable 
 	{
 		String orderId = getOrderId();
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(3.00, Currency.EUR))
-			.setShopOrderId(orderId)
-			.setTerminal("Pensio Test Terminal")
-			.setAuthType(AuthType.paymentAndCapture)
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.paymentAndCapture)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.refund(
@@ -126,12 +116,10 @@ public class PensioMerchantAPITest
 	public void chargeSubscription() throws Throwable 
 	{
 		String orderId = getOrderId();
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(3.00, Currency.EUR))
-			.setShopOrderId(orderId)
-			.setTerminal("Pensio Test Terminal")
-			.setAuthType(AuthType.subscription)
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.subscription)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.chargeSubscription(
@@ -147,12 +135,10 @@ public class PensioMerchantAPITest
 	public void reserveSubscriptionCharge() throws Throwable 
 	{
 		String orderId = getOrderId();
-		APIResponse result = api.reservation(new PaymentReservationRequest()
-			.setAmount(Amount.get(3.00, Currency.EUR))
-			.setShopOrderId(orderId)
-			.setTerminal("Pensio Test Terminal")
-			.setAuthType(AuthType.subscription)
-			.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.subscription)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.reserveSubscriptionCharge(

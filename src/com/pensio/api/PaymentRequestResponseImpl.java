@@ -1,19 +1,21 @@
 package com.pensio.api;
 
+import java.net.URL;
+
 public class PaymentRequestResponseImpl implements PaymentRequestResponse 
 {
-	private String url;
+	private URL url;
 
 	/* (non-Javadoc)
 	 * @see com.pensio.api.PaymentRequestResponse#getUrl()
 	 */
 	@Override
-	public String getUrl() 
+	public URL getUrl() 
 	{
 		return url;
 	}
 
-	public PaymentRequestResponse setUrl(String url) 
+	public PaymentRequestResponse setUrl(URL url) 
 	{
 		this.url = url;
 		return this;

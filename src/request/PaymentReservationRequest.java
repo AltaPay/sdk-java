@@ -7,6 +7,11 @@ import com.pensio.Amount;
 public class PaymentReservationRequest
 	extends PaymentRequest
 {
+	public PaymentReservationRequest(String shopOrderId, String terminal, Amount amount)
+	{
+		super(shopOrderId, terminal, amount);
+	}
+
 	protected CreditCard creditCard;
 	protected String source;
 

@@ -1,7 +1,9 @@
 package com.pensio.api;
 
+import java.net.URL;
+
 public interface PaymentRequestResponse {
 
-	public abstract String getUrl();
+	public abstract URL getUrl();
 
 }

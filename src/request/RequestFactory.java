@@ -1,5 +1,7 @@
 package request;
 
+import com.pensio.Amount;
+
 public class RequestFactory
 {
 	public CaptureReservationRequest getCaptureRequest(String paymentId)
@@ -12,9 +14,9 @@ public class RequestFactory
 		return new ChargeSubscriptionRequest(subscriptionId);
 	}
 	
-	public PaymentRequest getPaymentRequest()
+	public PaymentRequest getPaymentRequest(String shopOrderId, String terminal, Amount amount)
 	{
-		return new PaymentRequest();
+		return new PaymentRequest(shopOrderId, terminal, amount);
 	}
 	
 	public ReserveSubscriptionChargeRequest getReserveSubscriptionChargeRequest(String subscriptionId)
