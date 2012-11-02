@@ -310,6 +310,7 @@ public class PensioMerchantAPI {
 //			System.out.println(postVars);
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
 //			System.out.println(getString(inStream));
+//			
 //			return null;
 			
 			@SuppressWarnings("unchecked")
