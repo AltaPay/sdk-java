@@ -242,6 +242,7 @@ public class PensioMerchantAPI {
 			addParam(params, "config[callback_open]", paymentRequest.getConfig().getCallbackOpen());
 			addParam(params, "config[callback_redirect]", paymentRequest.getConfig().getCallbackRedirect());
 			addParam(params, "fraud_service", paymentRequest.getConfig().getFraudService());
+			addParam(params, "account_offer", paymentRequest.getConfig().getAccountOffer());
 		}
 		
 		if(paymentRequest.getCustomerInfo() != null)

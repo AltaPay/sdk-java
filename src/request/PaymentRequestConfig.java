@@ -9,7 +9,8 @@ public class PaymentRequestConfig
 	private String callbackOpen;
 	private String callbackNotification;
 	private String fraudService;
-
+	private String accountOffer;
+	
 	public String getCallbackForm()
 	{
 		return callbackForm;
@@ -86,5 +87,15 @@ public class PaymentRequestConfig
 		this.fraudService = fraudService;
 		return this;
 	}
-		
+
+	public String getAccountOffer()
+	{
+		return accountOffer;
+	}
+
+	public PaymentRequestConfig setAccountOffer(String accountOffer)
+	{
+		this.accountOffer = accountOffer;
+		return this;
+	}
 }
