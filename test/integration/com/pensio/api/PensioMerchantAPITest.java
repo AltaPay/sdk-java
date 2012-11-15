@@ -15,8 +15,11 @@ import request.AuthType;
 import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
 import request.CreditCard;
+import request.CustomerInfo;
+import request.CustomerInfoAddress;
 import request.FundingListRequest;
 import request.PaymentRequest;
+import request.PaymentRequestConfig;
 import request.PaymentReservationRequest;
 import request.RefundRequest;
 import request.ReleaseReservationRequest;
@@ -40,10 +43,24 @@ public class PensioMerchantAPITest
 	@Test
 	public void createPaymentRequest() throws Throwable 
 	{
+		CustomerInfo customerInfo = new CustomerInfo();
+		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
+		billingAddress.setPostal("2000");
+		billingAddress.setFirstname("John");
+		billingAddress.setLastname("Johnson");
+		
+		customerInfo.setBillingAddress(billingAddress );
+		
+//		PaymentRequestConfig config = new PaymentRequestConfig();
+//		
+//		String accountOffer = "required";
+//		config.setAccountOffer(accountOffer);
+		
 		PaymentRequestResponse result = api.createPaymentRequest(
-			new PaymentRequest(getOrderId(), "Pensio Test Terminal", Amount.get(1.00, Currency.EUR))
+			new PaymentRequest(getOrderId(), "Pensio Test Terminal", Amount.get(100.00, Currency.DKK)).setAuthType(AuthType.subscriptionAndCharge).setCustomerInfo(customerInfo)//.setConfig(config)
 		);
 		
+		System.out.println(result.getUrl());
 		assertNotNull(result.getUrl());
 	}
 
