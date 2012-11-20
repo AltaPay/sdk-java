@@ -113,4 +113,11 @@ public class PaymentReservationRequest
 		super.setCreditCardToken(creditCardToken);
 		return this;
 	}
+	
+	@Override
+	public PaymentReservationRequest addPaymentInfo(String key, String value)
+	{
+		super.addPaymentInfo(key, value);
+		return this;
+	}
 }

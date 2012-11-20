@@ -139,6 +139,7 @@ public class PensioMerchantAPITest
 			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.reserveSubscriptionCharge(
@@ -185,6 +186,22 @@ public class PensioMerchantAPITest
 		List<FundingRecord> fundingRecords = api.downloadFunding(downloadLink);
 		
 		assertEquals("Pensio Functional Test Shop", fundingRecords.get(0).getShop());
+	}
+	
+	@Test
+	public void fraudCheckInCharge() throws Throwable 
+	{
+		String orderId = getOrderId();
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "Pensio Red Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.payment)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.addPaymentInfo("fraudCheckTest", "Checkit!")
+				
+		);
+		
+		assertEquals("fraudCheckTest",result.getBody().getTransactions().getTransaction().get(0).getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals("Checkit!",result.getBody().getTransactions().getTransaction().get(0).getPaymentInfos().getPaymentInfo().get(0).getValue());
 	}
 	
 	private String getOrderId() throws Throwable
