@@ -92,8 +92,15 @@ public class PensioMerchantAPI {
 		HashMap<String, String> params = new HashMap<String, String>();
 		setPaymentRequestParameters(request, params);
 		setCreditCardRequestParameters(request, params);
+		setPaymentSource(request, params);
 		
 		return getAPIResponse("reservation", params);
+	}
+	
+	private void setPaymentSource(PaymentReservationRequest request,
+			HashMap<String, String> params)
+	{
+		addParam(params, "payment_source", request.getSource());
 	}
 	
 	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException 
@@ -311,7 +318,7 @@ public class PensioMerchantAPI {
 //			System.out.println(postVars);
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
 //			System.out.println(getString(inStream));
-//			
+			
 //			return null;
 			
 			@SuppressWarnings("unchecked")

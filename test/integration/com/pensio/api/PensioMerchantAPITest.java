@@ -195,6 +195,7 @@ public class PensioMerchantAPITest
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "Pensio Red Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.payment)
+				.setSource("eCommerce")
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 				.addPaymentInfo("fraudCheckTest", "Checkit!")
 				
