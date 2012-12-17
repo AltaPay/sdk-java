@@ -124,7 +124,7 @@ public class PaymentReservationRequest
 	@Override
 	public PaymentReservationRequest setUsePayPass(boolean usePayPass)
 	{
-		// TODO Auto-generated method stub
-		return super.setUsePayPass(usePayPass);
+		super.setUsePayPass(usePayPass);
+		return this;
 	}
 }
