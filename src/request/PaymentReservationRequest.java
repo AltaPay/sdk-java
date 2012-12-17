@@ -120,4 +120,11 @@ public class PaymentReservationRequest
 		super.addPaymentInfo(key, value);
 		return this;
 	}
+	
+	@Override
+	public PaymentReservationRequest setUsePayPass(boolean usePayPass)
+	{
+		// TODO Auto-generated method stub
+		return super.setUsePayPass(usePayPass);
+	}
 }

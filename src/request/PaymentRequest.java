@@ -166,8 +166,9 @@ public class PaymentRequest
 		return usePayPass;
 	}
 
-	public void setUsePayPass(boolean usePayPass)
+	public PaymentRequest setUsePayPass(boolean usePayPass)
 	{
 		this.usePayPass = usePayPass;
+		return this;
 	}
 }
