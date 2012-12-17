@@ -15,6 +15,7 @@ public class PaymentRequest
 	protected String cookie;
 	protected String shippingMethod;
 	protected Date customerCreateAt;
+	private boolean usePayPass;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -158,5 +159,15 @@ public class PaymentRequest
 	{
 		paymentInfos.add(key, value);
 		return this;
+	}
+
+	public boolean getUsePayPass()
+	{
+		return usePayPass;
+	}
+
+	public void setUsePayPass(boolean usePayPass)
+	{
+		this.usePayPass = usePayPass;
 	}
 }

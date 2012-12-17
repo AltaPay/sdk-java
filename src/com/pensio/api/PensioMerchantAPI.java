@@ -235,6 +235,10 @@ public class PensioMerchantAPI {
 		{
 			addParam(params, "type", paymentRequest.getAuthType().name());
 		}
+		if(paymentRequest.getUsePayPass())
+		{
+			addParam(params, "use_paypass", "true");
+		}
 		addParam(params, "cookie", paymentRequest.getCookie());
 		addParam(params, "ccToken", paymentRequest.getCreditCardToken());
 		addParam(params, "language", paymentRequest.getLanguage());
