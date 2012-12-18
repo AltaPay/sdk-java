@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE project>
+<project name="pensio_java_api" default="jar">
+	<import file="build-common.xml"/>
+	
+	
+	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
+	<property name="local_dependencies" value="PensioBaseLibrary" />
+	<path id="CompileSource_classpath">
+		<fileset dir="lib/" includes="*.jar" />
+		<fileset dir="dependencylib/" includes="*.jar" />
+	</path>
+	<path id="CompileSource_source">
+		<path path="src/"/>
+		<path path="generated/"/>
+	</path>
+	<path id="CompileSourceDev_classpath">
+		<fileset dir="devlib/" includes="*.jar" />
+	</path>
+	<path id="CompileSourceDev_source">
+	    <path path="test/integration/"/>
+	</path>
+	
+	
+	<target name="jar" depends="CompileSource">
+		
+		<jar destfile="output/pensio_java_api.jar" basedir="build" includes="**/*" />
+
+		<copy todir="output/">
+			<fileset dir="lib/" includes="*.jar" />	
+		</copy>
+	</target>	
+
+	<target name="UnitTests" depends="CompileSource">
+		<delete dir="output/unit_tests" />
+		<mkdir dir="output/unit_tests" />
+		
+		<junit>
+			<classpath>
+				<pathelement path="build" />
+				<pathelement path="devbuild" />
+				<fileset dir="lib/" includes="*.jar" />
+				<fileset dir="dependencylib/" includes="*.jar" />
+				<fileset dir="devlib/" includes="*.jar" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest todir="output/unit_tests">
+				<fileset dir="test/unit/" includes="**/*Test.java" />
+			</batchtest>
+		</junit>
+	</target>
+	
+</project>
