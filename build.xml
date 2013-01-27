@@ -20,7 +20,11 @@
 	<path id="CompileSourceDev_source">
 	    <path path="test/integration/"/>
 	</path>
-	
+
+	<target name="GenerateSource">
+		<exec command="./generate.sh" failifexecutionfails="true"/>
+	</target>	
+
 	
 	<target name="jar" depends="CompileSource">
 		
