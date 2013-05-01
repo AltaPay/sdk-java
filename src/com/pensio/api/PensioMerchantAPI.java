@@ -347,7 +347,7 @@ public class PensioMerchantAPI {
 		} 
 	}
 
-	public MultiPaymentRequestResponse createMultiPaymentRequest(MultiPaymentRequestParent multiPaymentRequest) throws PensioAPIException
+	public PaymentRequestResponse createMultiPaymentRequest(MultiPaymentRequestParent multiPaymentRequest) throws PensioAPIException
 	{
 		try
 		{
@@ -356,7 +356,7 @@ public class PensioMerchantAPI {
 			
 			APIResponse response = getAPIResponse("createMultiPaymentRequest", params);
 		
-			return new MultiPaymentRequestResponseImpl()
+			return new PaymentRequestResponseImpl()
 				.setUrl(new URL(response.getBody().getUrl()));
 		}
 		catch (MalformedURLException e)

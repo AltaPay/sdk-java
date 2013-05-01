@@ -216,11 +216,10 @@ public class PensioMerchantAPITest
 		multiPaymentRequestChildren.add(new MultiPaymentRequestChild(3.00));
 		multiPaymentRequestChildren.add(new MultiPaymentRequestChild(2.55));
 		
-		MultiPaymentRequestResponse result = api.createMultiPaymentRequest(
+		PaymentRequestResponse result = api.createMultiPaymentRequest(
 				new MultiPaymentRequestParent(orderId, "Pensio Test Terminal", Currency.EUR, multiPaymentRequestChildren) 
 			);
 		
-		System.out.println(result.getUrl());
 		assertNotNull(result.getUrl());
 	}
 	

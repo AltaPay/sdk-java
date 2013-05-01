@@ -24,10 +24,15 @@ public class MultiPaymentRequestParent
 	
 	public MultiPaymentRequestParent(String shopOrderId, String terminal, Currency currency, List<MultiPaymentRequestChild> multiPaymentRequestChildren)
 	{
+		this(shopOrderId, terminal, currency);
+		this.multiPaymentRequestChildren = multiPaymentRequestChildren;
+	}
+
+	public MultiPaymentRequestParent(String shopOrderId, String terminal, Currency currency)
+	{
 		this.shopOrderId = shopOrderId;
 		this.terminal = terminal;
 		this.currency = currency;
-		this.multiPaymentRequestChildren = multiPaymentRequestChildren;
 		paymentInfos = new PaymentInfos();
 		multiPaymentRequestChildren = new ArrayList<MultiPaymentRequestChild>();
 	}
@@ -63,9 +68,9 @@ public class MultiPaymentRequestParent
 		return multiPaymentRequestChildren;
 	}
 
-	public MultiPaymentRequestParent setMultiPaymentRequestChildren(
-			List<MultiPaymentRequestChild> multiPaymentRequestChildren) {
-		this.multiPaymentRequestChildren = multiPaymentRequestChildren;
+	public MultiPaymentRequestParent addMultiPaymentRequestChild(
+			MultiPaymentRequestChild multiPaymentRequestChild) {
+		this.multiPaymentRequestChildren.add(multiPaymentRequestChild);
 		return this;
 	}
 	
