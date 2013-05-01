@@ -18,7 +18,7 @@ public class MultiPaymentRequestParent
 	private String creditCardToken;
 	private String cookie;
 	private AuthType authType;
-	private MultiPaymentRequestConfig config;
+	private PaymentRequestConfig config;
 	private PaymentInfos paymentInfos;
 	private CustomerInfo customerInfo;
 	
@@ -112,12 +112,12 @@ public class MultiPaymentRequestParent
 		return this;
 	}
 	
-	public MultiPaymentRequestConfig getConfig()
+	public PaymentRequestConfig getConfig()
 	{
 		return config;
 	}
 
-	public MultiPaymentRequestParent setConfig(MultiPaymentRequestConfig config)
+	public MultiPaymentRequestParent setConfig(PaymentRequestConfig config)
 	{
 		this.config = config;
 		return this;
