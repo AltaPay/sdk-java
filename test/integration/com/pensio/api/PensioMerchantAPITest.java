@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Hex;
@@ -16,6 +17,8 @@ import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
 import request.CreditCard;
 import request.FundingListRequest;
+import request.MultiPaymentRequestChild;
+import request.MultiPaymentRequestParent;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
 import request.RefundRequest;
@@ -203,6 +206,22 @@ public class PensioMerchantAPITest
 		
 		assertEquals("fraudCheckTest",result.getBody().getTransactions().getTransaction().get(0).getPaymentInfos().getPaymentInfo().get(0).getName());
 		assertEquals("Checkit!",result.getBody().getTransactions().getTransaction().get(0).getPaymentInfos().getPaymentInfo().get(0).getValue());
+	}
+	
+	@Test
+	public void multiPaymentRequestCheck() throws Throwable
+	{
+		String orderId = getOrderId();
+		List<MultiPaymentRequestChild> multiPaymentRequestChildren = new ArrayList<MultiPaymentRequestChild>();
+		multiPaymentRequestChildren.add(new MultiPaymentRequestChild(3.00));
+		multiPaymentRequestChildren.add(new MultiPaymentRequestChild(2.55));
+		
+		MultiPaymentRequestResponse result = api.createMultiPaymentRequest(
+				new MultiPaymentRequestParent(orderId, "Pensio Test Terminal", Currency.EUR, multiPaymentRequestChildren) 
+			);
+		
+		System.out.println(result.getUrl());
+		assertNotNull(result.getUrl());
 	}
 	
 	private String getOrderId() throws Throwable

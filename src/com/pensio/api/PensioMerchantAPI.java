@@ -21,6 +21,9 @@ import javax.xml.bind.Unmarshaller;
 import request.CaptureReservationRequest;
 import request.ChargeSubscriptionRequest;
 import request.FundingListRequest;
+import request.MultiPaymentRequestChild;
+import request.MultiPaymentRequestParent;
+import request.OrderLine;
 import request.PaymentInfo;
 import request.PaymentRequest;
 import request.PaymentReservationRequest;
@@ -342,5 +345,123 @@ public class PensioMerchantAPI {
 		{
 			throw new PensioAPIException(e);
 		} 
+	}
+
+	public MultiPaymentRequestResponse createMultiPaymentRequest(MultiPaymentRequestParent multiPaymentRequest) throws PensioAPIException
+	{
+		try
+		{
+			HashMap<String, String> params = new HashMap<String, String>();
+			setMultiPaymentRequestParameters(multiPaymentRequest, params);
+			
+			APIResponse response = getAPIResponse("createMultiPaymentRequest", params);
+		
+			return new MultiPaymentRequestResponseImpl()
+				.setUrl(new URL(response.getBody().getUrl()));
+		}
+		catch (MalformedURLException e)
+		{
+			throw new PensioAPIException(e);
+		}
+	}
+
+	private void setMultiPaymentRequestParameters(
+			MultiPaymentRequestParent multiPaymentRequest,
+			HashMap<String, String> params) {
+		
+		addParam(params, "terminal", multiPaymentRequest.getTerminal());
+		addParam(params, "currency", multiPaymentRequest.getCurrency().name());
+		addParam(params, "shop_orderid", multiPaymentRequest.getShopOrderId());
+		if(multiPaymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", multiPaymentRequest.getAuthType().name());
+		}
+		
+		addParam(params, "cookie", multiPaymentRequest.getCookie());
+		addParam(params, "ccToken", multiPaymentRequest.getCreditCardToken());
+		addParam(params, "language", multiPaymentRequest.getLanguage());
+		if(multiPaymentRequest.getConfig() != null)
+		{
+			addParam(params, "config[callback_form]", multiPaymentRequest.getConfig().getCallbackForm());
+			addParam(params, "config[callback_fail]", multiPaymentRequest.getConfig().getCallbackFail());
+			addParam(params, "config[callback_notification]", multiPaymentRequest.getConfig().getCallbackNotification());
+			addParam(params, "config[callback_ok]", multiPaymentRequest.getConfig().getCallbackOk());
+			addParam(params, "config[callback_open]", multiPaymentRequest.getConfig().getCallbackOpen());
+			addParam(params, "config[callback_redirect]", multiPaymentRequest.getConfig().getCallbackRedirect());
+			addParam(params, "fraud_service", multiPaymentRequest.getConfig().getFraudService());
+		}
+		
+		if(multiPaymentRequest.getCustomerInfo() != null)
+		{
+			addParam(params, "organisation_number", multiPaymentRequest.getCustomerInfo().getOrganisationNumber());
+			addParam(params, "customer_info[email]", multiPaymentRequest.getCustomerInfo().getEmail());
+			addParam(params, "customer_info[bank_name]", multiPaymentRequest.getCustomerInfo().getBankName());
+			addParam(params, "customer_info[bank_phone]", multiPaymentRequest.getCustomerInfo().getBankPhone());
+			addParam(params, "customer_info[customer_phone]", multiPaymentRequest.getCustomerInfo().getCustomerPhone());
+			addParam(params, "customer_info[username]", multiPaymentRequest.getCustomerInfo().getUsername());
+			if(multiPaymentRequest.getCustomerInfo().getBillingAddress() != null)
+			{
+				addParam(params, "customer_info[billing_address]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getAddress());
+				addParam(params, "customer_info[billing_city]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getCity());
+				addParam(params, "customer_info[billing_country]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getCountry());
+				addParam(params, "customer_info[billing_firstname]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getFirstname());
+				addParam(params, "customer_info[billing_lastname]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getLastname());
+				addParam(params, "customer_info[billing_postal]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getPostal());
+				addParam(params, "customer_info[billing_region]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getRegion());
+			}
+			if(multiPaymentRequest.getCustomerInfo().getShippingAddress() != null)
+			{
+				addParam(params, "customer_info[shipping_address]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getAddress());
+				addParam(params, "customer_info[shipping_city]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getCity());
+				addParam(params, "customer_info[shipping_country]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getCountry());
+				addParam(params, "customer_info[shipping_firstname]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getFirstname());
+				addParam(params, "customer_info[shipping_lastname]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getLastname());
+				addParam(params, "customer_info[shipping_postal]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getPostal());
+				addParam(params, "customer_info[shipping_region]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getRegion());
+			}
+		}
+		
+		for(PaymentInfo paymentInfo : multiPaymentRequest.getPaymentInfos().getAll())
+		{
+			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
+		}
+		
+		int i = 0;
+		int orderLineIdx = 0;
+		for(MultiPaymentRequestChild multiPaymentRequestChild : multiPaymentRequest.getMultiPaymentRequestChildren())
+		{
+			
+			addParam(params, "multi["+i+"][terminal]", multiPaymentRequestChild.getTerminal());
+			addParam(params, "multi["+i+"][amount]", String.valueOf(multiPaymentRequestChild.getAmount()));
+			addParam(params, "multi["+i+"][shop_orderid]", multiPaymentRequestChild.getShopOrderId());
+			if(multiPaymentRequestChild.getAuthType() != null)
+			{
+				addParam(params, "multi["+i+"][type]", multiPaymentRequestChild.getAuthType().name());
+			}
+			
+			addParam(params, "multi["+i+"][language]", multiPaymentRequestChild.getLanguage());
+			addParam(params, "multi["+i+"][shipping_method]", multiPaymentRequestChild.getShippingMethod());
+			addParam(params, "multi["+i+"][sale_reconciliation_identifier]", multiPaymentRequestChild.getSaleReconciliationIdentifier());
+			
+			for(PaymentInfo paymentInfo : multiPaymentRequestChild.getPaymentInfos().getAll())
+			{
+				addParam(params, "multi["+i+"][transaction_info]["+paymentInfo.getKey()+"]", paymentInfo.getValue());
+			}
+			orderLineIdx = 0;
+			for(OrderLine orderLine : multiPaymentRequestChild.getOrderLines())
+			{
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][description]", orderLine.getDescription());
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][itemId]", orderLine.getItemId());
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
+				orderLineIdx++;
+			}
+			
+			i++;
+		}
 	}
 }
