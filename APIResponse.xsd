@@ -27,6 +27,8 @@
 				type="xs:double" />
 			<xs:element name="Transactions" type="Transactions"
 				maxOccurs="1" minOccurs="0" />
+            <xs:element name="Actions" type="Actions"
+                        maxOccurs="1" minOccurs="0" />
 			<xs:element name="MerchantErrorMessage" type="xs:string"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
@@ -79,7 +81,29 @@
 		</xs:all>
 	</xs:complexType>
 
-	<xs:complexType name="ResultFilter">
+    <xs:complexType name="Actions">
+        <xs:sequence>
+            <xs:element name="Action" type="Action" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Action">
+        <xs:all>
+            <xs:element name="Result" maxOccurs="1" minOccurs="0"
+                        type="xs:string" />
+            <xs:element name="MerchantErrorMessage" type="xs:string"
+                        maxOccurs="1" minOccurs="0">
+            </xs:element>
+            <xs:element name="CardHolderErrorMessage" type="xs:string"
+                        maxOccurs="1" minOccurs="0">
+            </xs:element>
+            <xs:element name="Transactions" type="Transactions"
+                        maxOccurs="1" minOccurs="0" />
+        </xs:all>
+    </xs:complexType>
+
+
+    <xs:complexType name="ResultFilter">
 		<xs:sequence>
 			<xs:element name="ShopEquals" type="xs:string" maxOccurs="1"
 				minOccurs="0">
@@ -137,9 +161,12 @@
 	<xs:complexType name="ChargebackEvent">
 		<xs:all>
 			<xs:element name="Date" type="xs:string" />
-			<xs:element name="CaseType" type="xs:string" />
+			<xs:element name="Type" type="xs:string" />
+			<xs:element name="ReasonCode" type="xs:string" />
+			<xs:element name="Reason" type="xs:string" />
 			<xs:element name="Amount" type="xs:string" />
 			<xs:element name="Currency" type="xs:string" />
+			<xs:element name="AdditionalInfo" type="xs:string" />
 		</xs:all>
 	</xs:complexType>
 
@@ -187,6 +214,17 @@
 						<xs:enumeration value="Error" />
 						<xs:enumeration value="Attempted" />
 						<xs:enumeration value="Successful" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CVVCheckResult">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Not_Applicable" />
+						<xs:enumeration value="Not_Attempted" />
+						<xs:enumeration value="Unknown" />
+						<xs:enumeration value="Matched" />
+						<xs:enumeration value="MisMatched" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
