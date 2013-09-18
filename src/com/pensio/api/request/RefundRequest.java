@@ -1,4 +1,4 @@
-package request;
+package com.pensio.api.request;
 
 import com.pensio.Amount;
 

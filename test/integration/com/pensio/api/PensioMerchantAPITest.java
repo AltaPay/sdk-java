@@ -12,22 +12,22 @@ import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
-import request.AuthType;
-import request.CaptureReservationRequest;
-import request.ChargeSubscriptionRequest;
-import request.CreditCard;
-import request.FundingListRequest;
-import request.MultiPaymentRequestChild;
-import request.MultiPaymentRequestParent;
-import request.PaymentRequest;
-import request.PaymentReservationRequest;
-import request.RefundRequest;
-import request.ReleaseReservationRequest;
-import request.ReserveSubscriptionChargeRequest;
 
 import com.pensio.Amount;
 import com.pensio.Currency;
 import com.pensio.api.generated.APIResponse;
+import com.pensio.api.request.AuthType;
+import com.pensio.api.request.CaptureReservationRequest;
+import com.pensio.api.request.ChargeSubscriptionRequest;
+import com.pensio.api.request.CreditCard;
+import com.pensio.api.request.FundingListRequest;
+import com.pensio.api.request.MultiPaymentRequestChild;
+import com.pensio.api.request.MultiPaymentRequestParent;
+import com.pensio.api.request.PaymentRequest;
+import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.RefundRequest;
+import com.pensio.api.request.ReleaseReservationRequest;
+import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 
 public class PensioMerchantAPITest 
 {

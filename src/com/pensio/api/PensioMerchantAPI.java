@@ -19,22 +19,22 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import request.CaptureReservationRequest;
-import request.ChargeSubscriptionRequest;
-import request.FundingListRequest;
-import request.MultiPaymentRequestChild;
-import request.MultiPaymentRequestParent;
-import request.OrderLine;
-import request.PaymentInfo;
-import request.PaymentRequest;
-import request.PaymentReservationRequest;
-import request.RefundRequest;
-import request.ReleaseReservationRequest;
-import request.ReserveSubscriptionChargeRequest;
 
 import com.csvreader.CsvReader;
 import com.pensio.Amount;
 import com.pensio.api.generated.APIResponse;
+import com.pensio.api.request.CaptureReservationRequest;
+import com.pensio.api.request.ChargeSubscriptionRequest;
+import com.pensio.api.request.FundingListRequest;
+import com.pensio.api.request.MultiPaymentRequestChild;
+import com.pensio.api.request.MultiPaymentRequestParent;
+import com.pensio.api.request.OrderLine;
+import com.pensio.api.request.PaymentInfo;
+import com.pensio.api.request.PaymentRequest;
+import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.RefundRequest;
+import com.pensio.api.request.ReleaseReservationRequest;
+import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 
 public class PensioMerchantAPI {
 

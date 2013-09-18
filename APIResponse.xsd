@@ -166,6 +166,7 @@
 			<xs:element name="Reason" type="xs:string" />
 			<xs:element name="Amount" type="xs:string" />
 			<xs:element name="Currency" type="xs:string" />
+			<xs:element name="AcquirerTransactionId" type="xs:string" />
 			<xs:element name="AdditionalInfo" type="xs:string" />
 		</xs:all>
 	</xs:complexType>

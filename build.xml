@@ -28,7 +28,17 @@
 	
 	<target name="jar" depends="CompileSource">
 		
-		<jar destfile="output/pensio_java_api.jar" basedir="build" includes="**/*" />
+		<jar destfile="output/pensio_java_api.jar">
+			<fileset dir="build">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="src">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="generated">
+				<include name="**/*.java"/>
+			</fileset>
+		</jar>
 
 		<copy todir="output/">
 			<fileset dir="lib/" includes="*.jar" />	
