@@ -384,12 +384,32 @@
 			<xs:element name="OrganisationNumber" type="xs:string" maxOccurs="1"
 				minOccurs="0">
 			</xs:element>
+			<xs:element name="CountryOfOrigin" type="CountryOfOrigin" maxOccurs="1" minOccurs="0"></xs:element>
 			<xs:element name="BillingAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"></xs:element>
 			<xs:element name="ShippingAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"></xs:element>
 			<xs:element name="RegisteredAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"></xs:element>
 		</xs:all>
 	</xs:complexType>
-	
+
+	<xs:complexType name="CountryOfOrigin">
+		<xs:all>
+			<xs:element name="Country" type="xs:string" />
+			<xs:element name="Source">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="NotSet" />
+						<xs:enumeration value="CardNumber" />
+						<xs:enumeration value="BankAccount" />
+						<xs:enumeration value="BillingAddress" />
+						<xs:enumeration value="RegisteredAddress" />
+						<xs:enumeration value="ShippingAddress" />
+						<xs:enumeration value="PayPal" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
 	<xs:complexType name="ReconciliationIdentifiers">
 		<xs:sequence>
 			<xs:element name="ReconciliationIdentifier" type="ReconciliationIdentifier" maxOccurs="unbounded" minOccurs="0" />
