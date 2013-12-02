@@ -13,6 +13,9 @@ import java.util.Map.Entry;
 import org.apache.commons.codec.binary.Base64;
 
 
+/**
+ * @refactor RefactorUtilsIntoBaseLibrary This should be merged with HttpUtil and go into PensioBaseLibrary.
+ */
 public class HTTPHelper {
 	
 	public InputStream doPost(String urlString, Map<String, String> postVars, String username, String password) throws IOException {
