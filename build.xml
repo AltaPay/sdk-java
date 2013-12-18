@@ -3,6 +3,7 @@
 <project name="pensio_java_api" default="jar">
 	<import file="build-common.xml"/>
 	
+	<property name="testUrl" value="http://cigateway.mars.pensio.com/" />
 	
 	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
 	<property name="local_dependencies" value="PensioBaseLibrary" />
@@ -83,8 +84,8 @@
 	<target name="IntegrationTests" depends="GenerateSource,CompileSource">
 		<delete dir="output/integration_tests" />
 		<mkdir dir="output/integration_tests" />
-		
 		<junit>
+			<sysproperty key="pensio.TestUrl" value="${testUrl}" />
 			<classpath>
 				<pathelement path="build" />
 				<pathelement path="devbuild" />
