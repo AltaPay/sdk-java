@@ -26,7 +26,7 @@
 	</target>	
 
 	
-	<target name="jar" depends="CompileSource">
+	<target name="jar" depends="GenerateSource,CompileSource">
 		
 		<jar destfile="output/pensio_java_api.jar">
 			<fileset dir="build">
@@ -43,8 +43,24 @@
 		<copy todir="output/">
 			<fileset dir="lib/" includes="*.jar" />	
 		</copy>
-	</target>	
-
+	</target>
+	
+	<target name="DistZip" depends="jar">
+		<zip destfile="dist/PensioJavaAPI20131210.zip">
+			<zipfileset dir="output" includes="pensio_java_api.jar" prefix="lib/" />
+			<zipfileset dir=".">
+				<filename name="lib/*.jar"/>
+			</zipfileset>
+			<zipfileset dir="dependencylib/" includes="PensioBaseLibrary.jar" prefix="lib/" />
+			<zipfileset dir=".">
+				<filename name="src/**/*.java"/>
+			</zipfileset>
+			<zipfileset dir="../PensioBaseLibrary/">
+				<filename name="src/**/*.java"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
 	<target name="UnitTests" depends="CompileSource">
 		<delete dir="output/unit_tests" />
 		<mkdir dir="output/unit_tests" />
@@ -63,5 +79,24 @@
 			</batchtest>
 		</junit>
 	</target>
-	
+
+	<target name="IntegrationTests" depends="CompileSource">
+		<delete dir="output/integration_tests" />
+		<mkdir dir="output/integration_tests" />
+		
+		<junit>
+			<classpath>
+				<pathelement path="build" />
+				<pathelement path="devbuild" />
+				<fileset dir="lib/" includes="*.jar" />
+				<fileset dir="dependencylib/" includes="*.jar" />
+				<fileset dir="devlib/" includes="*.jar" />
+			</classpath>
+			<formatter type="xml" />
+			<batchtest todir="output/integration_tests">
+				<fileset dir="test/integration/" includes="**/*Test.java" />
+			</batchtest>
+		</junit>
+	</target>
+
 </project>

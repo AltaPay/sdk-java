@@ -170,6 +170,7 @@ public class PensioMerchantAPI {
 				while(reader.readRecord())
 				{
 					FundingRecord record = new FundingRecord();
+					System.out.println("Date: "+reader.get("Date"));
 					record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd hh:mm:ss", reader.get("Date")));
 					record.setRecordType(reader.get("Type"));
 					record.setId(reader.get("ID"));

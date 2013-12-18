@@ -278,6 +278,7 @@
 						<xs:enumeration value="BankPayment" />
 						<xs:enumeration value="IdealPayment" />
 						<xs:enumeration value="Invoice" />
+						<xs:enumeration value="CreditCardWallet" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
