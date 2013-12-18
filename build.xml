@@ -61,7 +61,7 @@
 		</zip>
 	</target>
 	
-	<target name="UnitTests" depends="CompileSource">
+	<target name="UnitTests" depends="GenerateSource,CompileSource">
 		<delete dir="output/unit_tests" />
 		<mkdir dir="output/unit_tests" />
 		
@@ -80,7 +80,7 @@
 		</junit>
 	</target>
 
-	<target name="IntegrationTests" depends="CompileSource">
+	<target name="IntegrationTests" depends="GenerateSource,CompileSource">
 		<delete dir="output/integration_tests" />
 		<mkdir dir="output/integration_tests" />
 		
