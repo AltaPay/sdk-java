@@ -37,7 +37,10 @@ public class PensioMerchantAPITest
 	public void setUp() 
 		throws Exception 
 	{
-		api = new PensioMerchantAPI("http://gateway.dev.pensio.com", "shop api", "testpassword");
+		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.pensio.com/");
+		String username = System.getProperty("pensio.TestApiUsername","shop api");
+		String password = System.getProperty("pensio.TestApiPassword","testpassword");
+		api = new PensioMerchantAPI(apiUrl, username, password);
 	}
 
 	@Test
