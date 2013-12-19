@@ -19,8 +19,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-
 import com.csvreader.CsvReader;
+import com.mysql.jdbc.StringUtils;
 import com.pensio.Amount;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.CaptureReservationRequest;
@@ -161,7 +161,7 @@ public class PensioMerchantAPI {
 		try
 		{
 			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<String, String>(), username, password);
-			
+
 			CsvReader reader = new CsvReader(inStream,';', Charset.forName("UTF-8"));
 			ArrayList<FundingRecord> result = new ArrayList<FundingRecord>();
 			
@@ -181,7 +181,17 @@ public class PensioMerchantAPI {
 					record.setShop(reader.get("Shop"));
 					record.setPaymentAmount(Amount.get(reader.get("Transaction Amount"), reader.get("Transaction Currency")));
 					record.setFundingAmount(Amount.get(reader.get("Settlement Amount"), reader.get("Settlement Currency")));
-					record.setExchangeRate(Double.parseDouble(reader.get("Exchange Rate")));
+					
+					String exRate = reader.get("Exchange Rate");
+					if (StringUtils.isNullOrEmpty(exRate))
+					{
+						record.setExchangeRate(1.0);
+					}
+					else
+					{
+						record.setExchangeRate(Double.parseDouble(exRate));
+					}
+					
 					record.setFixedFeeAmount(Amount.get(reader.get("Fixed Fee"), reader.get("Settlement Currency")));
 					record.setFixedFeeVatAmount(Amount.get(reader.get("Fixed Fee VAT"), reader.get("Settlement Currency")));
 					record.setRateBasedFeeAmount(Amount.get(reader.get("Rate Based Fee"), reader.get("Settlement Currency")));
