@@ -170,8 +170,18 @@ public class PensioMerchantAPI {
 				while(reader.readRecord())
 				{
 					FundingRecord record = new FundingRecord();
-					System.out.println("Date: "+reader.get("Date"));
-					record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd", reader.get("Date")));
+					String date = reader.get("Date");
+					System.out.println("Date: "+date);
+					
+					if (date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"))
+					{
+						record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd hh:mm:ss", date));
+					}
+					else
+					{
+						record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd", date));
+					}
+					
 					record.setRecordType(reader.get("Type"));
 					record.setId(reader.get("ID"));
 					record.setReconciliationIdentifier(reader.get("Reconciliation Identifier"));
