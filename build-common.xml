@@ -99,8 +99,8 @@
 		<javac 
 			destdir="build" 
 			debug="true" 
-			target="1.6" 
-			source="1.6"
+			target="1.7" 
+			source="1.7"
 			includeantruntime="false" 
 			classpathref="CompileSource_classpath">
 			<src refid="CompileSource_source" />
@@ -110,8 +110,8 @@
 		<javac 
 			destdir="devbuild" 
 			debug="true" 
-			target="1.6" 
-			source="1.6"
+			target="1.7" 
+			source="1.7"
 			includeantruntime="false">
 			<classpath refid="CompileSource_classpath" />
 			<classpath refid="CompileSourceDev_classpath" />
