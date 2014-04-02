@@ -45,8 +45,11 @@ public class HTTPHelper {
 		// Specify the content type.
 		urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		
-		String encoded = new String(Base64.encodeBase64((username+":"+password).getBytes()));
-		urlConn.setRequestProperty("Authorization", "Basic "+encoded);
+		if(username != null)
+		{
+			String encoded = new String(Base64.encodeBase64((username+":"+password).getBytes()));
+			urlConn.setRequestProperty("Authorization", "Basic "+encoded);
+		}
 		
 		// Send POST output.
 		DataOutputStream printout = new DataOutputStream(urlConn.getOutputStream());
