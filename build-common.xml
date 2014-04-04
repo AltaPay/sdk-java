@@ -102,7 +102,8 @@
 			target="1.7" 
 			source="1.7"
 			includeantruntime="false" 
-			classpathref="CompileSource_classpath">
+			classpathref="CompileSource_classpath" 
+			encoding="UTF-8">
 			<src refid="CompileSource_source" />
 		</javac>
 		<echo taskname="${ant.project.name}">Compiling Dev source</echo>
@@ -112,7 +113,8 @@
 			debug="true" 
 			target="1.7" 
 			source="1.7"
-			includeantruntime="false">
+			includeantruntime="false" 
+			encoding="UTF-8">
 			<classpath refid="CompileSource_classpath" />
 			<classpath refid="CompileSourceDev_classpath" />
 			<classpath path="build" />
