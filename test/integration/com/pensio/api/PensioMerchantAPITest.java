@@ -47,7 +47,7 @@ public class PensioMerchantAPITest
 	public void createPaymentRequest() throws Throwable 
 	{
 		PaymentRequestResponse result = api.createPaymentRequest(
-			new PaymentRequest(getOrderId(), "Pensio Test Terminal", Amount.get(1.00, Currency.EUR))
+			new PaymentRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(1.00, Currency.EUR))
 		);
 		
 		assertNotNull(result.getUrl());
@@ -57,7 +57,7 @@ public class PensioMerchantAPITest
 	public void createMotoReservation() throws Throwable 
 	{
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(getOrderId(), "Pensio Test Terminal", Amount.get(1.00, Currency.EUR))
+			new PaymentReservationRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(1.00, Currency.EUR))
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		
@@ -69,7 +69,7 @@ public class PensioMerchantAPITest
 	{
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
@@ -88,7 +88,7 @@ public class PensioMerchantAPITest
 	public void releaseReservation() throws Throwable 
 	{
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(getOrderId(), "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
@@ -104,7 +104,7 @@ public class PensioMerchantAPITest
 	{
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.paymentAndCapture)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
@@ -123,7 +123,7 @@ public class PensioMerchantAPITest
 	{
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
@@ -142,7 +142,7 @@ public class PensioMerchantAPITest
 	{
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(orderId, "Pensio Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 				
@@ -191,7 +191,7 @@ public class PensioMerchantAPITest
 		
 		List<FundingRecord> fundingRecords = api.downloadFunding(downloadLink);
 		
-		assertEquals("Pensio Functional Test Shop", fundingRecords.get(0).getShop());
+		assertEquals("AltaPay Functional Test Shop", fundingRecords.get(0).getShop());
 	}
 	
 	@Test
@@ -199,7 +199,7 @@ public class PensioMerchantAPITest
 	{
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
-			new PaymentReservationRequest(orderId, "Pensio Red Test Terminal", Amount.get(3.00, Currency.EUR))
+			new PaymentReservationRequest(orderId, "AltaPay Red Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.payment)
 				.setSource("eCommerce")
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
@@ -220,7 +220,7 @@ public class PensioMerchantAPITest
 		multiPaymentRequestChildren.add(new MultiPaymentRequestChild(2.55));
 		
 		PaymentRequestResponse result = api.createMultiPaymentRequest(
-				new MultiPaymentRequestParent(orderId, "Pensio Test Terminal", Currency.EUR, multiPaymentRequestChildren) 
+				new MultiPaymentRequestParent(orderId, "AltaPay Test Terminal", Currency.EUR, multiPaymentRequestChildren) 
 			);
 		
 		assertNotNull(result.getUrl());
