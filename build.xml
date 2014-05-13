@@ -52,7 +52,9 @@
 			<zipfileset dir=".">
 				<filename name="lib/*.jar"/>
 			</zipfileset>
-			<zipfileset dir="dependencylib/" includes="PensioBaseLibrary.jar" prefix="lib/" />
+			<zipfileset dir="dependencylib/" prefix="lib/">
+				<filename name="*.jar"/>
+			</zipfileset>
 			<zipfileset dir=".">
 				<filename name="src/**/*.java"/>
 			</zipfileset>
