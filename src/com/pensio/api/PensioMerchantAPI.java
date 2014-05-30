@@ -36,30 +36,12 @@ import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 
-public class PensioMerchantAPI {
-
-	private String baseURL;
-	private String username;
-	private String password;
-	private Unmarshaller u = null;
-	private HTTPHelper httpHelper;
+public class PensioMerchantAPI extends PensioAbstractAPI
+{
 
 	public PensioMerchantAPI(String baseURL, String username, String password) 
 	{
-		this.baseURL = baseURL;
-		this.username = username;
-		this.password = password;
-		this.httpHelper = new HTTPHelper();
-
-		try 
-		{
-			JAXBContext jc = JAXBContext.newInstance("com.pensio.api.generated");
-			u = jc.createUnmarshaller();
-		} 
-		catch (JAXBException e) 
-		{
-			e.printStackTrace();
-		}
+		super(baseURL, username, password);
 	}
 
 
@@ -325,18 +307,6 @@ public class PensioMerchantAPI {
 		}
 	}
 
-	private String getString(InputStream inStream) throws IOException 
-	{
-	    BufferedReader br = new BufferedReader( new InputStreamReader( inStream ) );
-	    StringBuffer text = new StringBuffer();
-	    for ( String line; (line = br.readLine()) != null; )
-	    {
-	        text.append( line );
-	    }
-	    		
-	    return text.toString();
-	}
-
 	protected APIResponse getAPIResponse(String method,
 			Map<String, String> postVars) throws PensioAPIException 
 	{
@@ -501,4 +471,10 @@ public class PensioMerchantAPI {
 			i++;
 		}
 	}
+
+	protected String getAppAPIPath()
+	{
+		return "/merchant/API/";
+	}
+
 }
