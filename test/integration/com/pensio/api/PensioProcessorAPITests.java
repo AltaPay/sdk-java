@@ -36,7 +36,7 @@ public class PensioProcessorAPITests extends PensioAbstractAPITest
 	@Test
 	public void ReservationOfFixedAmount_AllParametersAreThere_ResultIsSuccess() throws Throwable 
 	{
-		APIResponse result = api.createPaymentRequest(getParams());
+		APIResponse result = api.initiatePaymentRequest(getParams());
 		
 		assertEquals("Success", result.getBody().getResult());
 	}
