@@ -29,7 +29,7 @@ import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 
-public class PensioMerchantAPITest 
+public class PensioMerchantAPITest extends PensioAbstractAPITest
 {
 	private PensioMerchantAPI api;
 
@@ -226,10 +226,4 @@ public class PensioMerchantAPITest
 		assertNotNull(result.getUrl());
 	}
 	
-	private String getOrderId() throws Throwable
-	{
-		MessageDigest digest = MessageDigest.getInstance("MD5");
-		
-		return "Test_"+Hex.encodeHexString(digest.digest(String.valueOf(System.currentTimeMillis()).getBytes()));
-	}
 }
