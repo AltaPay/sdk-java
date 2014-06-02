@@ -463,7 +463,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	protected String getAppAPIPath()
 	{
-		return "/merchant/API/";
+		return "merchant/API/";
 	}
 
 }
