@@ -44,9 +44,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		super(baseURL, username, password);
 	}
 
-
-
-
 	public boolean login() throws PensioAPIException 
 	{
 		APIResponse response = getAPIResponse("login",
@@ -299,23 +296,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 
-	private void addParam(HashMap<String, String> params, String key, String value) 
-	{
-		if(value != null)
-		{
-			params.put(key, value);
-		}
-	}
-
 	protected APIResponse getAPIResponse(String method,
 			Map<String, String> postVars) throws PensioAPIException 
 	{
 
 		try 
 		{
-//			System.out.println(this.baseURL+"/merchant/API/"+method);
+//			System.out.println(this.baseURL+getAppAPIPath()+method);
 //			System.out.println(postVars);
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+"/merchant/API/"+method, postVars, username, password);
+			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password);
 //			System.out.println(getString(inStream));
 			
 //			return null;

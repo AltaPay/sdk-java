@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
@@ -21,7 +23,7 @@ public abstract class PensioAbstractAPI {
 
 	protected HTTPHelper httpHelper;
 
-	
+
 	public PensioAbstractAPI(String baseURL, String username, String password) 
 	{
 		this.baseURL = baseURL;
@@ -33,19 +35,33 @@ public abstract class PensioAbstractAPI {
 		{
 			JAXBContext jc = JAXBContext.newInstance("com.pensio.api.generated");
 			u = jc.createUnmarshaller();
-		} 
+		}
 		catch (JAXBException e) 
 		{
 			e.printStackTrace();
 		}
 	}
-
-	protected APIResponse getAPIResponse(String method,	Map<String, String> postVars)
+	
+	
+	protected APIResponse getAPIResponse(String method,	Map<String, String> params)
 			throws PensioAPIException 
 	{
 		try 
 		{
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password);
+			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, params, username, password);
+			
+//			InputStreamReader is = new InputStreamReader(inStream);
+//			StringBuilder sb=new StringBuilder();
+//			BufferedReader br = new BufferedReader(is);
+//			String read = br.readLine();
+//
+//			while(read != null) {
+//			    //System.out.println(read);
+//			    sb.append(read);
+//			    read =br.readLine();
+//
+//			}
+//			System.out.print(sb.toString());
 			
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
@@ -57,15 +73,21 @@ public abstract class PensioAbstractAPI {
 				throw new PensioAPIException(response.getHeader());
 			}
 			
-			
 			return response;
-		} 
+		}
 		catch (Exception e) 
 		{
 			throw new PensioAPIException(e);
-		} 
+		}
 	}
-	protected abstract String getAppAPIPath();
+	
+	protected void addParam(HashMap<String, String> params, String key, String value) 
+	{
+		if(value != null)
+		{
+			params.put(key, value);
+		}
+	}
 	
 	protected String getString(InputStream inStream) throws IOException 
 	{
@@ -79,6 +101,5 @@ public abstract class PensioAbstractAPI {
 	    return text.toString();
 	}
 
-
-
+	protected abstract String getAppAPIPath();
 }
