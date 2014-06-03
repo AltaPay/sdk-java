@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.AuthType;
+import com.pensio.api.request.CustomerInfo;
+import com.pensio.api.request.CustomerInfoAddress;
 import com.pensio.api.request.PaymentReservationRequest;
 import com.pensio.api.request.PaymentReservationWithAddressRequest;
 import com.pensio.api.request.Verify3dRequest;
@@ -28,6 +30,10 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		if (paymentRequest.getAuthType() != null)
 		{
 			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
+		if (paymentRequest.getCustomerInfo() != null)
+		{
+			addCustomerInfoParams(paymentRequest, params);
 		}
 				
 		return getAPIResponse("initiatePayment", params);
@@ -80,6 +86,35 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "paRes", request.getPaRes());
 
 		return getAPIResponse("verify3dSecure", params);
+	}
+	public void addCustomerInfoParams(PaymentReservationRequest paymentRequest, HashMap<String, String> params)
+	{
+		CustomerInfo customerInfo = paymentRequest.getCustomerInfo();
+		addParam(params, "customer_info[email]", customerInfo.getEmail());
+		addParam(params, "customer_info[customer_phone]", customerInfo.getCustomerPhone());
+		addParam(params, "customer_info[username]", customerInfo.getUsername());
+		addParam(params, "customer_info[bank_name]", customerInfo.getBankName());
+		addParam(params, "customer_info[bank_phone]", customerInfo.getBankPhone());
+		addParam(params, "customer_info[client_ip]", customerInfo.getClientIp());
+		
+		CustomerInfoAddress shippingAddress = customerInfo.getShippingAddress();
+		addParam(params, "customer_info[shipping_firstname]", shippingAddress.getFirstname());
+		addParam(params, "customer_info[shipping_lastname]", shippingAddress.getLastname());
+		addParam(params, "customer_info[shipping_address]", shippingAddress.getAddress());
+		addParam(params, "customer_info[shipping_city]", shippingAddress.getCity());
+		addParam(params, "customer_info[shipping_region]", shippingAddress.getRegion());
+		addParam(params, "customer_info[shipping_postal]", shippingAddress.getPostal());
+		addParam(params, "customer_info[shipping_country]", shippingAddress.getCountry());
+
+		CustomerInfoAddress billingAddress = customerInfo.getBillingAddress();
+		addParam(params, "customer_info[billing_firstname]", billingAddress.getFirstname());
+		addParam(params, "customer_info[billing_lastname]", billingAddress.getLastname());
+		addParam(params, "customer_info[billing_address]", billingAddress.getAddress());
+		addParam(params, "customer_info[billing_city]", billingAddress.getCity());
+		addParam(params, "customer_info[billing_region]", billingAddress.getRegion());
+		addParam(params, "customer_info[billing_postal]", billingAddress.getPostal());
+		addParam(params, "customer_info[billing_country]", billingAddress.getCountry());
+
 	}
 	
 	public HashMap<String, String> commonParams(PaymentReservationRequest paymentRequest)
