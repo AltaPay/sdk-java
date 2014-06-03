@@ -1,16 +1,12 @@
 package com.pensio.api;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
-
-import javax.xml.bind.JAXBElement;
 
 import com.pensio.api.generated.APIResponse;
-import com.pensio.api.request.PaymentRequest;
+import com.pensio.api.request.AuthType;
 import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.PaymentReservationWithAddressRequest;
+import com.pensio.api.request.Verify3dRequest;
 
 public class PensioProcessorAPI extends PensioAbstractAPI
 {
@@ -24,10 +20,69 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 	{
 		return "processor/API/";
 	}
-
 	
 	public APIResponse initiatePaymentRequest(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
+	{
+		HashMap<String, String> params = commonParams(paymentRequest);
+		if (paymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
+				
+		return getAPIResponse("initiatePayment", params);
+	}
+
+	public APIResponse initiatePaymentRequest(PaymentReservationWithAddressRequest paymentRequest)
+			throws PensioAPIException
+	{
+		HashMap<String, String> params = commonParams(paymentRequest);
+		addParam(params, "cardholderName", paymentRequest.getCardholderName());
+		addParam(params, "cardholderAddress", paymentRequest.getCardholderAddress());
+		addParam(params, "issueNumber", paymentRequest.getIssueNumber());
+		addParam(params, "startMonth", paymentRequest.getStartMonth());
+		addParam(params, "startYear", paymentRequest.getStartYear());
+		
+		if(paymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
+				
+		return getAPIResponse("initiatePayment", params);
+	}
+	
+	public APIResponse reservationOfFixedAmount(PaymentReservationRequest paymentRequest)
+			throws PensioAPIException
+	{
+		HashMap<String, String> params = commonParams(paymentRequest);
+		if(paymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
+				
+		return getAPIResponse("reservationOfFixedAmount", params);
+	}
+
+	public APIResponse reservationOfFixedAmountAndCapture(PaymentReservationRequest paymentRequest)
+			throws PensioAPIException
+	{
+		HashMap<String, String> params = commonParams(paymentRequest);
+		addParam(params, "type", AuthType.paymentAndCapture.toString());
+		
+		return getAPIResponse("reservationOfFixedAmountAndCapture", params);
+	}
+
+	public APIResponse verify3dSecure(Verify3dRequest request)
+			throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transactionId", request.getTransactionId());
+		addParam(params, "paRes", request.getPaRes());
+
+		return getAPIResponse("verify3dSecure", params);
+	}
+	
+	public HashMap<String, String> commonParams(PaymentReservationRequest paymentRequest)
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "terminal", paymentRequest.getTerminal());
@@ -39,11 +94,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "eyear", paymentRequest.getCreditCard().getExpiryYear());
 		addParam(params, "emonth", paymentRequest.getCreditCard().getExpiryMonth());
 		addParam(params, "cvc", paymentRequest.getCreditCard().getCvc());
-		if(paymentRequest.getAuthType() != null)
-		{
-			addParam(params, "type", paymentRequest.getAuthType().name());
-		}
-				
-		return getAPIResponse("initiatePayment", params);
+		
+		return params;
 	}
 }

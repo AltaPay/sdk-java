@@ -1,12 +1,11 @@
 package com.pensio.api;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,87 +13,501 @@ import org.junit.Test;
 import com.pensio.Amount;
 import com.pensio.Currency;
 import com.pensio.api.PensioAPIException;
-import com.pensio.api.PensioMerchantAPI;
 import com.pensio.api.PensioProcessorAPI;
 import com.pensio.api.generated.APIResponse;
+import com.pensio.api.request.AuthType;
 import com.pensio.api.request.CreditCard;
-import com.pensio.api.request.PaymentRequest;
+import com.pensio.api.request.CustomerInfo;
+import com.pensio.api.request.CustomerInfoAddress;
 import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.PaymentReservationWithAddressRequest;
+import com.pensio.api.request.Verify3dRequest;
 
 public class PensioProcessorAPITests extends PensioAbstractAPITest
 {
-	private PensioProcessorAPI api; 
+	private PensioProcessorAPI	api;
+	private String	secureReservationPaymentId;
+	private String	secureReservationAndCapturePaymentId; 
 	
 	@Before
-	public void setUp() 
-		throws Exception 
+	public void setUp()
+		throws Exception, Throwable
 	{
 		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername","shop api");
 		String password = System.getProperty("pensio.TestApiPassword","testpassword");
 		api = new PensioProcessorAPI(apiUrl, username, password);
+		this.secureReservationPaymentId = getSecureStartedPaymentId(false);
+		this.secureReservationAndCapturePaymentId = getSecureStartedPaymentId(true);
 	}
-
-
+	private String getSecureStartedPaymentId(boolean capture) throws Throwable
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		if (capture)
+		{
+			request.setAuthType(AuthType.subscription);
+		}
+		APIResponse result = null;
+		if (capture)
+		{
+			result = api.reservationOfFixedAmountAndCapture(request);
+		}
+		else
+		{
+			result = api.reservationOfFixedAmount(request);//???//initiatePayment
+		}
+		
+		return result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+	}
+/*
+ * ReservationOfFixedAmountActionTests
+ */
 	@Test
-	public void ReservationOfFixedAmount_AllParametersAreThere_ResultIsSuccess() throws Throwable 
+	public void ReservationOfFixedAmount_AllParametersAreThere_ResultIsSuccess() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2015").setCvc("111"));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
 		APIResponse result = api.initiatePaymentRequest(request);
 		
 		assertEquals("Success", result.getBody().getResult());
 	}
 
+	@Test
+	public void ReservationOfFixedAmount_SomeParametersIsMissing_ResultIsFailed() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Missing parameter: payment_source"));
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_ExpiryYearIsLessThan4Digits_ResultIsError() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "999").setCvc("111"));
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Invalid expiry year[84237512]"));
+	}
+
+	@Test
+	public void ReservationOfFixedAmount_ExpiryYearIsMoreThan4Digits_ResultIsError() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "20125").setCvc("111"));
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Invalid expiry year[84237512]"));
+	}
+
+	@Test
+	public void ReservationOfFixedAmount_ExpiryYearContainsAnythingButNumbers_ResultIsError() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "201A").setCvc("111"));
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Invalid expiry year[84237512]"));
+	}
+
+	/*??? @Test public void ReservationOfFixedAmount_CurrencyIsInvalid_ResultIsFailed() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		String message = "";
+		APIResponse result;
+		try
+		{
+			result = api.initiatePaymentRequest(request);
+			message = result.getBody().toString();
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Invalid expiry year[84237512]"));
+	}*/
+
+	//@Test public void ReservationOfFixedAmount_ActuallyCreatesATransactionThatIsLoadable() throws Throwable {}
+	
+	/*???*/@Test public void ReservationOfFixedAmount_CreatesALoadableTransaction() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("preauth", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
+	}
+
+	//@Test public void ReservationOfFixedAmount_PaymentSourceIsSetForECommerce() throws Throwable {}
+	/*@Test	public void ReservationOfFixedAmount_PaymentSourceIsSetForECommerce_ResultIsSuccess() throws Throwable
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}*/
+	
+	//@Test public void ReservationOfFixedAmount_PaymentSourceIsSetForMoto() throws Throwable {}
+	@Test
+	public void ReservationOfFixedAmount_PaymentSourceIsSetForMoto_ResultIsSuccess() throws Throwable
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("moto").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}
+	
+	//@Test public void ReservationOfFixedAmount_PaymentSourceIsSetForMobi() throws Throwable {}
+	@Test
+	public void ReservationOfFixedAmount_PaymentSourceIsSetForMobi_ResultIsSuccess() throws Throwable
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("mobi").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_InvalidPaymentSource_Fails() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("totaltSygPaymentSource").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Unknown payment_source: totaltSygPaymentSource[23455384]"));
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_AddressVerification_ResultIsSuccess() throws Throwable 
+	{
+		PaymentReservationWithAddressRequest request = 
+				new PaymentReservationWithAddressRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setCardholderName("cardholder name").setCardholderAddress("cardholder address").setIssueNumber("issue number").setStartMonth("start month")
+		.setStartYear("start year").setSource("mobi").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_ExpiredCard_ReturnsExpiredStatus() throws Throwable 
+	{
+		Calendar now = Calendar.getInstance();
+		int currentYear = now.get(Calendar.YEAR);
+		int currentMonth = now.get(Calendar.MONTH);
+		String cardMonth = "";
+		String cardYear = new Integer(currentYear).toString();
+
+		if (currentMonth == 0)
+		{
+			cardMonth = "12";
+			cardYear = new Integer(currentYear - 1).toString();
+		}
+		else
+		{
+			cardMonth = new Integer(currentMonth).toString();
+		}
+
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", cardMonth, cardYear).setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.initiatePaymentRequest(request);
+
+		assertEquals("Expired", result.getBody().getTransactions().getTransaction().get(0).getCardStatus());
+
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_ValidCard_ReturnsValidStatus() throws Throwable 
+	{
+		Calendar now = Calendar.getInstance();
+		int currentYear = now.get(Calendar.YEAR);
+		int currentMonth = now.get(Calendar.MONTH);
+		String cardMonth = new Integer(currentMonth + 1).toString();
+		String cardYear = new Integer(currentYear + 1).toString();
+
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", cardMonth, cardYear).setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.initiatePaymentRequest(request);
+
+		assertEquals("Valid", result.getBody().getTransactions().getTransaction().get(0).getCardStatus());
+	}
+	
+	@Test
+	public void ReservationOfFixedAmount_RecurringPayment_ReturnsAResult() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.initiatePaymentRequest(request);
+		
+		assertEquals("Success", (String)result.getBody().getResult());
+		assertFalse("".equals(result.getBody().getTransactions().toString()));
+	}
+
+	/*
+	 * reservationOfFixedAmountAndCaptureActionTests
+	 */
+
+	//???//@Test public void ReservationOfFixedAmountAndCaptureAction__() throws Throwable {}
+
+	/*
+	 * ReservationWith3dSecureTests
+	 */
+	@Test
+	public void ReservationWith3dSecure_On3dSecure_ResultIsSucces() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmount(request);
+		
+		assertEquals("3dSecure", result.getBody().getResult());
+	}
+
+	@Test
+	public void ReservationWith3dSecure_On3dSecure_PaReqIsReturned() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmount(request);
+		
+		assertEquals("WorkingPaReq", result.getBody().getPaReq());
+	}
+	
+	@Test
+	public void ReservationWith3dSecure_On3dSecure_RedirectUrlIsReturn() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmount(request);
+		
+		assertEquals("https://testbank.pensio.com/ThreeDSecure", result.getBody().getRedirectUrl());
+	}
+	
+	/*
+	 * ReservationAndCaptureWith3dSecureTests
+	 */
+
+	@Test
+	public void ReservationAndCaptureWith3dSecure_On3dSecure_ResultIsSucces() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
+		
+		assertEquals("3dSecure", result.getBody().getResult());
+	}
+
+	@Test
+	public void ReservationAndCaptureWith3dSecure_On3dSecure_PaReqIsReturned() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
+		
+		assertEquals("WorkingPaReq", result.getBody().getPaReq());
+	}
+	
+	@Test
+	public void ReservationAndCaptureWith3dSecure_On3dSecure_RedirectUrlIsReturn() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
+		
+		assertEquals("https://testbank.pensio.com/ThreeDSecure", result.getBody().getRedirectUrl());
+	}
+
+	/*
+	 * Verify3DSecureReservationTests
+	 */
+
+	@Test
+	public void Verify3DSecureReservation_AllParametersAreThere_ResultIsSucces() throws Throwable
+	{
+		Verify3dRequest request = new Verify3dRequest(this.secureReservationPaymentId, "WorkingPaRes");
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}
+	
+	//???//@Test public void Verify3DSecureReservation_MissingParameter_ResultIsFailed() throws Throwable {}
+	
+	@Test
+	public void Verify3DSecureReservation_PaymentIdIsMissing_ResultIsFailed() throws Throwable
+	{
+		String missingID = ""; 
+		Verify3dRequest request = new Verify3dRequest(missingID, "WorkingPaRes");
+		String message = "";
+		
+		try
+		{
+			APIResponse result = api.verify3dSecure(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("The payment with id: " + missingID + " does not exist"));
+
+	}
+
+	@Test
+	public void Verify3DSecureReservation_PaymentIdIsMalformed_ResultIsFailed() throws Throwable
+	{
+		String malformedID = "1a"; 
+		Verify3dRequest request = new Verify3dRequest(malformedID, "WorkingPaRes");
+		String message = "";
+		
+		try
+		{
+			APIResponse result = api.verify3dSecure(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Invalid status for Payment"));
+	}
+	
+	//???//@Test public void Verify3DSecureReservation_3dSecureGoesWell_CorrectStatus() throws Throwable {}
+	
+	//???//@Test public void Verify3DSecureReservation_3dSecureWasNotVerified_ResultIsError() throws Throwable {}
+	
+	/*
+	 * Verify3DSecureReservationAndCaptureTests
+	 */
+	
+	@Test
+	public void Verify3DSecureReservationAndCapture_AllParametersAreThere_ResultIsSucces() throws Throwable
+	{
+		Verify3dRequest request = new Verify3dRequest(this.secureReservationAndCapturePaymentId, "WorkingPaRes");
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("Success", result.getBody().getResult());
+	}
+	
+	//???//@Test public void Verify3DSecureReservationAndCapture_3dSecureGoesWell_CorrectStatus() throws Throwable {}
+	
+	//???//@Test public void Verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable {}
+
+	/*
+	 * ProcessorCustomerInfoTests
+	 */
+
+//	testBrowserInformationIsAlwaysSet
 //	@Test
-//	public void ReservationOfFixedAmount_ExpiryYearIsLessThan4Digits_ResultIsError() throws Throwable 
+//	public void ProcessorCustomerInfo_CustomerInfoIsGiven_ResultIsSucces() throws Throwable
 //	{
+//		CustomerInfo customerInfo = new CustomerInfo();
+//		HashMap<String, String> info = new HashMap<String, String>();
+//		customerInfo.setEmail("e@mail.invalid");
+//		customerInfo.setCustomerPhone("800-i-got-money");
+//		customerInfo.setUsername("username");
+//		customerInfo.setBankName("Bank Rupt");
+//		customerInfo.setBankPhone("800-we-need-money");
+//
+//		CustomerInfoAddress shippingAddress = new CustomerInfoAddress();
+//		shippingAddress.setFirstname("ship first name");
+//		shippingAddress.setLastname("ship last name");
+//		shippingAddress.setAddress("ship address");
+//		shippingAddress.setCity("ship city");
+//		shippingAddress.setRegion("ship region");
+//		shippingAddress.setPostal("shippostal");
+//		shippingAddress.setCountry("dk");
+//		customerInfo.setShippingAddress(shippingAddress);
+//		
+//		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
+//		billingAddress.setFirstname("bil first name");
+//		billingAddress.setLastname("bil last name");
+//		billingAddress.setAddress("billing address");
+//		billingAddress.setCity("billing city");
+//		billingAddress.setRegion("billing region");
+//		billingAddress.setPostal("billpostal");
+//		billingAddress.setCountry("us");
+//		customerInfo.setBillingAddress(billingAddress);
+//		
+////		customerInfo.clientIp("192.168.13.37");
 //		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "999").setCvc("111"));
+//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+//		request.setCustomerInfo(customerInfo);
 //		APIResponse result = api.initiatePaymentRequest(request);
 //		
-//		assertEquals("Invalid expiry year", result.getHeader().getErrorMessage());
-//	}
-
-//	@Test
-//	public void ReservationOfFixedAmount_ExpiryYearIsMoreThan4Digits_ResultIsError() throws Throwable 
-//	{
-//		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "20125").setCvc("111"));
-//		APIResponse result = api.initiatePaymentRequest(request);
-//		
-//		assertEquals("Invalid expiry year", result.getHeader().getErrorMessage());
-//	}
-
-//	@Test
-//	public void ReservationOfFixedAmount_ExpiryYearContainsAnythingButNumbers_ResultIsError() throws Throwable 
-//	{
-//		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "201A").setCvc("111"));
-//		APIResponse result = api.initiatePaymentRequest(request);
-//		
-//		assertEquals("Invalid expiry year", result.getHeader().getErrorMessage());
-//	}
-
-//	@Test
-//	public void ReservationOfFixedAmount_CurrencyIsInvalid_ResultIsFailed() throws Throwable 
-//	{
-//		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "201A").setCvc("111"));
-//		APIResponse result = api.initiatePaymentRequest(request);
-//		
-////		assertEquals(InvalidCurrencyException, result.getHeader().getErrorCode());
-//		assertTrue(result.getHeader().getErrorMessage().contains("No such currency: not numeric"));
+//		assertEquals("Success", result.getBody().getResult());
 //	}
 
 
+	/*
+	 * 
+	 */
+	
 	private String whiteLabelName()
 	{
 		return "Altapay";
 	}
+	
 	private String getTerminalName()
 	{
 		return whiteLabelName() + " Test Terminal";
 	}
-
+	
+	private String get3DSecureTerminalName()
+	{
+		return whiteLabelName() + " Test 3DSecure Terminal";
+	}
+	
 }

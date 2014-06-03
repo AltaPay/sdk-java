@@ -25,6 +25,10 @@
 				type="xs:string" />
 			<xs:element name="SurchageAmount" maxOccurs="1" minOccurs="0"
 				type="xs:double" />
+			<xs:element name="PaReq" maxOccurs="1" minOccurs="0"
+			            type="xs:string" />
+			<xs:element name="RedirectUrl" maxOccurs="1" minOccurs="0"
+			            type="xs:string" />
 			<xs:element name="Transactions" type="Transactions"
 				maxOccurs="1" minOccurs="0" />
             <xs:element name="Actions" type="Actions"
@@ -74,8 +78,9 @@
 			<xs:element name="ResultFilter" type="ResultFilter"
 				maxOccurs="1" minOccurs="0" />
 			<xs:element name="Url" type="xs:string" maxOccurs="1"
-				minOccurs="0">
-			</xs:element>
+				minOccurs="0"/>
+			<xs:element name="DynamicJavascriptUrl" type="xs:string" maxOccurs="1"
+			            minOccurs="0"/>
 			<xs:element name="RecurringDefaultAmount" type="xs:double" maxOccurs="1" minOccurs="0"></xs:element>
 			<xs:element name="Fundings" type="Fundings" maxOccurs="1" minOccurs="0" />
 		</xs:all>
