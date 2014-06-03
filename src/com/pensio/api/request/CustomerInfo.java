@@ -8,6 +8,7 @@ public class CustomerInfo
 	private String customerPhone;
 	private String bankName;
 	private String bankPhone;
+	private String clientIp;
 	
 	private CustomerInfoAddress billingAddress;
 	private CustomerInfoAddress shippingAddress;
@@ -75,6 +76,17 @@ public class CustomerInfo
 	public CustomerInfo setBankPhone(String bankPhone)
 	{
 		this.bankPhone = bankPhone;
+		return this;
+	}
+
+	public String getClientIp()
+	{
+		return clientIp;
+	}
+
+	public CustomerInfo setClientIp(String clientIp)
+	{
+		this.clientIp = clientIp;
 		return this;
 	}
 
