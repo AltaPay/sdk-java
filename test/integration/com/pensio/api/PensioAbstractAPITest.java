@@ -20,4 +20,19 @@ public class PensioAbstractAPITest {
 		System.out.println("------------------------");
 	}
 
+	protected String whiteLabelName()
+	{
+		return "Altapay";
+	}
+	
+	protected String getTerminalName()
+	{
+		return whiteLabelName() + " Test Terminal";
+	}
+	
+	protected String get3DSecureTerminalName()
+	{
+		return whiteLabelName() + " Test 3DSecure Terminal";
+	}
+
 }
