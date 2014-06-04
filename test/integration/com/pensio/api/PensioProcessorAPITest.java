@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -127,25 +129,6 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 		assertTrue(message.contains("Invalid expiry year[84237512]"));
 	}
 
-//	/*???move to /BrowserTests/test/browser/processor/TestCreditCardTests.java*/@Test
-//	public void ReservationOfFixedAmount_CurrencyIsInvalid_ResultIsFailed() throws Throwable 
-//	{
-//		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-//		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
-//		String message = "";
-//		APIResponse result;
-//		try
-//		{
-//			result = api.initiatePaymentRequest(request);
-//			message = result.getBody().toString();
-//		}
-//		catch (PensioAPIException ex)
-//		{
-//			message = ex.getMessage(); 
-//		}
-//
-//		assertTrue(message.contains("Invalid expiry year[84237512]"));
-//	}
 
 	@Test
 	public void ReservationOfFixedAmount_CreatesATransaction_StatusIsPreauth() throws Throwable 
@@ -284,7 +267,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	public void ReservationWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
 		APIResponse result = api.reservationOfFixedAmount(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
@@ -297,33 +280,14 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 
 	@Test
-	public void ReservationAndCaptureWith3dSecure_On3dSecure_ResultIsSucces() throws Throwable 
+	public void ReservationAndCaptureWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
 		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
-	}
-
-	@Test
-	public void ReservationAndCaptureWith3dSecure_On3dSecure_PaReqIsReturned() throws Throwable 
-	{
-		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
-		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
-		
 		assertEquals("WorkingPaReq", result.getBody().getPaReq());
-	}
-	
-	@Test
-	public void ReservationAndCaptureWith3dSecure_On3dSecure_RedirectUrlIsReturn() throws Throwable 
-	{
-		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.subscription);
-		
-		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
-		
 		assertEquals("https://testbank.pensio.com/ThreeDSecure", result.getBody().getRedirectUrl());
 	}
 
@@ -341,8 +305,6 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 		
 		assertEquals("Success", result.getBody().getResult());
 	}
-	
-	//???move//@Test public void Verify3DSecureReservation_MissingParameter_ResultIsFailed() throws Throwable {}
 	
 	@Test
 	public void Verify3DSecureReservation_PaymentIdIsMissing_ResultIsFailed() throws Throwable
@@ -383,19 +345,29 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 		assertTrue(message.contains("Invalid status for Payment"));
 	}
 	
-	//???read from xml//
-//	@Test
-//	public void Verify3DSecureReservation_3dSecureGoesWell_CorrectStatus() throws Throwable
-//	{
-//		String paymentId = getSecureStartedPaymentId(false);
-//		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
-//
-//		APIResponse result = api.verify3dSecure(request);
-//		
-//		assertEquals("Success", result.getBody().getResult());
-//	}
+	@Test
+	public void Verify3DSecureReservation_3dSecureGoesWell_CorrectStatus() throws Throwable
+	{
+		String paymentId = getSecureStartedPaymentId(false);
+		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
+
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("preauth", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
+	}
 	
-	//???read from xml//@Test public void Verify3DSecureReservation_3dSecureWasNotVerified_ResultIsError() throws Throwable {}
+	@Test
+	public void Verify3DSecureReservation_3dSecureWasNotVerified_ResultIsError() throws Throwable
+	{
+		String paymentId = getSecureStartedPaymentId(false);
+		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
+
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("Failed", result.getBody().getResult());
+		assertEquals("3dsecure_failed", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
+
+	}
 	
 	/*
 	 * Verify3DSecureReservationAndCaptureTests
@@ -412,9 +384,27 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 		assertEquals("Success", result.getBody().getResult());
 	}
 	
-	//???read from xml//@Test public void Verify3DSecureReservationAndCapture_3dSecureGoesWell_CorrectStatus() throws Throwable {}
+	@Test
+	public void Verify3DSecureReservationAndCapture_3dSecureGoesWell_CorrectStatus() throws Throwable
+	{
+		String paymentId = getSecureStartedPaymentId(true);
+		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
+		
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("captured", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
+	}
 	
-	//???read from xml//@Test public void Verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable {}
+	@Test
+	public void Verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable
+	{
+		String paymentId = getSecureStartedPaymentId(true);
+		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
+		
+		APIResponse result = api.verify3dSecure(request);
+		
+		assertEquals("3dsecure_failed", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
+	}
 
 
 	/*
