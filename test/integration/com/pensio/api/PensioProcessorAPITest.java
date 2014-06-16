@@ -331,13 +331,10 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 
 	}
 
-	/*
-	 * This test needs to be changed after ensuring that only numeric IDs are accepted for payment retrieved
-	 */
 	@Test
 	public void verify3DSecureReservation_PaymentIdIsMalformed_ThrowsException() throws Throwable
 	{
-		String malformedID = "1a"; 
+		String malformedID = "11a"; 
 		Verify3dRequest request = new Verify3dRequest(malformedID, "WorkingPaRes");
 		String message = "";
 		
@@ -350,7 +347,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("Invalid status for Payment"));
+		assertTrue(message.contains("The payment with id: " + malformedID + " does not exist"));
 	}
 	
 	@Test
