@@ -4,11 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.security.MessageDigest;
 import java.util.Calendar;
-import java.util.HashMap;
 
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +40,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 * ReservationOfFixedAmountActionTests
 	 */
 	@Test
-	public void ReservationOfFixedAmount_AllParametersAreThere_ResultIsSuccess() throws Throwable
+	public void reservationOfFixedAmount_WithAllParameters_ResultIsSuccess() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
@@ -54,7 +51,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 
 	@Test
-	public void ReservationOfFixedAmount_SomeParametersIsMissing_ResultIsFailed() throws Throwable 
+	public void reservationOfFixedAmount_SomeParametersMissing_ThrowsException() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
@@ -73,7 +70,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_ExpiryYearIsLessThan4Digits_ResultIsError() throws Throwable 
+	public void reservationOfFixedAmount_ExpiryYearIsLessThan4Digits_ThrowsException() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "999").setCvc("111"));
@@ -92,7 +89,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 
 	@Test
-	public void ReservationOfFixedAmount_ExpiryYearIsMoreThan4Digits_ResultIsError() throws Throwable 
+	public void reservationOfFixedAmount_ExpiryYearIsMoreThan4Digits_ThrowsException() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "20125").setCvc("111"));
@@ -111,7 +108,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 
 	@Test
-	public void ReservationOfFixedAmount_ExpiryYearContainsAnythingButNumbers_ResultIsError() throws Throwable 
+	public void reservationOfFixedAmount_ExpiryYearContainsAnythingButNumbers_ThrowsException() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "201A").setCvc("111"));
@@ -131,10 +128,11 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 
 
 	@Test
-	public void ReservationOfFixedAmount_CreatesATransaction_StatusIsPreauth() throws Throwable 
+	public void reservationOfFixedAmount_CreateTransaction_StatusIsPreauth() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = api.initiatePaymentRequest(request);
 		
 		assertEquals("preauth", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
@@ -142,27 +140,29 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 
 	
 	@Test
-	public void ReservationOfFixedAmount_PaymentSourceIsSetForMoto_ResultIsSuccess() throws Throwable
+	public void reservationOfFixedAmount_PaymentSourceSetToMoto_ResultIsSuccess() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("moto").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = api.initiatePaymentRequest(request);
 		
 		assertEquals("Success", result.getBody().getResult());
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_PaymentSourceIsSetForMobi_ResultIsSuccess() throws Throwable
+	public void reservationOfFixedAmount_PaymentSourceSetToMobi_ResultIsSuccess() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("mobi").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = api.initiatePaymentRequest(request);
 		
 		assertEquals("Success", result.getBody().getResult());
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_InvalidPaymentSource_Fails() throws Throwable 
+	public void reservationOfFixedAmount_InvalidPaymentSource_ThrowsException() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("totaltSygPaymentSource").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
@@ -181,7 +181,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_AddressVerification_ResultIsSuccess() throws Throwable 
+	public void reservationOfFixedAmount_WithAddress_ResultIsSuccess() throws Throwable 
 	{
 		PaymentReservationWithAddressRequest request = 
 				new PaymentReservationWithAddressRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
@@ -194,14 +194,13 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_ExpiredCard_ReturnsExpiredStatus() throws Throwable 
+	public void reservationOfFixedAmount_ExpiredCard_StatusIsExpired() throws Throwable 
 	{
 		Calendar now = Calendar.getInstance();
 		int currentYear = now.get(Calendar.YEAR);
 		int currentMonth = now.get(Calendar.MONTH);
 		String cardMonth = "";
 		String cardYear = new Integer(currentYear).toString();
-
 		if (currentMonth == 0)
 		{
 			cardMonth = "12";
@@ -211,9 +210,9 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 		{
 			cardMonth = new Integer(currentMonth).toString();
 		}
-
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", cardMonth, cardYear).setCvc("111"));
+
 		APIResponse result = api.initiatePaymentRequest(request);
 
 		assertEquals("Expired", result.getBody().getTransactions().getTransaction().get(0).getCardStatus());
@@ -221,28 +220,31 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_ValidCard_ReturnsValidStatus() throws Throwable 
+	public void reservationOfFixedAmount_ValidCard_StatusIsValid() throws Throwable 
 	{
 		Calendar now = Calendar.getInstance();
 		int currentYear = now.get(Calendar.YEAR);
 		int currentMonth = now.get(Calendar.MONTH);
 		String cardMonth = new Integer(currentMonth + 1).toString();
 		String cardYear = new Integer(currentYear + 1).toString();
-
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", cardMonth, cardYear).setCvc("111"));
+
 		APIResponse result = api.initiatePaymentRequest(request);
 
 		assertEquals("Valid", result.getBody().getTransactions().getTransaction().get(0).getCardStatus());
 	}
 	
 	@Test
-	public void ReservationOfFixedAmount_RecurringPayment_ReturnsAResult() throws Throwable 
+	public void reservationOfFixedAmount_RecurringPayment_ReturnsTransactions() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"))
+		.setAuthType(AuthType.subscription);
+
 		APIResponse result = api.initiatePaymentRequest(request);
 		
+		System.out.println("aaa"+result.getBody().getTransactions().toString()+"bbb");
 		assertEquals("Success", (String)result.getBody().getResult());
 		assertFalse("".equals(result.getBody().getTransactions().toString()));
 	}
@@ -252,10 +254,11 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 
 	@Test
-	public void ReservationOfFixedAmountAndCaptureAction_CreatesATransaction_StatusIsCaptured() throws Throwable
+	public void reservationOfFixedAmountAndCaptureAction_CreateTransaction_StatusIsCaptured() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setAuthType(AuthType.paymentAndCapture);
+
 		APIResponse result = api.initiatePaymentRequest(request);
 		
 		assertEquals("captured", result.getBody().getTransactions().getTransaction().get(0).getTransactionStatus());
@@ -264,10 +267,11 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 * ReservationWith3dSecureTests
 	 */
 	@Test
-	public void ReservationWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
+	public void reservationWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = api.reservationOfFixedAmount(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
@@ -280,10 +284,11 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 
 	@Test
-	public void ReservationAndCaptureWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
+	public void reservationAndCaptureWith3dSecure_On3dSecure_ResultIs3dSecure() throws Throwable 
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
@@ -296,7 +301,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 
 	@Test
-	public void Verify3DSecureReservation_AllParametersAreThere_ResultIsSucces() throws Throwable
+	public void verify3DSecureReservation_WithAllParameters_ResultIsSucces() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(false);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
@@ -307,7 +312,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void Verify3DSecureReservation_PaymentIdIsMissing_ResultIsFailed() throws Throwable
+	public void verify3DSecureReservation_PaymentIdIsMissing_ThrowsException() throws Throwable
 	{
 		String missingID = ""; 
 		Verify3dRequest request = new Verify3dRequest(missingID, "WorkingPaRes");
@@ -326,8 +331,11 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 
 	}
 
+	/*
+	 * This test needs to be changed after ensuring that only numeric IDs are accepted for payment retrieved
+	 */
 	@Test
-	public void Verify3DSecureReservation_PaymentIdIsMalformed_ResultIsFailed() throws Throwable
+	public void verify3DSecureReservation_PaymentIdIsMalformed_ThrowsException() throws Throwable
 	{
 		String malformedID = "1a"; 
 		Verify3dRequest request = new Verify3dRequest(malformedID, "WorkingPaRes");
@@ -346,7 +354,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void Verify3DSecureReservation_3dSecureGoesWell_CorrectStatus() throws Throwable
+	public void verify3DSecureReservation_3dSecureGoesWell_TransactionStatusIsPreauth() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(false);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
@@ -357,7 +365,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void Verify3DSecureReservation_3dSecureWasNotVerified_ResultIsError() throws Throwable
+	public void verify3DSecureReservation_3dSecureWasNotVerified_TransactionStatusIs3dSecure_Failed() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(false);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
@@ -374,7 +382,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 	
 	@Test
-	public void Verify3DSecureReservationAndCapture_AllParametersAreThere_ResultIsSucces() throws Throwable
+	public void verify3DSecureReservationAndCapture_WithAllParameters_ResultIsSucces() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(true);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
@@ -385,7 +393,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void Verify3DSecureReservationAndCapture_3dSecureGoesWell_CorrectStatus() throws Throwable
+	public void verify3DSecureReservationAndCapture_3dSecureGoesWell_TransactionStatusIsCaptured() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(true);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "WorkingPaRes");
@@ -396,7 +404,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 	
 	@Test
-	public void Verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable
+	public void verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable
 	{
 		String paymentId = getSecureStartedPaymentId(true);
 		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
@@ -412,7 +420,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	 */
 
 	@Test
-	public void ProcessorCustomerInfo_CustomerInfoIsGiven_ResultIsSucces() throws Throwable
+	public void processorCustomerInfo_CustomerInfoIsGiven_ResultIsSucces() throws Throwable
 	{
 		CustomerInfo customerInfo = commonCustomerInfo();
 		customerInfo.setClientIp("192.168.13.37");
@@ -426,7 +434,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	}
 
 	@Test
-	public void ProcessorCustomerInfo_BadClientIP_Fails() throws Throwable
+	public void processorCustomerInfo_BadClientIP_ThrowsException() throws Throwable
 	{
 		CustomerInfo customerInfo = commonCustomerInfo();
 		
@@ -489,6 +497,7 @@ public class PensioProcessorAPITest extends PensioAbstractAPITest
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
 		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+
 		APIResponse result = null;
 		
 		if (capture)
