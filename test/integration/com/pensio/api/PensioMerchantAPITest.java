@@ -29,7 +29,7 @@ import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 
-public class PensioMerchantAPITest extends PensioAbstractAPITest
+public class PensioMerchantAPITest extends PensioAPITestBase
 {
 	private PensioMerchantAPI api;
 

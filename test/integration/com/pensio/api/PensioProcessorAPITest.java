@@ -22,7 +22,7 @@ import com.pensio.api.request.PaymentReservationRequest;
 import com.pensio.api.request.PaymentReservationWithAddressRequest;
 import com.pensio.api.request.Verify3dRequest;
 
-public class PensioProcessorAPITest extends PensioAbstractAPITest
+public class PensioProcessorAPITest extends PensioAPITestBase
 {
 	protected PensioProcessorAPI	api;
 	

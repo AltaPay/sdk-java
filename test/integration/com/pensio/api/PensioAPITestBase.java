@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 
 import org.apache.commons.codec.binary.Hex;
 
-public class PensioAbstractAPITest {
+public class PensioAPITestBase {
 
 	protected String getOrderId() throws Throwable
 	{
