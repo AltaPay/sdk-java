@@ -5,7 +5,9 @@
 	
 	<property name="testUrl" value="http://cigateway.mars.pensio.com/" />
 	
-	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
+	<property name="xsdUrl" value="http://cigateway.mars.pensio.com/" />
+
+		<property name="outputdirs" value="build,devbuild,output,dependencylib" />
 	<property name="local_dependencies" value="PensioBaseLibrary" />
 	<path id="CompileSource_classpath">
 		<fileset dir="lib/" includes="*.jar" />
@@ -23,7 +25,18 @@
 	</path>
 
 	<target name="GenerateSource">
-		<exec command="./generate.sh" failifexecutionfails="true"/>
+		<exec command="wget" failifexecutionfails="true">
+			<arg value="${xsdUrl}APIResponse.xsd"/>
+			<arg value="-O"/>
+			<arg value="APIResponse.xsd"/>
+		</exec>
+		<exec command="xjc" failifexecutionfails="true">
+			<arg value="-d"/>
+			<arg value="generated/"/>
+			<arg value="-p"/>
+			<arg value="com.pensio.api.generated"/>
+			<arg value="APIResponse.xsd"/>
+		</exec>
 	</target>	
 
 	
