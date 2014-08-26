@@ -327,7 +327,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("The payment with id: " + missingID + " does not exist"));
+		assertTrue(message.contains("Invalid parameter, transactionId should be numeric"));
 
 	}
 
