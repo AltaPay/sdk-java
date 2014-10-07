@@ -7,10 +7,12 @@ public class RefundRequest
 	private String paymentId;
 	private Amount amount;
 	private String reconciliationIdentifier;
+	private OrderLine[] orderLines;
 	
 	public RefundRequest(String paymentId)
 	{
 		this.paymentId = paymentId;
+		setOrderLines(new OrderLine[0]);
 	}
 
 	public String getPaymentId()
@@ -46,6 +48,15 @@ public class RefundRequest
 	public RefundRequest setReconciliationIdentifier(String reconciliationIdentifier)
 	{
 		this.reconciliationIdentifier = reconciliationIdentifier;
+		return this;
+	}
+
+	public OrderLine[] getOrderLines() {
+		return orderLines;
+	}
+
+	public RefundRequest setOrderLines(OrderLine[] orderLines) {
+		this.orderLines = orderLines;
 		return this;
 	}
 

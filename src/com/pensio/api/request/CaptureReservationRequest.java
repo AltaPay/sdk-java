@@ -4,15 +4,17 @@ import com.pensio.Amount;
 
 public class CaptureReservationRequest
 {
-	private String paymentId;
-	private Amount amount;
-	private String reconciliationIdentifier;
-	private String invoiceNumber;
-	private String salesTax;
+	private String paymentId;				// Required
+	private Amount amount;					// Optional
+	private String reconciliationIdentifier;// Optional
+	private String invoiceNumber;			// Optional
+	private String salesTax;				// Optional
+	private OrderLine[] orderLines;			// Optional
 	
 	public CaptureReservationRequest(String paymentId)
 	{
 		this.paymentId = paymentId;
+		this.orderLines = new OrderLine[0];
 	}
 
 	public String getPaymentId()
@@ -70,6 +72,17 @@ public class CaptureReservationRequest
 	public CaptureReservationRequest setSalesTax(String salesTax)
 	{
 		this.salesTax = salesTax;
+		return this;
+	}
+
+	public OrderLine[] getOrderLines() 
+	{
+		return orderLines;
+	}
+
+	public CaptureReservationRequest setOrderLines(OrderLine[] orderLines) 
+	{
+		this.orderLines = orderLines;
 		return this;
 	}
 

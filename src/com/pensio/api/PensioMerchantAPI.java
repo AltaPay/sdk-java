@@ -1,9 +1,6 @@
 package com.pensio.api;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,12 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import com.csvreader.CsvReader;
 import com.mysql.jdbc.StringUtils;
@@ -94,6 +88,19 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		addParam(params, "invoice_number", request.getInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
+		OrderLine[] orderLines = request.getOrderLines();
+		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++)
+		{
+			OrderLine orderLine = orderLines[orderLineIdx];
+			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
+			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
+			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
+			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
+			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
+			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
+			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
+		}
 		
 		return getAPIResponse("captureReservation", params);
 	}
@@ -104,6 +111,19 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "transaction_id", request.getPaymentId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
+		OrderLine[] orderLines = request.getOrderLines();
+		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++)
+		{
+			OrderLine orderLine = orderLines[orderLineIdx];
+			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
+			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
+			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
+			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
+			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
+			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
+			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
+		}
 		
 		return getAPIResponse("refundCapturedReservation", params);
 	}
@@ -450,6 +470,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][itemId]", orderLine.getItemId());
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));

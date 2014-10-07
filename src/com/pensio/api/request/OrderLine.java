@@ -1,6 +1,7 @@
 package com.pensio.api.request;
 
 public class OrderLine {
+	public enum TaxType{AMOUNT, PERCENT};
 	
 	//Mandatory fields
 	private String description;
@@ -9,10 +10,12 @@ public class OrderLine {
 	private double unitPrice;
 
 	//Optional fields
-	private double taxPercent;
+	private TaxType taxType;
+	private double taxValue;
 	private String unitCode;
 	private double discount;
 	private String goodsType;
+	private String imageUrl;
 	
 	public OrderLine(String description, String itemId, double quantity, double unit)
 	{
@@ -20,9 +23,25 @@ public class OrderLine {
 		this.itemId = itemId;
 		this.quantity = quantity;
 		this.unitPrice = unit;
-		
+		taxType = TaxType.AMOUNT;
 	}
 
+	public String getTaxType() {
+		if(taxType==TaxType.AMOUNT)
+		{
+			return "taxAmount";
+		}
+		else
+		{
+			return "taxPercent";
+		}
+	}
+	
+	public double getTaxValue()
+	{
+		return taxValue;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -56,11 +75,12 @@ public class OrderLine {
 	}
 
 	public double getTaxPercent() {
-		return taxPercent;
+		return taxValue;
 	}
 
 	public void setTaxPercent(double taxPercent) {
-		this.taxPercent = taxPercent;
+		taxValue = taxPercent;
+		taxType = TaxType.PERCENT;
 	}
 
 	public String getUnitCode() {
@@ -85,5 +105,22 @@ public class OrderLine {
 
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
+	}
+
+	public double getTaxAmount() {
+		return taxValue;
+	}
+
+	public void setTaxAmount(double taxAmount) {
+			taxValue = taxAmount;
+			taxType = TaxType.AMOUNT;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

@@ -2,16 +2,11 @@ package com.pensio.api;
 
 import static org.junit.Assert.*;
 
-import java.security.DigestException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import com.pensio.Amount;
 import com.pensio.Currency;
@@ -23,6 +18,7 @@ import com.pensio.api.request.CreditCard;
 import com.pensio.api.request.FundingListRequest;
 import com.pensio.api.request.MultiPaymentRequestChild;
 import com.pensio.api.request.MultiPaymentRequestParent;
+import com.pensio.api.request.OrderLine;
 import com.pensio.api.request.PaymentRequest;
 import com.pensio.api.request.PaymentReservationRequest;
 import com.pensio.api.request.RefundRequest;
@@ -67,6 +63,11 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	@Test
 	public void captureReservation() throws Throwable 
 	{
+		OrderLine[] orderLines = new OrderLine[]{
+				 new OrderLine("realultimatepower", "KungFuBoy", 1.123, 2.234)
+				,new OrderLine("nolikepirates", "Ninjaman", 4.456, 5.456)
+				};
+		
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
@@ -79,6 +80,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 			.setInvoiceNumber(orderId)
 			.setReconciliationIdentifier(orderId)
 			.setSalesTax("0.5")
+			.setOrderLines(orderLines)
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
@@ -102,6 +104,11 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	@Test
 	public void refundReservation() throws Throwable 
 	{
+		OrderLine[] orderLines = new OrderLine[]{
+				 new OrderLine("realultimatepower", "KungFuBoy", 1.123, 2.234)
+				,new OrderLine("nolikepirates", "Ninjaman", 4.456, 5.456)
+				};
+		
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
@@ -113,6 +120,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 			new RefundRequest(paymentId)
 			.setAmount(Amount.get(2.00, Currency.EUR))
 			.setReconciliationIdentifier(orderId)
+			.setOrderLines(orderLines)
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
