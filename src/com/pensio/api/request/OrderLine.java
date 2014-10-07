@@ -1,7 +1,23 @@
 package com.pensio.api.request;
 
 public class OrderLine {
-	public enum TaxType{AMOUNT, PERCENT};
+	public enum TaxType
+	{
+		AMOUNT("taxAmount")
+		, PERCENT("taxPercent"); 
+		
+		private final String name;
+
+		private TaxType(String name)
+		{ 
+			this.name = name; 
+		}
+
+		public String getName() 
+		{
+			return name;
+		}
+	};
 	
 	//Mandatory fields
 	private String description;
@@ -26,15 +42,9 @@ public class OrderLine {
 		taxType = TaxType.AMOUNT;
 	}
 
-	public String getTaxType() {
-		if(taxType==TaxType.AMOUNT)
-		{
-			return "taxAmount";
-		}
-		else
-		{
-			return "taxPercent";
-		}
+	public TaxType getTaxType() 
+	{
+		return taxType;
 	}
 	
 	public double getTaxValue()
@@ -77,7 +87,11 @@ public class OrderLine {
 	public double getTaxPercent() {
 		return taxValue;
 	}
-
+	
+	/**
+	 * You can only specify one tax value so setting this as taxPercent will overwrite any previously set taxAmount
+	 * @param taxPercent
+	 */
 	public void setTaxPercent(double taxPercent) {
 		taxValue = taxPercent;
 		taxType = TaxType.PERCENT;
@@ -111,11 +125,15 @@ public class OrderLine {
 		return taxValue;
 	}
 
+	/**
+	 * You can only specify one tax value so setting this as taxAmount will overwrite any previously set taxPercent
+	 * @param taxAmount
+	 */
 	public void setTaxAmount(double taxAmount) {
 			taxValue = taxAmount;
 			taxType = TaxType.AMOUNT;
 	}
-
+	
 	public String getImageUrl() {
 		return imageUrl;
 	}

@@ -96,7 +96,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
 			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
 			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
+			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
 			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
 			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
 			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
@@ -119,7 +119,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
 			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
 			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
+			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
 			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
 			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
 			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
@@ -470,7 +470,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][itemId]", orderLine.getItemId());
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"]["+orderLine.getTaxType()+"]", String.valueOf(orderLine.getTaxValue()));
+				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
 				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
