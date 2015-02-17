@@ -23,7 +23,6 @@ public abstract class PensioAbstractAPI {
 
 	protected HTTPHelper httpHelper;
 
-
 	public PensioAbstractAPI(String baseURL, String username, String password) 
 	{
 		this.baseURL = baseURL;
@@ -41,14 +40,18 @@ public abstract class PensioAbstractAPI {
 			e.printStackTrace();
 		}
 	}
-	
+
+	protected String getSdkVersion()
+	{
+		return SdkVersion.current();
+	}
 	
 	protected APIResponse getAPIResponse(String method,	Map<String, String> params)
 			throws PensioAPIException 
 	{
 		try 
 		{
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, params, username, password);
+			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, params, username, password, getSdkVersion());
 			
 //			InputStreamReader is = new InputStreamReader(inStream);
 //			StringBuilder sb=new StringBuilder();

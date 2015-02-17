@@ -159,7 +159,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		try
 		{
-			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<String, String>(), username, password);
+			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<String, String>(), username, password, getSdkVersion());
 
 			CsvReader reader = new CsvReader(inStream,';', Charset.forName("UTF-8"));
 			ArrayList<FundingRecord> result = new ArrayList<FundingRecord>();
@@ -324,7 +324,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		{
 //			System.out.println(this.baseURL+getAppAPIPath()+method);
 //			System.out.println(postVars);
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password);
+			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password, getSdkVersion());
 //			System.out.println(getString(inStream));
 			
 //			return null;

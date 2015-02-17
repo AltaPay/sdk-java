@@ -39,8 +39,20 @@
 		</exec>
 	</target>	
 
+	<target name="PensioRelease">
+		<tstamp>
+            <format property="pensio.release" pattern="yyyyMMdd" locale="en,GB"/>
+        </tstamp>
+	</target>
 	
-	<target name="jar" depends="GenerateSource,CompileSource">
+	<target name="sdkVersion" depends="PensioRelease">
+		<echo file="src/META-INF/sdk.version">JavaSDK/${pensio.release}</echo>
+	</target>
+	
+	<target name="jar" depends="sdkVersion,GenerateSource,CompileSource">
+		<copy todir="build/">
+			<fileset dir="src/" includes="**/*.version" />
+		</copy>
 		
 		<jar destfile="output/pensio_java_api.jar">
 			<fileset dir="build">

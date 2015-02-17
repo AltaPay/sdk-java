@@ -18,7 +18,7 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class HTTPHelper {
 	
-	public InputStream doPost(String urlString, Map<String, String> postVars, String username, String password) throws IOException {
+	public InputStream doPost(String urlString, Map<String, String> postVars, String username, String password, String sdkVersion) throws IOException {
 		// URL of CGI-Bin script.
 		URL url = new URL(urlString);
 
@@ -44,6 +44,8 @@ public class HTTPHelper {
 
 		// Specify the content type.
 		urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		
+		urlConn.setRequestProperty("x-altapay-client-version", sdkVersion);
 		
 		if(username != null)
 		{
