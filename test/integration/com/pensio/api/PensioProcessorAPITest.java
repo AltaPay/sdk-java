@@ -276,7 +276,8 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		
 		assertEquals("3dSecure", result.getBody().getResult());
 		assertEquals("WorkingPaReq", result.getBody().getPaReq());
-		assertEquals("https://testbank.pensio.com/ThreeDSecure", result.getBody().getRedirectUrl());
+		assertTrue(result.getBody().getRedirectUrl().contains("://testbank."));
+		assertTrue(result.getBody().getRedirectUrl().contains("/ThreeDSecure"));
 	}
 
 	/*
@@ -293,7 +294,8 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		
 		assertEquals("3dSecure", result.getBody().getResult());
 		assertEquals("WorkingPaReq", result.getBody().getPaReq());
-		assertEquals("https://testbank.pensio.com/ThreeDSecure", result.getBody().getRedirectUrl());
+		assertTrue(result.getBody().getRedirectUrl().contains("://testbank."));
+		assertTrue(result.getBody().getRedirectUrl().contains("/ThreeDSecure"));
 	}
 
 	/*
