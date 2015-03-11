@@ -67,8 +67,6 @@ public class HTTPHelper {
 		printout.writeBytes(content);
 		printout.flush();
 		printout.close();
-		
-		
 
 		// Get response data.
 		return new DataInputStream(urlConn.getInputStream());

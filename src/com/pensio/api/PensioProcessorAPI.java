@@ -35,7 +35,6 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		{
 			addCustomerInfoParams(paymentRequest, params);
 		}
-		
 				
 		return getAPIResponse("initiatePayment", params);
 	}
