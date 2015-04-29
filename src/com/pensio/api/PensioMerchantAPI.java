@@ -14,7 +14,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 import com.csvreader.CsvReader;
-import com.mysql.jdbc.StringUtils;
 import com.pensio.Amount;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.CaptureReservationRequest;
@@ -29,6 +28,7 @@ import com.pensio.api.request.PaymentReservationRequest;
 import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
+import com.pensio.helper.StringHelper;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
 {
@@ -192,7 +192,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					record.setFundingAmount(Amount.get(reader.get("Settlement Amount"), reader.get("Settlement Currency")));
 					
 					String exRate = reader.get("Exchange Rate");
-					if (StringUtils.isNullOrEmpty(exRate))
+					if (StringHelper.isNullOrEmpty(exRate))
 					{
 						record.setExchangeRate(1.0);
 					}
