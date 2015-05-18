@@ -3,12 +3,7 @@ package com.pensio.api;
 import java.util.HashMap;
 
 import com.pensio.api.generated.APIResponse;
-import com.pensio.api.request.AuthType;
-import com.pensio.api.request.CustomerInfo;
-import com.pensio.api.request.CustomerInfoAddress;
-import com.pensio.api.request.PaymentReservationRequest;
-import com.pensio.api.request.PaymentReservationWithAddressRequest;
-import com.pensio.api.request.Verify3dRequest;
+import com.pensio.api.request.*;
 
 public class PensioProcessorAPI extends PensioAbstractAPI
 {
@@ -22,57 +17,50 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 	{
 		return "processor/API/";
 	}
-	
+
+	public APIResponse initiateGiftCardPayment(PaymentReservationRequest paymentRequest)
+			throws PensioAPIException
+	{
+		if(paymentRequest.getGiftCard() == null)
+		{
+			throw new PensioAPIException("A gift card must be supplied");
+		}
+
+		return getAPIResponse("initiateGiftCardPayment", setBaseInitiateParams(paymentRequest));
+	}
+
 	public APIResponse initiatePaymentRequest(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
-		HashMap<String, String> params = commonParams(paymentRequest);
-		if (paymentRequest.getAuthType() != null)
+		if(paymentRequest.getCreditCard() == null)
 		{
-			addParam(params, "type", paymentRequest.getAuthType().name());
+			throw new PensioAPIException("A credit card must be supplied");
 		}
-		if (paymentRequest.getCustomerInfo() != null)
-		{
-			addCustomerInfoParams(paymentRequest, params);
-		}
-				
-		return getAPIResponse("initiatePayment", params);
+
+		return getAPIResponse("initiatePayment", setBaseInitiateParams(paymentRequest));
 	}
 
-	public APIResponse initiatePaymentRequest(PaymentReservationWithAddressRequest paymentRequest)
-			throws PensioAPIException
-	{
-		HashMap<String, String> params = commonParams(paymentRequest);
-		addParam(params, "cardholderName", paymentRequest.getCardholderName());
-		addParam(params, "cardholderAddress", paymentRequest.getCardholderAddress());
-		addParam(params, "issueNumber", paymentRequest.getIssueNumber());
-		addParam(params, "startMonth", paymentRequest.getStartMonth());
-		addParam(params, "startYear", paymentRequest.getStartYear());
-		
-		if(paymentRequest.getAuthType() != null)
-		{
-			addParam(params, "type", paymentRequest.getAuthType().name());
-		}
-				
-		return getAPIResponse("initiatePayment", params);
-	}
-	
 	public APIResponse reservationOfFixedAmount(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
-		HashMap<String, String> params = commonParams(paymentRequest);
-		if(paymentRequest.getAuthType() != null)
+		if(paymentRequest.getCreditCard() == null)
 		{
-			addParam(params, "type", paymentRequest.getAuthType().name());
+			throw new PensioAPIException("A credit card must be supplied");
 		}
-				
-		return getAPIResponse("reservationOfFixedAmount", params);
+
+		return getAPIResponse("reservationOfFixedAmount", setBaseInitiateParams(paymentRequest));
 	}
 
 	public APIResponse reservationOfFixedAmountAndCapture(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
-		HashMap<String, String> params = commonParams(paymentRequest);
+		if(paymentRequest.getCreditCard() == null)
+		{
+			throw new PensioAPIException("A credit card must be supplied");
+		}
+		HashMap<String, String> params = new HashMap<>();
+		commonParams(params, paymentRequest);
+
 		addParam(params, "type", AuthType.paymentAndCapture.toString());
 		
 		return getAPIResponse("reservationOfFixedAmountAndCapture", params);
@@ -116,20 +104,58 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "customer_info[billing_country]", billingAddress.getCountry());
 
 	}
-	
-	public HashMap<String, String> commonParams(PaymentReservationRequest paymentRequest)
+
+
+	private HashMap<String, String> setBaseInitiateParams(PaymentReservationRequest paymentRequest)
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
+		commonParams(params, paymentRequest);
+
+		if (paymentRequest.getAuthType() != null)
+		{
+			addParam(params, "type", paymentRequest.getAuthType().name());
+		}
+		if (paymentRequest.getCustomerInfo() != null)
+		{
+			addCustomerInfoParams(paymentRequest, params);
+		}
+		return params;
+	}
+
+
+	public void commonParams(HashMap<String, String> params, PaymentReservationRequest paymentRequest)
+	{
 		addParam(params, "terminal", paymentRequest.getTerminal());
-		addParam(params, "amount", paymentRequest.getAmount().getAmountString());
-		addParam(params, "currency", paymentRequest.getAmount().getCurrency().name());
+		if(paymentRequest.getAmount() != null)
+		{
+			addParam(params, "amount", paymentRequest.getAmount().getAmountString());
+			addParam(params, "currency", paymentRequest.getAmount().getCurrency().name());
+		}
+
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
 		addParam(params, "payment_source", paymentRequest.getSource());
-		addParam(params, "cardnum", paymentRequest.getCreditCard().getCardNumber());
-		addParam(params, "eyear", paymentRequest.getCreditCard().getExpiryYear());
-		addParam(params, "emonth", paymentRequest.getCreditCard().getExpiryMonth());
-		addParam(params, "cvc", paymentRequest.getCreditCard().getCvc());
-		
-		return params;
+
+		if(paymentRequest.getCreditCard() != null)
+		{
+			addParam(params, "cardnum", paymentRequest.getCreditCard().getCardNumber());
+			addParam(params, "eyear", paymentRequest.getCreditCard().getExpiryYear());
+			addParam(params, "emonth", paymentRequest.getCreditCard().getExpiryMonth());
+			addParam(params, "cvc", paymentRequest.getCreditCard().getCvc());
+
+			addParam(params, "cardholderName", paymentRequest.getCardholderName());
+			addParam(params, "cardholderAddress", paymentRequest.getCardholderAddress());
+			addParam(params, "issueNumber", paymentRequest.getIssueNumber());
+			addParam(params, "startMonth", paymentRequest.getStartMonth());
+			addParam(params, "startYear", paymentRequest.getStartYear());
+		}
+
+		if(paymentRequest.getGiftCard() != null)
+		{
+			addParam(params, "giftcard[account_identifier]", paymentRequest.getGiftCard().getAccountIdentifier());
+			addParam(params, "giftcard[account_authenticator]", paymentRequest.getGiftCard().getAccountAuthenticator());
+			addParam(params, "giftcard[provider]", paymentRequest.getGiftCard().getProvider());
+		}
+
+		addParam(params, "payment_request_id", paymentRequest.getPaymentRequestId());
 	}
 }

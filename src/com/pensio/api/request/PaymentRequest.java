@@ -19,14 +19,18 @@ public class PaymentRequest
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
-	private PaymentInfos paymentInfos;
+	private PaymentInfos paymentInfos = new PaymentInfos();
+
+	public PaymentRequest()
+	{
+
+	}
 
 	public PaymentRequest(String shopOrderId, String terminal, Amount amount)
 	{
 		this.shopOrderId = shopOrderId;
 		this.terminal = terminal;
 		this.amount = amount;
-		paymentInfos = new PaymentInfos();
 	}
 
 	public String getShopOrderId()

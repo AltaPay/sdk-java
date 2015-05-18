@@ -53,9 +53,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			setPaymentRequestParameters(paymentRequest, params);
 			
 			APIResponse response = getAPIResponse("createPaymentRequest", params);
-		
+
+
 			return new PaymentRequestResponseImpl()
-				.setUrl(new URL(response.getBody().getUrl()));
+				.setUrl(new URL(response.getBody().getUrl()))
+                .setPaymentRequestId(response.getBody().getPaymentRequestId());
 		}
 		catch (MalformedURLException e)
 		{

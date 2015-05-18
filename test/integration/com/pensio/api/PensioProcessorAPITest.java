@@ -6,21 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 
+import com.pensio.api.request.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.pensio.Amount;
 import com.pensio.Currency;
-import com.pensio.api.PensioAPIException;
-import com.pensio.api.PensioProcessorAPI;
 import com.pensio.api.generated.APIResponse;
-import com.pensio.api.request.AuthType;
-import com.pensio.api.request.CreditCard;
-import com.pensio.api.request.CustomerInfo;
-import com.pensio.api.request.CustomerInfoAddress;
-import com.pensio.api.request.PaymentReservationRequest;
-import com.pensio.api.request.PaymentReservationWithAddressRequest;
-import com.pensio.api.request.Verify3dRequest;
 
 public class PensioProcessorAPITest extends PensioAPITestBase
 {
@@ -43,7 +35,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	public void reservationOfFixedAmount_WithAllParameters_ResultIsSuccess() throws Throwable
 	{
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
-		request.setSource("eCommerce").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		request.setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111")).setSource("eCommerce");
 		
 		APIResponse result = api.initiatePaymentRequest(request);
 		
@@ -183,8 +175,8 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	@Test
 	public void reservationOfFixedAmount_WithAddress_ResultIsSuccess() throws Throwable 
 	{
-		PaymentReservationWithAddressRequest request = 
-				new PaymentReservationWithAddressRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		PaymentReservationRequest request =
+				new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
 		request.setCardholderName("cardholder name").setCardholderAddress("cardholder address").setIssueNumber("issue number").setStartMonth("start month")
 		.setStartYear("start year").setSource("mobi").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
 		

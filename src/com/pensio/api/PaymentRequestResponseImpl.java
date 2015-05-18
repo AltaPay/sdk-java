@@ -5,6 +5,7 @@ import java.net.URL;
 public class PaymentRequestResponseImpl implements PaymentRequestResponse 
 {
 	private URL url;
+    private String paymentRequestId;
 
 	/* (non-Javadoc)
 	 * @see com.pensio.api.PaymentRequestResponse#getUrl()
@@ -15,9 +16,21 @@ public class PaymentRequestResponseImpl implements PaymentRequestResponse
 		return url;
 	}
 
-	public PaymentRequestResponse setUrl(URL url) 
+	public PaymentRequestResponseImpl setUrl(URL url)
 	{
 		this.url = url;
 		return this;
 	}
+
+    @Override
+    public String getPaymentRequestId()
+    {
+        return paymentRequestId;
+    }
+
+    public PaymentRequestResponseImpl setPaymentRequestId(String paymentRequestId)
+    {
+        this.paymentRequestId = paymentRequestId;
+        return this;
+    }
 }

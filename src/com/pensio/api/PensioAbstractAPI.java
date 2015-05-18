@@ -65,7 +65,7 @@ public abstract class PensioAbstractAPI {
 //
 //			}
 //			System.out.print(sb.toString());
-			
+
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
 			

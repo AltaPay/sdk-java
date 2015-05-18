@@ -2,13 +2,11 @@ package com.pensio.api.request;
 
 public class CreditCard 
 {
-
-
-	private String token;
-	private String cardNumber;
-	private String expiryMonth;
-	private String expiryYear;
-	private String cvc;
+	protected String token;
+	protected String cardNumber;
+	protected String expiryMonth;
+	protected String expiryYear;
+	protected String cvc;
 	
 	protected CreditCard()
 	{
