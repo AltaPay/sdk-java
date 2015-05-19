@@ -9,36 +9,73 @@ import com.pensio.api.request.PaymentReservationRequest;
 
 public class Example02_GiftCards
 {
-	/**
-	 * @param args
-	 * @throws Throwable 
-	 */
-	public static void main(String[] args) throws Throwable {
-		
+	public static void main(String[] args) throws Throwable
+	{
 		String gatewayUrl = "http://gateway.dev.pensio.com/";
 		String username = "test user";
 		String password = "test password";
 		
 		PensioProcessorAPI processorApi = new PensioProcessorAPI(gatewayUrl, username, password);
 		PensioMerchantAPI merchantApi = new PensioMerchantAPI(gatewayUrl, username, password);
-		
-		//Setting parameters of payment request (order id, terminal, amount)
-        PaymentRequest request = new PaymentRequest("giftcard_"+String.valueOf(Math.round(Math.random()*100000)),"Test GiftCard Terminal", Amount.get(10.00, Currency.EUR));
-		//Creating payment request to link incoming gift card payments
+
+
+		/**
+		 * First we create a payment request, so we can group
+		 * the subsequent gift card payments together
+		 *
+		 * This is done once
+		 */
+        PaymentRequest request = new PaymentRequest(
+		          "giftcard_"+String.valueOf(Math.round(Math.random()*100000))  // order ID
+		        , "Test GiftCard Terminal"  // terminal
+		        , Amount.get(10.00, Currency.EUR)  // amount
+        );
         PaymentRequestResponse response = merchantApi.createPaymentRequest(request);
 
-        //Preparing reservation request to make gift card payment
-		PaymentReservationRequest reservationRequest = new PaymentReservationRequest(response.getPaymentRequestId());
-		//Setting gift card and gift card provider
-		reservationRequest.setGiftCard(new GiftCard().setAccountIdentifier("88880000010000").setProvider("test"));
+		String paymentRequestId = response.getPaymentRequestId();
 
-		//Sending request to the gateway
+
+		/**
+		 * For each gift card we initiate a gift card payment.
+		 *
+		 * Note that we supply the payment request ID we received before.
+		 */
+		PaymentReservationRequest reservationRequest = new PaymentReservationRequest(paymentRequestId);
+
+		/**
+		 * Here we create a test gift card payment where the card has an available amount of 100 EUR
+		 */
+		reservationRequest.setGiftCard(new GiftCard().setAccountIdentifier("88880000010000").setProvider("test"));
 		APIResponse initiateResponse = processorApi.initiateGiftCardPayment(reservationRequest);
 
-		//Checking the result
+
+		/**
+		 * Now inspect the result
+		 */
 		if("Success".equals(initiateResponse.getBody().getResult()))
 		{
+			// Payment has been fully paid
 			System.out.println("Paid successfully!");
+		}
+		else if ("PartialSuccess".equals(initiateResponse.getBody().getResult()))
+		{
+			// Part of the payment has been paid e.g. 5 EUR of the requested 10 EUR
+			System.out.println("Partially paid!");
+
+			/**
+			 * If we want the remainder of the payment to be paid, we could send
+			 * the user back to AltaPay.
+			 *
+			 * To do this with another gift card do this again.
+			 */
+			PaymentReservationRequest secondGiftCardPayment = new PaymentReservationRequest(paymentRequestId);
+			// here with amount 5.55 EUR
+			secondGiftCardPayment.setGiftCard(new GiftCard().setAccountIdentifier("888800000555").setProvider("test"));
+			APIResponse secondGiftCardPaymentResponse = processorApi.initiateGiftCardPayment(secondGiftCardPayment);
+
+			/**
+			 * Now inspect the response
+			 */
 		}
 		else
 		{
