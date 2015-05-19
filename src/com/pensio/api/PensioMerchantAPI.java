@@ -42,7 +42,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		APIResponse response = getAPIResponse("login",
 				new HashMap<String, String>());
-		return "Success".equals(response.getBody().getResult());
+		return "OK".equals(response.getBody().getResult());
 	}
 	
 	public PaymentRequestResponse createPaymentRequest(PaymentRequest paymentRequest) throws PensioAPIException
