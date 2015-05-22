@@ -16,6 +16,7 @@ public class PaymentRequest
 	protected String shippingMethod;
 	protected Date customerCreateAt;
 	private boolean usePayPass;
+	private String giftCardToken;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -173,6 +174,15 @@ public class PaymentRequest
 	public PaymentRequest setUsePayPass(boolean usePayPass)
 	{
 		this.usePayPass = usePayPass;
+		return this;
+	}
+
+	public String getGiftCardToken() {
+		return giftCardToken;
+	}
+
+	public PaymentRequest setGiftCardToken(String giftCardToken) {
+		this.giftCardToken = giftCardToken;
 		return this;
 	}
 }

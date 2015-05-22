@@ -21,7 +21,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 	public APIResponse initiateGiftCardPayment(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
-		if(paymentRequest.getGiftCard() == null)
+		if(paymentRequest.getGiftCard() == null && paymentRequest.getGiftCardToken() == null)
 		{
 			throw new PensioAPIException("A gift card must be supplied");
 		}
@@ -154,6 +154,10 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 			addParam(params, "giftcard[account_identifier]", paymentRequest.getGiftCard().getAccountIdentifier());
 			addParam(params, "giftcard[account_authenticator]", paymentRequest.getGiftCard().getAccountAuthenticator());
 			addParam(params, "giftcard[provider]", paymentRequest.getGiftCard().getProvider());
+		}
+		else
+		{
+			addParam(params, "gift_card_token", paymentRequest.getGiftCardToken());
 		}
 
 		addParam(params, "payment_request_id", paymentRequest.getPaymentRequestId());

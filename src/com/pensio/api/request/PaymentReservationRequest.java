@@ -129,6 +129,12 @@ public class PaymentReservationRequest
 		return this;
 	}
 
+	@Override
+	public PaymentReservationRequest setGiftCardToken(String giftCardToken)
+	{
+		super.setGiftCardToken(giftCardToken);
+		return this;
+	}
 
 
 	public String getCardholderName()
@@ -209,7 +215,7 @@ public class PaymentReservationRequest
 		this.giftCard = giftCard;
 		return this;
 	}
-
+	
 	public String getPaymentRequestId()
 	{
 		return paymentRequestId;
