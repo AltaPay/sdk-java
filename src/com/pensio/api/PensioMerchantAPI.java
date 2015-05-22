@@ -231,6 +231,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return getAPIResponse("releaseReservation", params);
 	}
 	
+	public APIResponse queryGiftCard(PaymentReservationRequest request) throws PensioAPIException 
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "terminal", request.getTerminal());
+		addParam(params, "gift_card_token", request.getGiftCardToken());
+		
+		return getAPIResponse("queryGiftCard", params);
+	}
+	
 	private void setCreditCardRequestParameters(
 			PaymentReservationRequest request, HashMap<String, String> params)
 	{
