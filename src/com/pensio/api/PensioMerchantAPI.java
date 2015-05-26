@@ -235,7 +235,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "terminal", request.getTerminal());
-		addParam(params, "gift_card_token", request.getGiftCardToken());
+		addParam(params, "giftcard[token]", request.getGiftCardToken());
 		
 		return getAPIResponse("queryGiftCard", params);
 	}
