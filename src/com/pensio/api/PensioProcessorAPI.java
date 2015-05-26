@@ -157,7 +157,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		}
 		else
 		{
-			addParam(params, "gift_card_token", paymentRequest.getGiftCardToken());
+			addParam(params, "giftcard[token]", paymentRequest.getGiftCardToken());
 		}
 
 		addParam(params, "payment_request_id", paymentRequest.getPaymentRequestId());
