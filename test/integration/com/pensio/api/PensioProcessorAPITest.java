@@ -154,6 +154,25 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	}
 	
 	@Test
+	public void reservationOfFixedAmount_InvalidPaymentSource_ThrowsException() throws Throwable 
+	{
+		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), getTerminalName(), Amount.get(100.00, Currency.EUR));
+		request.setSource("totaltSygPaymentSource").setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
+		String message = "";
+
+		try
+		{
+			APIResponse result = api.initiatePaymentRequest(request);
+		}
+		catch (PensioAPIException ex)
+		{
+			message = ex.getMessage(); 
+		}
+
+		assertTrue(message.contains("Unknown payment_source: totaltSygPaymentSource[23455384]"));
+	}
+	
+	@Test
 	public void reservationOfFixedAmount_WithAddress_ResultIsSuccess() throws Throwable 
 	{
 		PaymentReservationRequest request =
