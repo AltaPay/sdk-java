@@ -28,6 +28,7 @@ import com.pensio.api.request.PaymentReservationRequest;
 import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
+import com.pensio.api.request.TransactionsRequest;
 import com.pensio.helper.StringHelper;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
@@ -390,6 +391,14 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			throw new PensioAPIException(e);
 		}
 
+	}
+
+	public APIResponse transactions(TransactionsRequest request) throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "transaction_id", request.getPaymentId());
+
+		return getAPIResponse("transactions", params);
 	}
 
 	private void setMultiPaymentRequestParameters(
