@@ -33,5 +33,25 @@ public class RequestFactory
 	{
 		return new PaymentReservationRequest(shopOrderId, terminal, amount);
 	}
+
+	public Verify3dRequest getVerify3dRequest(String transactionId, String paRes)
+	{
+		return new Verify3dRequest(transactionId, paRes);
+	}
+
+	public TransactionsRequest getTransactionsRequest(String transactionId)
+	{
+		return new TransactionsRequest(transactionId);
+	}
+
+	public ReleaseReservationRequest getReleaseReservationRequest(String paymentId)
+	{
+		return new ReleaseReservationRequest(paymentId);
+	}
+
+	public FundingListRequest getFundingListRequest(int page)
+	{
+		return new FundingListRequest(page);
+	}
 	
 }
