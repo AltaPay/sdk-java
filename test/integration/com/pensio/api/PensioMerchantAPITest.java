@@ -21,6 +21,7 @@ import com.pensio.api.request.MultiPaymentRequestParent;
 import com.pensio.api.request.OrderLine;
 import com.pensio.api.request.PaymentRequest;
 import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.PaymentSource;
 import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
@@ -209,7 +210,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Red Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.payment)
-				.setSource("eCommerce")
+				.setSource(PaymentSource.eCommerce)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 				.addPaymentInfo("fraudCheckTest", "Checkit!")
 				

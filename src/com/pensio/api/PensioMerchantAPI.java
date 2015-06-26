@@ -80,7 +80,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	private void setPaymentSource(PaymentReservationRequest request,
 			HashMap<String, String> params)
 	{
-		addParam(params, "payment_source", request.getSource());
+		if(request.getSource() != null)
+		{
+			addParam(params, "payment_source", request.getSource().name());
+		}
 	}
 	
 	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException 

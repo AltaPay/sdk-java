@@ -17,7 +17,7 @@ public class PaymentReservationRequest
 		this.paymentRequestId = paymentRequestId;
 	}
 
-	protected String source;
+	protected PaymentSource source;
 	protected CreditCard creditCard;
 	protected GiftCard giftCard;
 	protected String cardholderName;
@@ -27,12 +27,12 @@ public class PaymentReservationRequest
 	protected String startYear;
 	protected String paymentRequestId;
 
-	public String getSource() 
+	public PaymentSource getSource() 
 	{
 		return source;
 	}
 
-	public PaymentReservationRequest setSource(String source)
+	public PaymentReservationRequest setSource(PaymentSource source)
 	{
 		this.source = source;
 		return this;

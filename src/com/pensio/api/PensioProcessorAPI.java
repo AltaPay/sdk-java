@@ -133,7 +133,10 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		}
 
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
-		addParam(params, "payment_source", paymentRequest.getSource());
+		if(paymentRequest.getSource() != null)
+		{
+			addParam(params, "payment_source", paymentRequest.getSource().name());
+		}
 
 		if(paymentRequest.getCreditCard() != null)
 		{
