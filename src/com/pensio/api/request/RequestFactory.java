@@ -29,4 +29,9 @@ public class RequestFactory
 		return new RefundRequest(paymentId);
 	}
 	
+	public PaymentReservationRequest getPaymentReservationRequest(String shopOrderId, String terminal, Amount amount)
+	{
+		return new PaymentReservationRequest(shopOrderId, terminal, amount);
+	}
+	
 }
