@@ -34,7 +34,7 @@ public class PaymentReservationRequest
 
 	public PaymentReservationRequest setSource(String source)
 	{
-		return setSource(PaymentSource.fromString(source));
+		return setSource(PaymentSource.valueOf(source));
 	}
 
 	public PaymentReservationRequest setSource(PaymentSource source)
