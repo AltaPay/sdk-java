@@ -59,7 +59,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("Missing parameter: payment_source"));
+		assertTrue(message.contains("Either payment_request_id or amount,terminal,shop_order_id,payment_source and currency must be supplied"));
 	}
 	
 	@Test
