@@ -164,7 +164,46 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		
 		assertEquals("Success",captureResult.getBody().getResult());
 	}
-	
+
+	@Test
+	public void fundingListTest() throws Throwable
+	{
+		APIResponse result = api.fundingList(new FundingListRequest());
+		APIResponse currentResult = result;
+		assertNotNull(result.getBody().getFundings());
+
+		int page = 0;
+		while(++page < result.getBody().getFundings().getNumberOfPages())
+		{
+			APIResponse extraResult = api.fundingList(new FundingListRequest(page));
+			assertTrue(extraResult.getBody().getFundings().getFunding().size() > 0);
+			currentResult = extraResult;
+		}
+		assertEquals("FunctionalTestContractID",currentResult.getBody().getFundings().getFunding().get(currentResult.getBody().getFundings().getFunding().size()-1).getContractIdentifier());
+	}
+
+	@Test
+	public void fundingDownloadTest() throws Throwable
+	{
+		APIResponse result = api.fundingList(new FundingListRequest());
+		APIResponse currentResult = result;
+		assertNotNull(result.getBody().getFundings());
+
+		int page = 0;
+		while(++page < result.getBody().getFundings().getNumberOfPages())
+		{
+			APIResponse extraResult = api.fundingList(new FundingListRequest(page));
+			assertTrue(extraResult.getBody().getFundings().getFunding().size() > 0);
+			currentResult = extraResult;
+		}
+		String downloadLink = currentResult.getBody().getFundings().getFunding().get(currentResult.getBody().getFundings().getFunding().size()-1).getDownloadLink();
+
+		List<FundingRecord> fundingRecords = api.downloadFunding(downloadLink);
+
+		assertEquals("AltaPay Functional Test Shop", fundingRecords.get(0).getShop());
+	}
+
+
 	@Test
 	public void fraudCheckInCharge() throws Throwable 
 	{
