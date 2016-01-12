@@ -29,7 +29,6 @@ import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 import com.pensio.api.request.TransactionsRequest;
-import com.pensio.helper.StringHelper;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
 {
@@ -198,7 +197,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					record.setFundingAmount(Amount.get(reader.get("Settlement Amount"), reader.get("Settlement Currency")));
 					
 					String exRate = reader.get("Exchange Rate");
-					if (StringHelper.isNullOrEmpty(exRate))
+					if (exRate == null || exRate.length() == 0)
 					{
 						record.setExchangeRate(1.0);
 					}
