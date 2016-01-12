@@ -8,7 +8,7 @@
 	<property name="xsdUrl" value="http://cigateway.mars.pensio.com/" />
 
 		<property name="outputdirs" value="build,devbuild,output,dependencylib" />
-	<property name="local_dependencies" value="PensioBaseLibrary" />
+	<property name="local_dependencies" value="" />
 	<path id="CompileSource_classpath">
 		<fileset dir="lib/" includes="*.jar" />
 		<fileset dir="dependencylib/" includes="*.jar" />
