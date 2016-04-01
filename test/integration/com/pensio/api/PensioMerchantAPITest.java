@@ -3,17 +3,14 @@ package com.pensio.api;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import com.pensio.Amount;
-import com.pensio.Currency;
-import com.pensio.api.generated.APIResponse;
+import com.pensio.api.request.*;
 import com.pensio.api.request.AuthType;
 import com.pensio.api.request.CaptureReservationRequest;
 import com.pensio.api.request.ChargeSubscriptionRequest;
+import com.pensio.api.request.CreateInvoiceReservationRequest;
 import com.pensio.api.request.CreditCard;
 import com.pensio.api.request.FundingListRequest;
 import com.pensio.api.request.MultiPaymentRequestChild;
@@ -25,6 +22,12 @@ import com.pensio.api.request.PaymentSource;
 import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.pensio.Amount;
+import com.pensio.Currency;
+import com.pensio.api.generated.APIResponse;
 
 public class PensioMerchantAPITest extends PensioAPITestBase
 {
@@ -235,5 +238,35 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		
 		assertNotNull(result.getUrl());
 	}
-	
+
+	@Test
+	public void createInvoiceReservation() throws Throwable
+	{
+		String orderId = getOrderId();
+		APIResponse result = api.createInvoiceReservation(
+				new CreateInvoiceReservationRequest(orderId, "AltaPay Test Invoice Terminal DK", Amount.get(3.00, Currency.DKK))
+						.setCustomerInfo(
+								new CustomerInfo().setBillingAddress(
+										new CustomerInfoAddress()
+												.setAddress("some street")
+												.setCity("Some city")
+												.setCountry("Some country")
+												.setFirstname("first name")
+												.setLastname("last name")
+												.setPostal("1234")
+								)
+						)
+						.setOrderLines(Arrays.asList(
+  							  new OrderLine("description 1", "itemId", 12.12, 13.13)
+							, new OrderLine("description 2", "itemId 2", 1, 10)
+						))
+						.setOrganisationNumber("12345678")
+		);
+		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.capture(
+				new CaptureReservationRequest(paymentId)
+		);
+
+		assertEquals("Success",captureResult.getBody().getResult());
+	}
 }

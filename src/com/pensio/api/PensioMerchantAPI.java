@@ -16,19 +16,7 @@ import javax.xml.bind.JAXBException;
 import com.csvreader.CsvReader;
 import com.pensio.Amount;
 import com.pensio.api.generated.APIResponse;
-import com.pensio.api.request.CaptureReservationRequest;
-import com.pensio.api.request.ChargeSubscriptionRequest;
-import com.pensio.api.request.FundingListRequest;
-import com.pensio.api.request.MultiPaymentRequestChild;
-import com.pensio.api.request.MultiPaymentRequestParent;
-import com.pensio.api.request.OrderLine;
-import com.pensio.api.request.PaymentInfo;
-import com.pensio.api.request.PaymentRequest;
-import com.pensio.api.request.PaymentReservationRequest;
-import com.pensio.api.request.RefundRequest;
-import com.pensio.api.request.ReleaseReservationRequest;
-import com.pensio.api.request.ReserveSubscriptionChargeRequest;
-import com.pensio.api.request.TransactionsRequest;
+import com.pensio.api.request.*;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
 {
@@ -64,6 +52,17 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			throw new PensioAPIException(e);
 		}
 		
+	}
+
+	public APIResponse createInvoiceReservation(CreateInvoiceReservationRequest request) throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		setPaymentRequestParameters(request, params);
+		addParam(params, "organisationNumber", request.getOrganisationNumber());
+		addParam(params, "personalIdentifyNumber", request.getPersonalIdentifyNumber());
+		addParam(params, "birthDate", DateHelper.formatDate("yyyy-MM-dd'T'HH:mm:ss.SSSZ",request.getBirthDate()));
+
+		return getAPIResponse("createInvoiceReservation", params);
 	}
 	
 	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
@@ -261,7 +260,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	}
 
 	protected void setPaymentRequestParameters(
-		  PaymentRequest paymentRequest
+		  PaymentRequest<?> paymentRequest
 		, HashMap<String, String> params
 	) 
 	{
@@ -302,6 +301,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "customer_info[bank_phone]", paymentRequest.getCustomerInfo().getBankPhone());
 			addParam(params, "customer_info[customer_phone]", paymentRequest.getCustomerInfo().getCustomerPhone());
 			addParam(params, "customer_info[username]", paymentRequest.getCustomerInfo().getUsername());
+			if(paymentRequest.getCustomerInfo().getGender() != null)
+			{
+				addParam(params, "customer_info[gender]", paymentRequest.getCustomerInfo().getGender().name());
+			}
 			if(paymentRequest.getCustomerInfo().getBillingAddress() != null)
 			{
 				addParam(params, "customer_info[billing_address]", paymentRequest.getCustomerInfo().getBillingAddress().getAddress());
@@ -328,6 +331,8 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		{
 			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
 		}
+
+		addOrderLines("orderLines",params, paymentRequest.getOrderLines());
 	}
 
 	protected APIResponse getAPIResponse(String method,
@@ -485,23 +490,28 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			{
 				addParam(params, "multi["+i+"][transaction_info]["+paymentInfo.getKey()+"]", paymentInfo.getValue());
 			}
-			orderLineIdx = 0;
-			for(OrderLine orderLine : multiPaymentRequestChild.getOrderLines())
-			{
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][description]", orderLine.getDescription());
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][itemId]", orderLine.getItemId());
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
-				addParam(params, "multi["+i+"][orderLines]["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
-				orderLineIdx++;
-			}
+			addOrderLines("multi["+i+"][orderLines]",params, multiPaymentRequestChild.getOrderLines());
 			
 			i++;
 		}
+	}
+
+	private void addOrderLines(String prepend, HashMap<String, String> params, List<OrderLine> orderLines)
+	{
+		int orderLineIdx = 0;
+		for(OrderLine orderLine : orderLines)
+        {
+            addParam(params, prepend+"["+orderLineIdx+"][description]", orderLine.getDescription());
+            addParam(params, prepend+"["+orderLineIdx+"][itemId]", orderLine.getItemId());
+            addParam(params, prepend+"["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
+            addParam(params, prepend+"["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
+            addParam(params, prepend+"["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
+            addParam(params, prepend+"["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
+            addParam(params, prepend+"["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
+            addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+            addParam(params, prepend+"["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
+            orderLineIdx++;
+        }
 	}
 
 	protected String getAppAPIPath()

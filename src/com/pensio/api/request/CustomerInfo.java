@@ -9,6 +9,7 @@ public class CustomerInfo
 	private String bankName;
 	private String bankPhone;
 	private String clientIp;
+	private Gender gender;
 	
 	private CustomerInfoAddress billingAddress;
 	private CustomerInfoAddress shippingAddress;
@@ -111,5 +112,14 @@ public class CustomerInfo
 		this.shippingAddress = shippingAddress;
 		return this;
 	}
-	
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public CustomerInfo setGender(Gender gender)
+	{
+		this.gender = gender;
+		return this;
+	}
 }

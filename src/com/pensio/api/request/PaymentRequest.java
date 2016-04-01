@@ -1,10 +1,12 @@
 package com.pensio.api.request;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.pensio.Amount;
 
-public class PaymentRequest
+public class PaymentRequest<T extends PaymentRequest<T>>
 {
 	protected String shopOrderId;
 	protected String terminal;
@@ -21,6 +23,7 @@ public class PaymentRequest
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
 	private PaymentInfos paymentInfos = new PaymentInfos();
+	private List<OrderLine> orderLines;
 
 	public PaymentRequest()
 	{
@@ -39,10 +42,11 @@ public class PaymentRequest
 		return shopOrderId;
 	}
 
-	public PaymentRequest setShopOrderId(String shopOrderId)
+	@SuppressWarnings("unchecked")
+	public T setShopOrderId(String shopOrderId)
 	{
 		this.shopOrderId = shopOrderId;
-		return this;
+		return (T)this;
 	}
 
 	public String getTerminal()
@@ -50,10 +54,11 @@ public class PaymentRequest
 		return terminal;
 	}
 
-	public PaymentRequest setTerminal(String terminal)
+	@SuppressWarnings("unchecked")
+	public T setTerminal(String terminal)
 	{
 		this.terminal = terminal;
-		return this;
+		return (T)this;
 	}
 
 	public AuthType getAuthType()
@@ -61,10 +66,11 @@ public class PaymentRequest
 		return authType;
 	}
 
-	public PaymentRequest setAuthType(AuthType authType)
+	@SuppressWarnings("unchecked")
+	public T setAuthType(AuthType authType)
 	{
 		this.authType = authType;
-		return this;
+		return (T)this;
 	}
 
 	public String getLanguage()
@@ -72,10 +78,11 @@ public class PaymentRequest
 		return language;
 	}
 
-	public PaymentRequest setLanguage(String language)
+	@SuppressWarnings("unchecked")
+	public T setLanguage(String language)
 	{
 		this.language = language;
-		return this;
+		return (T)this;
 	}
 
 	public String getCreditCardToken()
@@ -83,10 +90,11 @@ public class PaymentRequest
 		return creditCardToken;
 	}
 
-	public PaymentRequest setCreditCardToken(String creditCardToken)
+	@SuppressWarnings("unchecked")
+	public T setCreditCardToken(String creditCardToken)
 	{
 		this.creditCardToken = creditCardToken;
-		return this;
+		return (T)this;
 	}
 
 	public Amount getAmount()
@@ -94,10 +102,11 @@ public class PaymentRequest
 		return amount;
 	}
 
-	public PaymentRequest setAmount(Amount amount)
+	@SuppressWarnings("unchecked")
+	public T setAmount(Amount amount)
 	{
 		this.amount = amount;
-		return this;
+		return (T)this;
 	}
 
 	public String getCookie()
@@ -105,10 +114,11 @@ public class PaymentRequest
 		return cookie;
 	}
 
-	public PaymentRequest setCookie(String cookie)
+	@SuppressWarnings("unchecked")
+	public T setCookie(String cookie)
 	{
 		this.cookie = cookie;
-		return this;
+		return (T)this;
 	}
 
 	public String getShippingMethod()
@@ -116,10 +126,11 @@ public class PaymentRequest
 		return shippingMethod;
 	}
 
-	public PaymentRequest setShippingMethod(String shippingMethod)
+	@SuppressWarnings("unchecked")
+	public T setShippingMethod(String shippingMethod)
 	{
 		this.shippingMethod = shippingMethod;
-		return this;
+		return (T)this;
 	}
 
 	public Date getCustomerCreateAt()
@@ -127,10 +138,11 @@ public class PaymentRequest
 		return customerCreateAt;
 	}
 
-	public PaymentRequest setCustomerCreateAt(Date customerCreateAt)
+	@SuppressWarnings("unchecked")
+	public T setCustomerCreateAt(Date customerCreateAt)
 	{
 		this.customerCreateAt = customerCreateAt;
-		return this;
+		return (T)this;
 	}
 
 	public PaymentRequestConfig getConfig()
@@ -138,10 +150,11 @@ public class PaymentRequest
 		return config;
 	}
 
-	public PaymentRequest setConfig(PaymentRequestConfig config)
+	@SuppressWarnings("unchecked")
+	public T setConfig(PaymentRequestConfig config)
 	{
 		this.config = config;
-		return this;
+		return (T)this;
 	}
 
 	public CustomerInfo getCustomerInfo()
@@ -149,21 +162,23 @@ public class PaymentRequest
 		return customerInfo;
 	}
 
-	public PaymentRequest setCustomerInfo(CustomerInfo customerInfo)
+	@SuppressWarnings("unchecked")
+	public T setCustomerInfo(CustomerInfo customerInfo)
 	{
 		this.customerInfo = customerInfo;
-		return this;
+		return (T)this;
 	}
 
 	public PaymentInfos getPaymentInfos()
 	{
 		return paymentInfos;
 	}
-	
-	public PaymentRequest addPaymentInfo(String key, String value)
+
+	@SuppressWarnings("unchecked")
+	public T addPaymentInfo(String key, String value)
 	{
 		paymentInfos.add(key, value);
-		return this;
+		return (T)this;
 	}
 
 	public boolean getUsePayPass()
@@ -171,18 +186,31 @@ public class PaymentRequest
 		return usePayPass;
 	}
 
-	public PaymentRequest setUsePayPass(boolean usePayPass)
+	@SuppressWarnings("unchecked")
+	public T setUsePayPass(boolean usePayPass)
 	{
 		this.usePayPass = usePayPass;
-		return this;
+		return (T)this;
 	}
 
 	public String getGiftCardToken() {
 		return giftCardToken;
 	}
 
-	public PaymentRequest setGiftCardToken(String giftCardToken) {
+	@SuppressWarnings("unchecked")
+	public T setGiftCardToken(String giftCardToken) {
 		this.giftCardToken = giftCardToken;
-		return this;
+		return (T)this;
+	}
+
+	public List<OrderLine> getOrderLines()
+	{
+		return orderLines;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setOrderLines(List<OrderLine> orderLines) {
+		this.orderLines = orderLines;
+		return (T)this;
 	}
 }
