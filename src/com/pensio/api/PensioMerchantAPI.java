@@ -301,6 +301,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "customer_info[bank_phone]", paymentRequest.getCustomerInfo().getBankPhone());
 			addParam(params, "customer_info[customer_phone]", paymentRequest.getCustomerInfo().getCustomerPhone());
 			addParam(params, "customer_info[username]", paymentRequest.getCustomerInfo().getUsername());
+			addParam(params, "customer_info[client_ip]", paymentRequest.getCustomerInfo().getClientIp());
 			if(paymentRequest.getCustomerInfo().getGender() != null)
 			{
 				addParam(params, "customer_info[gender]", paymentRequest.getCustomerInfo().getGender().name());

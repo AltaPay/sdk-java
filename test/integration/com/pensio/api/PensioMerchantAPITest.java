@@ -255,6 +255,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 												.setLastname("last name")
 												.setPostal("1234")
 								)
+								.setClientIp("127.0.0.1")
 						)
 						.setOrderLines(Arrays.asList(
   							  new OrderLine("description 1", "itemId", 12.12, 13.13)
