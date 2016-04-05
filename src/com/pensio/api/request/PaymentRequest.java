@@ -22,8 +22,13 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
-	private PaymentInfos paymentInfos = new PaymentInfos();
+	private PaymentInfos paymentInfos;
 	private List<OrderLine> orderLines;
+
+	{
+		paymentInfos = new PaymentInfos();
+		orderLines = new ArrayList<>();
+	}
 
 	public PaymentRequest()
 	{
@@ -210,7 +215,8 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 
 	@SuppressWarnings("unchecked")
 	public T setOrderLines(List<OrderLine> orderLines) {
-		this.orderLines = orderLines;
+		this.orderLines.clear();
+		this.orderLines.addAll(orderLines);
 		return (T)this;
 	}
 }
