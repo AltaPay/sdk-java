@@ -8,6 +8,7 @@ public class PaymentRequestConfig
 	private String callbackRedirect;
 	private String callbackOpen;
 	private String callbackNotification;
+	private String callbackVerifyOrder;
 	private String fraudService;
 	private String accountOffer;
 	
@@ -96,6 +97,15 @@ public class PaymentRequestConfig
 	public PaymentRequestConfig setAccountOffer(String accountOffer)
 	{
 		this.accountOffer = accountOffer;
+		return this;
+	}
+
+	public String getCallbackVerifyOrder() {
+		return callbackVerifyOrder;
+	}
+
+	public PaymentRequestConfig setCallbackVerifyOrder(String callbackVerifyOrder) {
+		this.callbackVerifyOrder = callbackVerifyOrder;
 		return this;
 	}
 }

@@ -289,6 +289,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "config[callback_ok]", paymentRequest.getConfig().getCallbackOk());
 			addParam(params, "config[callback_open]", paymentRequest.getConfig().getCallbackOpen());
 			addParam(params, "config[callback_redirect]", paymentRequest.getConfig().getCallbackRedirect());
+			addParam(params, "config[callback_verify_order]", paymentRequest.getConfig().getCallbackVerifyOrder());
 			addParam(params, "fraud_service", paymentRequest.getConfig().getFraudService());
 			addParam(params, "account_offer", paymentRequest.getConfig().getAccountOffer());
 		}
