@@ -82,8 +82,13 @@
 			<fileset dir="lib/" includes="*.jar" />	
 		</copy>
 	</target>
+
+	<target name="-EnsureDist">
+		<delete dir="dist" />
+		<mkdir dir="dist" />
+	</target>
 	
-	<target name="DistZip" depends="PensioRelease,PensioRevision,jar">
+	<target name="DistZip" depends="-EnsureDist,PensioRelease,PensioRevision,jar">
 		<zip destfile="dist/${ant.project.name}_${pensio.release}_r${pensio.revision}.zip">
 			<zipfileset dir="output" includes="pensio_java_api.jar" prefix="lib/" />
 			<zipfileset dir=".">
