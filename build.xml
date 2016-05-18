@@ -50,7 +50,15 @@
             <format property="pensio.release" pattern="yyyyMMdd" locale="en,GB"/>
         </tstamp>
 	</target>
-	
+
+	<target name="PensioRevision">
+		<!-- Calculate the revision -->
+		<exec executable="sh" outputproperty="pensio.revision">
+			<arg value="-c" />
+			<arg value="svn info | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'" />
+		</exec>
+	</target>
+
 	<target name="sdkVersion" depends="CopyMetaInf,PensioRelease">
 		<echo file="build/META-INF/sdk.version">JavaSDK/${pensio.release}</echo>
 	</target>
@@ -75,8 +83,8 @@
 		</copy>
 	</target>
 	
-	<target name="DistZip" depends="jar">
-		<zip destfile="dist/PensioJavaAPI20131210.zip">
+	<target name="DistZip" depends="PensioRelease,PensioRevision,jar">
+		<zip destfile="dist/${ant.project.name}_${pensio.release}_r${pensio.revision}.zip">
 			<zipfileset dir="output" includes="pensio_java_api.jar" prefix="lib/" />
 			<zipfileset dir=".">
 				<filename name="lib/*.jar"/>
