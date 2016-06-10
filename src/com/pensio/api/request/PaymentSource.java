@@ -2,7 +2,10 @@ package com.pensio.api.request;
 
 public enum PaymentSource
 {
-	moto,
+
 	eCommerce,
-	mobi;
+	mobi,
+	moto,
+	mail_order,
+	telephone_order
 }

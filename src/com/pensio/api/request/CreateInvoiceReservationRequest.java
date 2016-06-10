@@ -7,6 +7,11 @@ import java.util.Date;
 public class CreateInvoiceReservationRequest
     extends PaymentRequest<CreateInvoiceReservationRequest>
 {
+	protected String accountNumber;
+	protected String bankCode;
+	protected FraudService fraudService;
+	protected PaymentSource paymentSource;
+
     protected String organisationNumber;
     protected String personalIdentifyNumber;
     protected Date birthDate;
@@ -15,6 +20,50 @@ public class CreateInvoiceReservationRequest
     {
         super(orderId, terminalTitle, amount);
     }
+
+	public String getAccountNumber()
+	{
+		return accountNumber;
+	}
+
+	public CreateInvoiceReservationRequest setAccountNumber(String accountNumber)
+	{
+		this.accountNumber = accountNumber;
+		return this;
+	}
+
+	public String getBankCode()
+	{
+		return bankCode;
+	}
+
+	public CreateInvoiceReservationRequest setBankCode(String bankCode)
+	{
+		this.bankCode = bankCode;
+		return this;
+	}
+
+	public FraudService getFraudService()
+	{
+		return fraudService;
+	}
+
+	public CreateInvoiceReservationRequest setFraudService(FraudService fraudService)
+	{
+		this.fraudService = fraudService;
+		return this;
+	}
+
+	public PaymentSource getPaymentSource()
+	{
+		return paymentSource;
+	}
+
+	public CreateInvoiceReservationRequest setPaymentSource(PaymentSource paymentSource)
+	{
+		this.paymentSource = paymentSource;
+		return this;
+	}
 
     public String getOrganisationNumber()
     {
