@@ -1,17 +1,22 @@
 package com.pensio.api;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.pensio.api.generated.*;
 import com.pensio.api.request.*;
 import com.pensio.api.request.AuthType;
 import com.pensio.api.request.CaptureReservationRequest;
 import com.pensio.api.request.ChargeSubscriptionRequest;
 import com.pensio.api.request.CreateInvoiceReservationRequest;
 import com.pensio.api.request.CreditCard;
+import com.pensio.api.request.CustomerInfo;
+import com.pensio.api.request.CustomerInfoAddress;
 import com.pensio.api.request.FundingListRequest;
 import com.pensio.api.request.MultiPaymentRequestChild;
 import com.pensio.api.request.MultiPaymentRequestParent;
@@ -27,7 +32,6 @@ import org.junit.Test;
 
 import com.pensio.Amount;
 import com.pensio.Currency;
-import com.pensio.api.generated.APIResponse;
 
 public class PensioMerchantAPITest extends PensioAPITestBase
 {
@@ -38,6 +42,8 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		throws Exception 
 	{
 		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.earth.pensio.com/");
+		//String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.pensio.com/");
+		//String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.lb.earth.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername","shop api");
 		String password = System.getProperty("pensio.TestApiPassword","testpassword");
 		api = new PensioMerchantAPI(apiUrl, username, password);
@@ -269,5 +275,127 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		);
 
 		assertEquals("Success",captureResult.getBody().getResult());
+	}
+
+	@Test
+	public void createSimpleInvoiceReservation() throws Throwable
+	{
+		String orderId = getOrderId();
+
+		CreateInvoiceReservationRequest request = new CreateInvoiceReservationRequest(orderId, "AltaPay Test Invoice Terminal DK", Amount.get(333.55, Currency.DKK));
+
+		CustomerInfo customerInfo = new CustomerInfo();
+		customerInfo.setEmail("customer email");
+		customerInfo.setBillingAddress(new CustomerInfoAddress().setAddress("some address").setPostal("postal code 1234"));
+
+		request.setCustomerInfo(customerInfo);
+
+		APIResponse result = api.createInvoiceReservation(request);
+
+		Transaction transaction = result.getBody().getTransactions().getTransaction().get(0);
+
+		assertEquals(request.getTerminal(), transaction.getTerminal());
+		assertEquals(request.getShopOrderId(), transaction.getShopOrderId());
+		assertEquals(request.getCustomerInfo().getBillingAddress().getAddress(), transaction.getCustomerInfo().getBillingAddress().getAddress());
+		assertEquals(request.getCustomerInfo().getBillingAddress().getPostal(), transaction.getCustomerInfo().getBillingAddress().getPostalCode());
+		assertEquals(request.getCustomerInfo().getEmail(), transaction.getCustomerInfo().getEmail());
+
+		assertNull(result.getBody().getMerchantErrorMessage());
+		assertNull(result.getBody().getCardHolderErrorMessage());
+		assertEquals("Success", result.getBody().getResult());
+	}
+
+	@Test
+	public void createComplexInvoiceReservation() throws Throwable
+	{
+		String orderId = getOrderId();
+
+		CreateInvoiceReservationRequest request = new CreateInvoiceReservationRequest(orderId, "AltaPay Test Invoice Terminal DK", Amount.get(777.99, Currency.DKK));
+
+		request.addPaymentInfo("auxinfo1", "auxvalue1");
+
+		request.setAuthType(AuthType.payment);
+		request.setAccountNumber("111");
+		request.setBankCode("222");
+		request.setFraudService(FraudService.Maxmind);
+		request.setPaymentSource(PaymentSource.eCommerce);
+		request.setOrganisationNumber("333");
+		request.setPersonalIdentifyNumber("444");
+		request.setBirthDate(new GregorianCalendar(2016, 1, 1).getTime());
+
+		OrderLine ol = new OrderLine("desc", "id", 1, 2);
+		ol.setTaxPercent(10);
+		ol.setUnitCode("code");
+		ol.setDiscount(99);
+		ol.setGoodsType("Item");
+		request.setOrderLines(Arrays.asList(ol));
+
+		CustomerInfo customerInfo = new CustomerInfo();
+		customerInfo.setEmail("customer email");
+		customerInfo.setUsername("user");
+		customerInfo.setCustomerPhone("phone");
+		customerInfo.setBankName("bank name");
+		customerInfo.setBankPhone("bank phone");
+
+		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
+		billingAddress.setAddress("some address");
+		billingAddress.setCity("city");
+		billingAddress.setCountry("country");
+		billingAddress.setFirstname("first");
+		billingAddress.setLastname("last");
+		billingAddress.setRegion("region");
+		billingAddress.setPostal("postal code 1234");
+		customerInfo.setBillingAddress(billingAddress);
+
+		CustomerInfoAddress shippingAddress = new CustomerInfoAddress();
+		shippingAddress.setAddress("ship some address");
+		shippingAddress.setCity("ship city");
+		shippingAddress.setCountry("ship country");
+		shippingAddress.setFirstname("ship first");
+		shippingAddress.setLastname("ship last");
+		shippingAddress.setRegion("ship region");
+		shippingAddress.setPostal("ship postal code 1234");
+		customerInfo.setShippingAddress(shippingAddress);
+
+		request.setCustomerInfo(customerInfo);
+
+		APIResponse result = api.createInvoiceReservation(request);
+
+		Transaction transaction = result.getBody().getTransactions().getTransaction().get(0);
+
+		assertEquals(request.getTerminal(), transaction.getTerminal());
+		assertEquals(request.getShopOrderId(), transaction.getShopOrderId());
+
+		assertEquals(request.getAuthType().toString(), transaction.getAuthType());
+
+		assertEquals("auxinfo1", transaction.getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals(request.getPaymentInfos().get("auxinfo1").getValue(), transaction.getPaymentInfos().getPaymentInfo().get(0).getValue());
+
+		com.pensio.api.generated.CustomerInfo ci = transaction.getCustomerInfo();
+		CustomerInfo ciReq = request.getCustomerInfo();
+
+		assertEquals(ciReq.getEmail(), ci.getEmail());
+		assertEquals(ciReq.getUsername(), ci.getUsername());
+		assertEquals(ciReq.getCustomerPhone(), ci.getCustomerPhone());
+
+		assertEquals(ciReq.getBillingAddress().getFirstname(), ci.getBillingAddress().getFirstname());
+		assertEquals(ciReq.getBillingAddress().getLastname(), ci.getBillingAddress().getLastname());
+		assertEquals(ciReq.getBillingAddress().getAddress(), ci.getBillingAddress().getAddress());
+		assertEquals(ciReq.getBillingAddress().getCity(), ci.getBillingAddress().getCity());
+		assertEquals(ciReq.getBillingAddress().getRegion(), ci.getBillingAddress().getRegion());
+		assertEquals(ciReq.getBillingAddress().getPostal(), ci.getBillingAddress().getPostalCode());
+		assertEquals(ciReq.getBillingAddress().getCountry(), ci.getBillingAddress().getCountry());
+
+		assertEquals(ciReq.getShippingAddress().getFirstname(), ci.getShippingAddress().getFirstname());
+		assertEquals(ciReq.getShippingAddress().getLastname(), ci.getShippingAddress().getLastname());
+		assertEquals(ciReq.getShippingAddress().getAddress(), ci.getShippingAddress().getAddress());
+		assertEquals(ciReq.getShippingAddress().getCity(), ci.getShippingAddress().getCity());
+		assertEquals(ciReq.getShippingAddress().getRegion(), ci.getShippingAddress().getRegion());
+		assertEquals(ciReq.getShippingAddress().getPostal(), ci.getShippingAddress().getPostalCode());
+		assertEquals(ciReq.getShippingAddress().getCountry(), ci.getShippingAddress().getCountry());
+
+		assertNull(result.getBody().getMerchantErrorMessage());
+		assertNull(result.getBody().getCardHolderErrorMessage());
+		assertEquals("Success", result.getBody().getResult());
 	}
 }
