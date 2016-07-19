@@ -23,7 +23,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	public void setUp()
 		throws Exception, Throwable
 	{
-		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.pensio.com/");
+		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.earth.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername","shop api");
 		String password = System.getProperty("pensio.TestApiPassword","testpassword");
 		api = new PensioProcessorAPI(apiUrl, username, password);
