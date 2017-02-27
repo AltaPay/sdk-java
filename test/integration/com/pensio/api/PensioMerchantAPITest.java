@@ -256,7 +256,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 										new CustomerInfoAddress()
 												.setAddress("some street")
 												.setCity("Some city")
-												.setCountry("Some country")
+												.setCountry("DK")
 												.setFirstname("first name")
 												.setLastname("last name")
 												.setPostal("1234")
@@ -340,7 +340,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
 		billingAddress.setAddress("some address");
 		billingAddress.setCity("city");
-		billingAddress.setCountry("country");
+		billingAddress.setCountry("US");
 		billingAddress.setFirstname("first");
 		billingAddress.setLastname("last");
 		billingAddress.setRegion("region");
@@ -350,7 +350,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		CustomerInfoAddress shippingAddress = new CustomerInfoAddress();
 		shippingAddress.setAddress("ship some address");
 		shippingAddress.setCity("ship city");
-		shippingAddress.setCountry("ship country");
+		shippingAddress.setCountry("BR");
 		shippingAddress.setFirstname("ship first");
 		shippingAddress.setLastname("ship last");
 		shippingAddress.setRegion("ship region");
