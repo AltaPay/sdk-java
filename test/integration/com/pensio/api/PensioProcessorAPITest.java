@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
+import java.util.List;
 
+import com.pensio.api.generated.RedirectResponseDataItem;
 import com.pensio.api.request.*;
 
 import org.junit.Before;
@@ -249,9 +251,9 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		APIResponse result = api.reservationOfFixedAmount(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
-		assertEquals("WorkingPaReq", result.getBody().getPaReq());
-		assertTrue(result.getBody().getRedirectUrl().contains("://testbank."));
-		assertTrue(result.getBody().getRedirectUrl().contains("/ThreeDSecure"));
+		assertEquals("WorkingPaReq", getRedirectResponseDataItem(result, "PaReq").getValue());
+		assertTrue(result.getBody().getRedirectResponse().getUrl().contains("://testbank."));
+		assertTrue(result.getBody().getRedirectResponse().getUrl().contains("/ThreeDSecure"));
 	}
 
 	/*
@@ -267,9 +269,22 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		APIResponse result = api.reservationOfFixedAmountAndCapture(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
-		assertEquals("WorkingPaReq", result.getBody().getPaReq());
-		assertTrue(result.getBody().getRedirectUrl().contains("://testbank."));
-		assertTrue(result.getBody().getRedirectUrl().contains("/ThreeDSecure"));
+		assertEquals("WorkingPaReq", getRedirectResponseDataItem(result, "PaReq").getValue());
+		assertTrue(result.getBody().getRedirectResponse().getUrl().contains("://testbank."));
+		assertTrue(result.getBody().getRedirectResponse().getUrl().contains("/ThreeDSecure"));
+	}
+
+	private RedirectResponseDataItem getRedirectResponseDataItem(APIResponse result, String key)
+	{
+		List<RedirectResponseDataItem> list = result.getBody().getRedirectResponse().getData().getItem();
+
+		for (RedirectResponseDataItem item: list) {
+			if (item.getKey().equals(key)) {
+				return item;
+			}
+		}
+
+		return null;
 	}
 
 	/*
@@ -303,7 +318,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("Invalid parameter, transactionId should be numeric"));
+		assertTrue(message.contains("Parameter 'transactionId' value is invalid."));
 
 	}
 
@@ -323,7 +338,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("Invalid parameter, transactionId should be numeric"));
+		assertTrue(message.contains("Parameter 'transactionId' value is invalid."));
 	}
 	
 	@Test

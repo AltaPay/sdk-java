@@ -34,9 +34,9 @@ public class RequestFactory
 		return new PaymentReservationRequest(shopOrderId, terminal, amount);
 	}
 
-	public Verify3dRequest getVerify3dRequest(String transactionId, String paRes, String md)
+	public Verify3dRequest getVerify3dRequest(String transactionId, String paRes)
 	{
-		return new Verify3dRequest(transactionId, paRes, md);
+		return new Verify3dRequest(transactionId, paRes);
 	}
 
 	public TransactionsRequest getTransactionsRequest(String transactionId)

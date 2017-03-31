@@ -72,7 +72,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transactionId", request.getTransactionId());
 		addParam(params, "3DSecureRegular[paRes]", request.getPaRes());
-		addParam(params, "3DSecureRegular[MD]", request.getMd());
+		addParam(params, "3DSecureRegular[MD]", request.getTransactionId());
 
 		return getAPIResponse("verify3dSecure", params);
 	}
