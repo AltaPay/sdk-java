@@ -1,0 +1,18 @@
+//TODO: THIS BUILD SCRIPT IS NOT COMPLETE (CODE GENERATION, META-INF/sdk.version GENERATION AND BUILDING THE RELEASE PACKAGE ARE NOT IMPLEMENTED).
+//TODO: IT IS CREATED TO SIMPLIFY RUNNING THE INTEGRATION TESTS. IT WORKS WITHOUT ADDITIONAL CONFIGURATION BY RUNNING 'gradle integration'.
+//TODO: IT CAN BE USED AS A BASE FOR COMPLETE MIGRATION FROM ANT
+
+
+buildscript {
+	repositories.maven { url getProperty('pensio.repository') }
+	dependencies { classpath 'com.pensio:PensioGradleMaster:1.0-SNAPSHOT' }
+}
+
+apply plugin: 'com.pensio.master'
+
+group = 'com.pensio'
+
+dependencies{
+	compile(group: 'com.csvreader', name: 'javacsv', version: '1.0')
+	compile(group: 'commons-codec', name: 'commons-codec', version: '1.6')
+}
