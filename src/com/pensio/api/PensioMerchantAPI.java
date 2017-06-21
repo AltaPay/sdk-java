@@ -62,6 +62,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		return getAPIResponse("createInvoiceReservation", params);
 	}
+
+	public APIResponse updateOrder(UpdateOrderRequest request) throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+
+		setUpdateOrderRequestParameters (request, params);
+
+		return getAPIResponse("updateOrder", params);
+	}
 	
 	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
 	{
@@ -91,7 +100,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "invoice_number", request.getInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
 		OrderLine[] orderLines = request.getOrderLines();
-		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++)
+		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++) // TODO REPLACE BY METHOD addOrderLines
 		{
 			OrderLine orderLine = orderLines[orderLineIdx];
 			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
@@ -114,7 +123,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		OrderLine[] orderLines = request.getOrderLines();
-		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++)
+		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++) // TODO REPLACE BY METHOD addOrderLines
 		{
 			OrderLine orderLine = orderLines[orderLineIdx];
 			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
@@ -333,7 +342,16 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	}
 
+	protected void setUpdateOrderRequestParameters(
+			UpdateOrderRequest request
+			, HashMap<String, String> params)
+	{
 
+		// Mandatory arguments
+		addParam(params, "payment_id", request.getPaymentId());
+		addOrderLines("orderLines", params, request.getOrderLines());
+
+	}
 
 	protected APIResponse getAPIResponse(String method,
 			Map<String, String> postVars) throws PensioAPIException 
@@ -341,13 +359,8 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		try 
 		{
-//			System.out.println(this.baseURL+getAppAPIPath()+method);
-//			System.out.println(postVars);
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password, getSdkVersion());
-//			System.out.println(getString(inStream));
-			
-//			return null;
-			
+
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
 			
@@ -510,6 +523,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, prepend+"["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
             addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
             addParam(params, prepend+"["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
+			addParam(params, prepend+"["+orderLineIdx+"][imageUrl]", orderLine.getImageUrl());
             orderLineIdx++;
         }
 	}

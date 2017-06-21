@@ -4,7 +4,7 @@ public class OrderLine {
 	public enum TaxType
 	{
 		AMOUNT("taxAmount")
-		, PERCENT("taxPercent"); 
+		, PERCENT("taxPercent"); // TODO IN THE NEW GATEWAY IT IS POSSIBLE TO DECLARE BOTH TAX TYPES AT THE SAME TIME
 		
 		private final String name;
 
