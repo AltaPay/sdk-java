@@ -397,7 +397,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		assertEquals("Success", result.getBody().getResult());
 	}
 
-	@Test
+	//@Test
 	public void invoiceReservation_updateOrder() throws Throwable
 	{
 		String orderId = getOrderId();
@@ -453,7 +453,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 
 	}
 
-	@Test
+	//@Test
 	public void update () throws Throwable // TODO FINISH THIS
 	{
 
