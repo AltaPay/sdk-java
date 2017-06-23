@@ -3,10 +3,10 @@ package com.pensio.api;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 
 import com.pensio.api.generated.*;
 import com.pensio.api.request.*;
@@ -41,9 +41,9 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	public void setUp() 
 		throws Exception 
 	{
-		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.earth.pensio.com/");
-		String username = System.getProperty("pensio.TestApiUsername","shop api");
-		String password = System.getProperty("pensio.TestApiPassword","testpassword");
+		String apiUrl = System.getProperty("pensio.TestUrl", "http://gateway.dev.earth.pensio.com/");
+		String username = System.getProperty("pensio.TestApiUsername", "shop api");
+		String password = System.getProperty("pensio.TestApiPassword", "testpassword");
 		api = new PensioMerchantAPI(apiUrl, username, password);
 	}
 
@@ -395,5 +395,94 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		assertNull(result.getBody().getMerchantErrorMessage());
 		assertNull(result.getBody().getCardHolderErrorMessage());
 		assertEquals("Success", result.getBody().getResult());
+	}
+
+	@Test
+	public void invoiceReservation_updateOrder() throws Throwable
+	{
+		String orderId = getOrderId();
+
+		PaymentRequest request = new PaymentRequest(orderId, "AltaPay Klarna DK", Amount.get(2.0, Currency.DKK));
+
+		request.setAuthType(AuthType.payment);
+
+		OrderLine ol = new OrderLine("desc", "id", 1, 2.0);
+		//ol.setTaxPercent(10);
+		//ol.setUnitCode("code");
+		//ol.setDiscount(99);
+		ol.setGoodsType("Item");
+		request.setOrderLines(Arrays.asList(ol));
+
+		CustomerInfo customerInfo = new CustomerInfo();
+		customerInfo.setEmail("myuser@mymail.com");
+		customerInfo.setUsername("myuser");
+		customerInfo.setCustomerPhone("20123456");
+		customerInfo.setBankName("My Bank");
+		customerInfo.setBankPhone("+45 12-34 5678");
+
+		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
+		billingAddress.setAddress("Sæffleberggate 56,1 mf");
+		billingAddress.setCity("Varde");
+		billingAddress.setCountry("DK");
+		billingAddress.setFirstname("Testperson-dk");
+		billingAddress.setLastname("Approved");
+		billingAddress.setRegion("DK");
+		billingAddress.setPostal("6800");
+		customerInfo.setBillingAddress(billingAddress);
+		customerInfo.setShippingAddress(billingAddress);
+
+		request.setCustomerInfo(customerInfo);
+
+		PaymentRequestResponse result = api.createPaymentRequest(request);
+
+		assertNotNull(result.getUrl());
+
+		String url = result.getUrl().toString();
+
+		doPost(url, new HashMap<String, String>()); // accessing requestForm
+
+		url = url.replace("requestForm", "invoiceInitialize");
+
+		doPost(url + "&personalIdentifyNumber=0801363945", new HashMap<String, String>()); // accessing invoiceInitialize with a Klarna test social security number
+
+		APIResponse captureResult = api.capture(
+				new CaptureReservationRequest(result.getPaymentRequestId())
+		);
+
+		assertEquals("Success",captureResult.getBody().getResult()); // TODO CAPTURE AND UPDATE??
+
+	}
+
+	@Test
+	public void update () throws Throwable // TODO FINISH THIS
+	{
+
+		OrderLine ol1 = new OrderLine("description 1", "id01", 1, 1.1);
+		OrderLine ol2 = new OrderLine("new item", "new id", -1, 1.1);
+
+		UpdateOrderRequest req = new UpdateOrderRequest("11", Arrays.asList(ol1, ol2));
+
+		APIResponse result = api.updateOrder(req);
+
+		assertNotNull(result);
+
+	}
+
+	protected void doPost(String method, Map<String, String> postVars) throws PensioAPIException
+	{
+
+		try
+		{
+			HTTPHelper httpHelper = new HTTPHelper();
+
+			/*InputStream inStream =*/ httpHelper.doPost(method, postVars, null, null, SdkVersion.current());
+
+			//BufferedReader reader = new BufferedReader(new InputStreamReader((inStream)));
+
+		}
+		catch (Exception e)
+		{
+			throw new PensioAPIException(e);
+		}
 	}
 }
