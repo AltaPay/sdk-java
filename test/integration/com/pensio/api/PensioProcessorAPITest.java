@@ -248,7 +248,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		PaymentReservationRequest request = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
 		request.setSource(PaymentSource.eCommerce).setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("111"));
 
-		APIResponse result = api.reservationOfFixedAmount(request);
+		APIResponse result = api.reservation(request);
 		
 		assertEquals("3dSecure", result.getBody().getResult());
 		assertEquals("WorkingPaReq", getRedirectResponseDataItem(result, "PaReq").getValue());
@@ -494,7 +494,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 		}
 		else
 		{
-			result = api.reservationOfFixedAmount(request);
+			result = api.reservation(request);
 		}
 		
 		return result.getBody().getTransactions().getTransaction().get(0).getTransactionId();

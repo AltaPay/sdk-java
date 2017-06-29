@@ -40,6 +40,10 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		return getAPIResponse("initiatePayment", setBaseInitiateParams(paymentRequest));
 	}
 
+	/**
+	 *
+	 * @deprecated use {@link #reservation(PaymentReservationRequest)} instead
+	 */
 	public APIResponse reservationOfFixedAmount(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
@@ -49,6 +53,17 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		}
 
 		return getAPIResponse("reservationOfFixedAmount", setBaseInitiateParams(paymentRequest));
+	}
+
+	public APIResponse reservation(PaymentReservationRequest paymentRequest)
+			throws PensioAPIException
+	{
+		if(paymentRequest.getCreditCard() == null)
+		{
+			throw new PensioAPIException("A credit card must be supplied");
+		}
+
+		return getAPIResponse("reservation", setBaseInitiateParams(paymentRequest));
 	}
 
 	public APIResponse reservationOfFixedAmountAndCapture(PaymentReservationRequest paymentRequest)
