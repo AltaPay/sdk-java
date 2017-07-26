@@ -51,4 +51,13 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 
 	}
 
+	@Test
+	public void ParsePostBackXmlResponse_ReadPaymentId() throws PensioAPIException, IOException
+	{
+		String xmlResponse = readFile("test/unit/com/pensio/api/txt/ReasonCode.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+		Assert.assertEquals("17794956-9bb6-4854-9712-bce5931e6e3a", response.getBody().getTransactions().getTransaction().get(0).getPaymentId());
+
+	}
+
 }
