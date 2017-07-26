@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE project>
-<project name="pensio_java_api" default="jar">
+<project name="AltapayJavaApi" default="jar">
+
 	<import file="build-common.xml"/>
 	
 	<property name="testUrl" value="http://cigateway.mars.pensio.com/" />
@@ -46,9 +47,11 @@
 	</target>	
 
 	<target name="PensioRelease">
-		<tstamp>
-            <format property="pensio.release" pattern="yyyyMMdd" locale="en,GB"/>
-        </tstamp>
+		<exec executable="sh" outputproperty="pensio.release">
+			<arg value="-c" />
+			<arg value="svn info | grep 'Last Changed Date: ' | sed -E 's/Last Changed Date: (.{4}-.{2}-.{2}) .+/\1/'" />
+		</exec>
+		<echo message="Pensio release: ${pensio.release}"></echo>
 	</target>
 
 	<target name="PensioRevision">
@@ -57,6 +60,7 @@
 			<arg value="-c" />
 			<arg value="svn info | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'" />
 		</exec>
+		<echo message="Pensio revision: ${pensio.revision}"></echo>
 	</target>
 
 	<target name="sdkVersion" depends="CopyMetaInf,PensioRelease">
@@ -98,9 +102,6 @@
 				<filename name="*.jar"/>
 			</zipfileset>
 			<zipfileset dir=".">
-				<filename name="src/**/*.java"/>
-			</zipfileset>
-			<zipfileset dir="../PensioBaseLibrary/">
 				<filename name="src/**/*.java"/>
 			</zipfileset>
 		</zip>
