@@ -1,26 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE project>
-<project name="AltapayJavaApi" default="jar">
-
+<project name="AltapayJavaSDK" default="jar">
 	<import file="build-common.xml"/>
-	
 	<property name="testUrl" value="http://cigateway.mars.pensio.com/" />
-	
 	<property name="xsdUrl" value="http://cigateway.mars.pensio.com/" />
-
-		<property name="outputdirs" value="build,devbuild,output,dependencylib" />
+	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
 	<property name="local_dependencies" value="" />
+
 	<path id="CompileSource_classpath">
 		<fileset dir="lib/" includes="*.jar" />
 		<fileset dir="dependencylib/" includes="*.jar" />
 	</path>
+
 	<path id="CompileSource_source">
 		<path path="src/"/>
 		<path path="generated/"/>
 	</path>
+
 	<path id="CompileSourceDev_classpath">
 		<fileset dir="devlib/" includes="*.jar" />
 	</path>
+
 	<path id="CompileSourceDev_source">
 	    <path path="test/integration/"/>
 	</path>
@@ -46,31 +46,18 @@
 		</exec>
 	</target>	
 
-	<target name="PensioRelease">
-		<exec executable="sh" outputproperty="pensio.release">
-			<arg value="-c" />
-			<arg value="svn info | grep 'Last Changed Date: ' | sed -E 's/Last Changed Date: (.{4}-.{2}-.{2}) .+/\1/'" />
-		</exec>
-		<echo message="Pensio release: ${pensio.release}"></echo>
+	<target name="-InitializeRelease">
+		<tstamp>
+			<format property="altapay.release" pattern="yyyyMMdd" locale="en,GB"/>
+		</tstamp>
 	</target>
 
-	<target name="PensioRevision">
-		<!-- Calculate the revision -->
-		<exec executable="sh" outputproperty="pensio.revision">
-			<arg value="-c" />
-			<arg value="svn info | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'" />
-		</exec>
-		<echo message="Pensio revision: ${pensio.revision}"></echo>
-	</target>
-
-	<target name="sdkVersion" depends="CopyMetaInf,PensioRelease">
-		<echo file="build/META-INF/sdk.version">JavaSDK/${pensio.release}</echo>
+	<target name="sdkVersion" depends="CopyMetaInf,-InitializeRelease">
+		<echo file="build/META-INF/sdk.version">JavaSDK/${altapay.release}</echo>
 	</target>
 	
 	<target name="jar" depends="sdkVersion,GenerateSource,CompileSource">
-
-		
-		<jar destfile="output/pensio_java_api.jar">
+		<jar destfile="output/javaSDK.jar">
 			<fileset dir="build">
 				<include name="**/*"/>
 			</fileset>
@@ -92,9 +79,9 @@
 		<mkdir dir="dist" />
 	</target>
 	
-	<target name="DistZip" depends="-EnsureDist,PensioRelease,PensioRevision,jar">
-		<zip destfile="dist/${ant.project.name}_${pensio.release}_r${pensio.revision}.zip">
-			<zipfileset dir="output" includes="pensio_java_api.jar" prefix="lib/" />
+	<target name="DistZip" depends="-EnsureDist,-InitializeRelease,jar">
+		<zip destfile="dist/${ant.project.name}_${altapay.release}.zip">
+			<zipfileset dir="output" includes="javaSDK.jar" prefix="lib/" />
 			<zipfileset dir=".">
 				<filename name="lib/*.jar"/>
 			</zipfileset>
