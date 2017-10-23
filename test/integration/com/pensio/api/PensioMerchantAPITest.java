@@ -41,7 +41,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	public void setUp() 
 		throws Exception 
 	{
-		String apiUrl = System.getProperty("pensio.TestUrl", "http://gateway.dev.earth.pensio.com/");
+		String apiUrl = System.getProperty("pensio.TestUrl", "https://vmedev.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername", "shop api");
 		String password = System.getProperty("pensio.TestApiPassword", "testpassword");
 		api = new PensioMerchantAPI(apiUrl, username, password);
@@ -75,8 +75,10 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 				 new OrderLine("realultimatepower", "KungFuBoy", 1.123, 2.234)
 				,new OrderLine("nolikepirates", "Ninjaman", 4.456, 5.456)
 				};
-		
+		orderLines[0].setTaxAmount(3000);
+		orderLines[0].setTaxPercent(50);
 		String orderId = getOrderId();
+		System.out.println(orderId);
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))

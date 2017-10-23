@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import javax.xml.bind.JAXBException;
 
 import com.csvreader.CsvReader;
 import com.pensio.Amount;
+import com.pensio.TaxType;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.*;
 
@@ -100,19 +102,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "invoice_number", request.getInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
 		OrderLine[] orderLines = request.getOrderLines();
-		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++) // TODO REPLACE BY METHOD addOrderLines
-		{
-			OrderLine orderLine = orderLines[orderLineIdx];
-			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
-			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
-			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
-			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
-			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
-			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
-			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
-		}
-		
+		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
 		return getAPIResponse("captureReservation", params);
 	}
 
@@ -123,19 +113,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		OrderLine[] orderLines = request.getOrderLines();
-		for(int orderLineIdx=0; orderLineIdx<orderLines.length; orderLineIdx++) // TODO REPLACE BY METHOD addOrderLines
-		{
-			OrderLine orderLine = orderLines[orderLineIdx];
-			addParam(params, "orderLines["+orderLineIdx+"][description]", orderLine.getDescription());
-			addParam(params, "orderLines["+orderLineIdx+"][itemId]", orderLine.getItemId());
-			addParam(params, "orderLines["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
-			addParam(params, "orderLines["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-			addParam(params, "orderLines["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
-			addParam(params, "orderLines["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
-			addParam(params, "orderLines["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
-			addParam(params, "orderLines["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
-		}
-		
+		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
 		return getAPIResponse("refundCapturedReservation", params);
 	}
 	
@@ -518,8 +496,12 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, prepend+"["+orderLineIdx+"][itemId]", orderLine.getItemId());
             addParam(params, prepend+"["+orderLineIdx+"][quantity]", String.valueOf(orderLine.getQuantity()));
             addParam(params, prepend+"["+orderLineIdx+"][unitPrice]", String.valueOf(orderLine.getUnitPrice()));
-            addParam(params, prepend+"["+orderLineIdx+"]["+orderLine.getTaxType().getName()+"]", String.valueOf(orderLine.getTaxValue()));
-            addParam(params, prepend+"["+orderLineIdx+"][taxPercent]", String.valueOf(orderLine.getTaxPercent()));
+            if(orderLine.getTaxAmount()>0){
+            	addParam(params, prepend+"["+orderLineIdx+"]["+TaxType.AMOUNT.getName()+"]", String.valueOf(orderLine.getTaxAmount()));
+            }
+            if(orderLine.getTaxPercent()>0){
+            	addParam(params, prepend+"["+orderLineIdx+"]["+TaxType.PERCENT.getName()+"]", String.valueOf(orderLine.getTaxPercent()));
+            }                        
             addParam(params, prepend+"["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
             addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
             addParam(params, prepend+"["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());

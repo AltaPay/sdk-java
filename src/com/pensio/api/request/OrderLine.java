@@ -1,23 +1,6 @@
 package com.pensio.api.request;
 
 public class OrderLine {
-	public enum TaxType
-	{
-		AMOUNT("taxAmount")
-		, PERCENT("taxPercent"); // TODO IN THE NEW GATEWAY IT IS POSSIBLE TO DECLARE BOTH TAX TYPES AT THE SAME TIME
-		
-		private final String name;
-
-		private TaxType(String name)
-		{ 
-			this.name = name; 
-		}
-
-		public String getName() 
-		{
-			return name;
-		}
-	};
 	
 	//Mandatory fields
 	private String description;
@@ -26,8 +9,8 @@ public class OrderLine {
 	private double unitPrice;
 
 	//Optional fields
-	private TaxType taxType;
-	private double taxValue;
+	private double taxPercent;
+	private double taxAmount;
 	private String unitCode;
 	private double discount;
 	private String goodsType;
@@ -39,18 +22,10 @@ public class OrderLine {
 		this.itemId = itemId;
 		this.quantity = quantity;
 		this.unitPrice = unit;
-		taxType = TaxType.AMOUNT;
+		this.taxPercent = 0;
+		this.taxAmount = 0;
 	}
 
-	public TaxType getTaxType() 
-	{
-		return taxType;
-	}
-	
-	public double getTaxValue()
-	{
-		return taxValue;
-	}
 	
 	public String getDescription() {
 		return description;
@@ -83,19 +58,26 @@ public class OrderLine {
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-
-	public double getTaxPercent() {
-		return taxValue;
-	}
 	
-	/**
-	 * You can only specify one tax value so setting this as taxPercent will overwrite any previously set taxAmount
-	 * @param taxPercent
-	 */
-	public void setTaxPercent(double taxPercent) {
-		taxValue = taxPercent;
-		taxType = TaxType.PERCENT;
+	
+	public double getTaxPercent() {
+		return taxPercent;
 	}
+
+
+	public void setTaxPercent(double taxPercent) {
+		this.taxPercent = taxPercent;
+	}
+
+	public double getTaxAmount() {
+		return taxAmount;
+	}
+
+
+	public void setTaxAmount(double taxAmount) {
+		this.taxAmount = taxAmount;
+	}
+
 
 	public String getUnitCode() {
 		return unitCode;
@@ -121,19 +103,6 @@ public class OrderLine {
 		this.goodsType = goodsType;
 	}
 
-	public double getTaxAmount() {
-		return taxValue;
-	}
-
-	/**
-	 * You can only specify one tax value so setting this as taxAmount will overwrite any previously set taxPercent
-	 * @param taxAmount
-	 */
-	public void setTaxAmount(double taxAmount) {
-			taxValue = taxAmount;
-			taxType = TaxType.AMOUNT;
-	}
-	
 	public String getImageUrl() {
 		return imageUrl;
 	}
