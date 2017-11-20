@@ -28,7 +28,7 @@ public class ComplexCreatePaymentRequestExample {
 		pr.setShopOrderId(getRandonString());		
 		pr.setOrderLines(createOrderLines());
 		pr.setCustomerInfo(createCustomerInfo());
-		PaymentRequestResponse response = api.createPaymentRequest(pr);
+		PaymentRequestResponse response = api.createPaymentRequest(pr);		
 		System.out.println("url: " + response.getUrl() + "\npaymentRequestId: " + response.getPaymentRequestId());
 
 		

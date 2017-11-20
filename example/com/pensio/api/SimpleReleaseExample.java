@@ -32,16 +32,16 @@ public class SimpleReleaseExample {
 		Transaction transaction = transactionsList.get(0);
 
 		//result of the request
-		System.out.println(result);
+		System.out.println("release result: "+result);
 		
 		//if result is error, error message would be fulfilled else it's null
-		System.out.println(body.getMerchantErrorMessage());
+//		System.out.println(body.getMerchantErrorMessage());
 		
 		//transaction ID
-		System.out.println(transaction.getTransactionId());
+//		System.out.println(transaction.getTransactionId());
 		
 		//total captured amount and currency from transaction
-		System.out.println(transaction.getCapturedAmount() +" "+ transaction.getCardHolderCurrencyAlpha());
+//		System.out.println(transaction.getCapturedAmount() +" "+ transaction.getCardHolderCurrencyAlpha());
 	}	
 	
 	private static String createReservation() {		

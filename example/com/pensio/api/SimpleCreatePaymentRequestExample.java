@@ -24,7 +24,6 @@ public class SimpleCreatePaymentRequestExample {
 	}
 	
 	public static String createPayment() throws AmountConversionException, PensioAPIException{
-		System.out.println("createPayment called");
 		PensioMerchantAPI api = new PensioMerchantAPI(pgwUrl, user, password);
 		PaymentRequest pr = new PaymentRequest();
 		pr.setTerminal("AltaPay Test Terminal");

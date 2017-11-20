@@ -41,7 +41,7 @@ public class SimpleCreateReservationExample {
 		List<Transaction> transactionsList = transactions.getTransaction();
 		Transaction transaction = transactionsList.get(0);
 		String transactionId = transaction.getTransactionId();
-		System.out.println(result);
+		System.out.println("create reservation result: "+result);
 		return transactionId;
 	}
 	
