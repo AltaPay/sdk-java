@@ -60,4 +60,12 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 
 	}
 
+	@Test
+	public void ParsePostBackXmlResponse_ReadPaymentSource() throws PensioAPIException, IOException
+	{
+		String xmlResponse = readFile("test/unit/com/pensio/api/txt/PaymentSource.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+		Assert.assertEquals("eCommerce", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
+	}
+
 }
