@@ -67,6 +67,9 @@
 			<fileset dir="generated">
 				<include name="**/*.java"/>
 			</fileset>
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
 		</jar>
 
 		<copy todir="output/">
