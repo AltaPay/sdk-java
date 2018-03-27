@@ -68,4 +68,19 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 		Assert.assertEquals("eCommerce", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
 	}
 
+	@Test
+	public void ParsePostBackXmlResponse_WrongPaymentSource() throws PensioAPIException, IOException
+	{
+		String xmlResponse = readFile("test/unit/com/pensio/api/txt/PaymentSource.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+		Assert.assertFalse("eCommerce_without3ds" == response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
+	}
+
+	@Test
+	public void ParsePostBackXmlResponse_ReadECommerceWithout3dSecurePaymentSource() throws PensioAPIException, IOException
+	{
+		String xmlResponse = readFile("test/unit/com/pensio/api/txt/PaymentSourceECommerceWithout3dSecure.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+		Assert.assertEquals("eCommerce_without3ds", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
+	}
 }
