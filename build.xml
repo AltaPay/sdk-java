@@ -25,12 +25,16 @@
 	    <path path="test/integration/"/>
 	</path>
 
+	<path id="CompileSourceDevUnit_source">
+		<path path="test/unit/"/>
+	</path>
+
 	<target name="CopyMetaInf">
 		<copy todir="build/">
 			<fileset dir="src/" includes="**/*.version" />
 		</copy>
 	</target>
-	
+
 	<target name="GenerateSource">
 		<exec command="wget" failifexecutionfails="true">
 			<arg value="${xsdUrl}APIResponse.xsd"/>
@@ -44,7 +48,7 @@
 			<arg value="com.pensio.api.generated"/>
 			<arg value="APIResponse.xsd"/>
 		</exec>
-	</target>	
+	</target>
 
 	<target name="-InitializeRelease">
 		<tstamp>
@@ -55,9 +59,9 @@
 	<target name="sdkVersion" depends="CopyMetaInf,-InitializeRelease">
 		<echo file="build/META-INF/sdk.version">JavaSDK/${altapay.release}</echo>
 	</target>
-	
+
 	<target name="jar" depends="sdkVersion,GenerateSource,CompileSource">
-		<jar destfile="output/javaSDK.jar">
+		<jar destfile="output/javaSDK_${altapay.release}.jar">
 			<fileset dir="build">
 				<include name="**/*"/>
 			</fileset>
@@ -73,7 +77,7 @@
 		</jar>
 
 		<copy todir="output/">
-			<fileset dir="lib/" includes="*.jar" />	
+			<fileset dir="lib/" includes="*.jar" />
 		</copy>
 	</target>
 
@@ -81,7 +85,7 @@
 		<delete dir="dist" />
 		<mkdir dir="dist" />
 	</target>
-	
+
 	<target name="DistZip" depends="-EnsureDist,-InitializeRelease,jar">
 		<zip destfile="dist/${ant.project.name}_${altapay.release}.zip">
 			<zipfileset dir="output" includes="javaSDK.jar" prefix="lib/" />
@@ -96,11 +100,11 @@
 			</zipfileset>
 		</zip>
 	</target>
-	
+
 	<target name="UnitTests" depends="sdkVersion,GenerateSource,CompileSource">
 		<delete dir="output/unit_tests" />
 		<mkdir dir="output/unit_tests" />
-		
+
 		<junit>
 			<classpath>
 				<pathelement path="build" />
@@ -111,7 +115,7 @@
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="output/unit_tests">
-				<fileset dir="test/unit/" includes="**/*Test.java" />
+				<fileset dir="test/unit/" includes="**/*Tests.java" />
 			</batchtest>
 		</junit>
 	</target>

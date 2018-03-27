@@ -108,7 +108,7 @@
 		</javac>
 		<echo taskname="${ant.project.name}">Compiling Dev source</echo>
 
-		<javac 
+		<javac
 			destdir="devbuild" 
 			debug="true" 
 			target="1.7" 
@@ -119,6 +119,7 @@
 			<classpath refid="CompileSourceDev_classpath" />
 			<classpath path="build" />
 			<src refid="CompileSourceDev_source" />
+			<src refid="CompileSourceDevUnit_source" />
 		</javac>
 	</target>
 	
