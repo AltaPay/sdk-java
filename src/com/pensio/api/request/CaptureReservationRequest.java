@@ -22,6 +22,12 @@ public class CaptureReservationRequest
 		return paymentId;
 	}
 
+    // Added as support to the old implementation to avoid an immediate action from any external party
+    public String getPaymentId()
+	{
+		return transactionId;
+	}
+
 	public Amount getAmount()
 	{
 		return amount;
