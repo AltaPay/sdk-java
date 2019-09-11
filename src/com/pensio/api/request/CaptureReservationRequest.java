@@ -4,22 +4,22 @@ import com.pensio.Amount;
 
 public class CaptureReservationRequest
 {
-	private String paymentId;				// Required
+	private String transactionId;				// Required
 	private Amount amount;					// Optional
 	private String reconciliationIdentifier;// Optional
 	private String invoiceNumber;			// Optional
 	private String salesTax;				// Optional
 	private OrderLine[] orderLines;			// Optional
 	
-	public CaptureReservationRequest(String paymentId)
+	public CaptureReservationRequest(String transactionId)
 	{
-		this.paymentId = paymentId;
+		this.transactionId = transactionId;
 		this.orderLines = new OrderLine[0];
 	}
 
-	public String getPaymentId()
+	public String getTransactionId()
 	{
-		return paymentId;
+		return transactionId;
 	}
 
     // Added as support to the old implementation to avoid an immediate action from any external party
