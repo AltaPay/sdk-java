@@ -1,0 +1,4 @@
+*Version: 20190911
+    - Extended the support for queryGiftCard API endpoint
+    - Added the possibility of fetching the terminals from the payment gateway
+    - Correction in CaptureReservationRequest: getPaymentId replaced by getTransactionId
