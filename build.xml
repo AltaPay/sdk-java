@@ -2,8 +2,8 @@
 <!DOCTYPE project>
 <project name="AltapayJavaSDK" default="jar">
 	<import file="build-common.xml"/>
-	<property name="testUrl" value="http://cigateway.mars.pensio.com/" />
-	<property name="xsdUrl" value="http://cigateway.mars.pensio.com/" />
+	<property name="testUrl" value="https://cigateway.iteron.org/" />
+	<property name="xsdUrl" value="https://cigateway.iteron.org/" />
 	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
 	<property name="local_dependencies" value="" />
 
@@ -36,7 +36,7 @@
 	</target>
 
 	<target name="GenerateSource">
-		<exec command="wget" failifexecutionfails="true">
+		<exec command="wget --no-check-certificate" failifexecutionfails="true">
 			<arg value="${xsdUrl}APIResponse.xsd"/>
 			<arg value="-O"/>
 			<arg value="APIResponse.xsd"/>
