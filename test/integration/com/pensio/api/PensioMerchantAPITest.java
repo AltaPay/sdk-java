@@ -41,7 +41,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	public void setUp() 
 		throws Exception 
 	{
-		String apiUrl = System.getProperty("pensio.TestUrl", "https://vmedev.pensio.com/");
+		String apiUrl = System.getProperty("pensio.TestUrl", "http://gateway.dev.earth.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername", "shop api");
 		String password = System.getProperty("pensio.TestApiPassword", "testpassword");
 		api = new PensioMerchantAPI(apiUrl, username, password);

@@ -2,8 +2,8 @@
 <!DOCTYPE project>
 <project name="AltapayJavaSDK" default="jar">
 	<import file="build-common.xml"/>
-	<property name="testUrl" value="https://cigateway.iteron.org/" />
-	<property name="xsdUrl" value="https://cigateway.iteron.org/" />
+	<property name="testUrl" value="https://cigateway.pensio.mars.com/" />
+	<property name="xsdUrl" value="https://cigateway.pensio.mars.com/" />
 	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
 	<property name="local_dependencies" value="" />
 
@@ -123,7 +123,7 @@
 	<target name="IntegrationTests" depends="sdkVersion,GenerateSource,CompileSource">
 		<delete dir="output/integration_tests" />
 		<mkdir dir="output/integration_tests" />
-		<junit>
+		<junit fork="true">
 			<sysproperty key="pensio.TestUrl" value="${testUrl}" />
 			<classpath>
 				<pathelement path="build" />
