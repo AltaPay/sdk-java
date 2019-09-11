@@ -1,24 +1,19 @@
 package com.pensio.api;
 
-import java.io.InputStream;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-
 import com.csvreader.CsvReader;
 import com.pensio.Amount;
 import com.pensio.TaxType;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.*;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
 {
@@ -96,7 +91,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		addParam(params, "transaction_id", request.getPaymentId());
+		addParam(params, "transaction_id", request.getTransactionId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		addParam(params, "invoice_number", request.getInvoiceNumber());
@@ -142,6 +137,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "page", String.valueOf(request.getPage()));
 		
 		return getAPIResponse("fundingList", params);
+	}
+
+	public APIResponse getTerminals() throws PensioAPIException {
+		return getAPIResponse("getTerminals", new HashMap<String, String>());
 	}
 	
 	public List<FundingRecord> downloadFunding(String downloadLink) throws PensioAPIException
@@ -221,9 +220,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public APIResponse queryGiftCard(PaymentReservationRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		addParam(params, "terminal", request.getTerminal());
-		addParam(params, "giftcard[token]", request.getGiftCardToken());
-		
+		if (request.getGiftCard() == null){
+            addParam(params, "terminal", request.getTerminal());
+            addParam(params, "giftcard[token]", request.getGiftCardToken());
+        }else{
+            addParam(params, "terminal", request.getTerminal());
+            addParam(params, "giftcard[account_identifier]", request.getGiftCard().getAccountIdentifier());
+            addParam(params, "giftcard[provider]", request.getGiftCard().getProvider());
+        }
+
 		return getAPIResponse("queryGiftCard", params);
 	}
 	
