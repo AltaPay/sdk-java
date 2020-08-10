@@ -13,20 +13,19 @@ cache:
   paths:
     - .gradle
 
-before_script:
-  - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
-
 build:
   stage: build
   artifacts:
     paths:
       - build/
   script:
-    - gradle --build-cache assemble
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+    - gradle releaseTar
 
 test-unit:
   stage: test
   script:
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
     - gradle test
   artifacts:
     reports:
@@ -35,18 +34,20 @@ test-unit:
 test-functional:
   stage: test
   script:
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
     - gradle functional
   artifacts:
     reports:
       junit: ["build/test-results/functional/TEST-*.xml"]
 
-test-integration:
-  stage: test
-  script:
-    - gradle integration
-  artifacts:
-    reports:
-      junit: ["build/test-results/integration/TEST-*.xml"]
+#test-integration:
+#  stage: test
+#  script:
+#    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+#    - gradle integration
+#  artifacts:
+#    reports:
+#      junit: ["build/test-results/integration/TEST-*.xml"]
 
 upload:
   image: $CI_REGISTRY/$DOCKER_IMAGE_NAMESPACE/rsync-buildmaster:latest
