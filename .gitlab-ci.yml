@@ -1,35 +1,58 @@
-image: gradle:4.6
+image: $CI_REGISTRY/$DOCKER_IMAGE_NAMESPACE/gradle-46:latest
+
+stages:
+  - build
+  - test
+  - upload
 
 # Disable the Gradle daemon to isolating each build.
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
-before_script:
-  - export GRADLE_USER_HOME=`pwd`/.gradle
+cache:
+  paths:
+    - .gradle
 
 build:
   stage: build
-  script:
-  - gradle --build-cache assemble
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
+  artifacts:
     paths:
-      - build
-      - .gradle
+      - build/
+  script:
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+    - gradle releaseTar
 
-test:
+test-unit:
   stage: test
   script:
-  - gradle check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+    - gradle test
   artifacts:
     reports:
-      junit: ["*/build/test-results/test/TEST-*.xml"]
+      junit: ["build/test-results/test/TEST-*.xml"]
 
+test-functional:
+  stage: test
+  script:
+    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+    - gradle functional
+  artifacts:
+    reports:
+      junit: ["build/test-results/functional/TEST-*.xml"]
 
+#test-integration:
+#  stage: test
+#  script:
+#    - /opt/altapay/create-gradle-properties.sh ${GRADLE_USERNAME} ${GRADLE_PASSWORD}
+#    - gradle integration
+#  artifacts:
+#    reports:
+#      junit: ["build/test-results/integration/TEST-*.xml"]
+
+upload:
+  image: $CI_REGISTRY/$DOCKER_IMAGE_NAMESPACE/rsync-buildmaster:latest
+  stage: upload
+  script:
+    - /opt/altapay/upload.sh build/distributions/*.tgz javasdk
+  only:
+    - master
