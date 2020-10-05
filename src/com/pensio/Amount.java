@@ -87,27 +87,32 @@ public class Amount
 
     private static long convertStringAmountToLongWithThreeDecimals(String amount)
             throws AmountConversionException
-    {
-        if(amount == null || amount.length() == 0)
-        {
-            return 0;
-        }
-        // Only allow digits of format:
-        //  000, .000, 000., 000.000
-        if (!amount.matches("^(\\d+|\\d*\\.\\d+|\\d+\\.\\d*)$"))
-        {
-            throw new AmountConversionException("Invalid amount: " + amount);
-        }
+	{
+		if(amount == null || amount.length() == 0)
+		{
+			return 0;
+		}
+		// Only allow digits of format:
+		//  000, .000, 000., 000.000 and negative
+		if(!amount.matches("^-?(\\d+|\\d*\\.\\d+|\\d+\\.\\d*)$"))
+		{
+			throw new AmountConversionException("Invalid amount: " + amount);
+		}
 
-        amount = amount.replaceAll("0+$", "");
-        String[] amountParts = amount.split("\\.");
+		amount = amount.replaceAll("0+$", "");
+		String[] amountParts = amount.split("\\.");
 
-        long digitPart = 0;
-        long decimalPart = 0;
+		long digitPart = 0;
+		long decimalPart = 0;
+		boolean isNegative = false;
+		if(amount.startsWith("-"))
+		{
+			isNegative = true;
+		}
 
         if (amountParts[0].length() > 0)
         {
-            digitPart = Long.parseLong(amountParts[0]);
+            digitPart = Long.parseLong(amountParts[0].replace("-", ""));
         }
         if (amountParts.length > 1)
         {
@@ -122,7 +127,12 @@ public class Amount
             decimalPart = Long.parseLong(amountParts[1]);
         }
 
-        return digitPart * 1000 + decimalPart;
+        long result = digitPart * 1000 + decimalPart;
+        if(isNegative)
+		{
+			result = -1*result;
+		}
+        return result;
     }
 
     private static String convertLongWithThreeDecimalsToStringWithTwoDecimals(long amount, Currency currency)
