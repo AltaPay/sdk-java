@@ -11,8 +11,10 @@ import com.pensio.api.generated.Transactions;
 import com.pensio.api.request.CaptureReservationRequest;
 
 public class SimplePartialCaptureExample {
-	
-	private static String pgwUrl = "https://vmedev.pensio.com/";
+
+	//This is the URL to connect to your gateway instance. If you are in doubt contact support.
+	//For test, use: testgateway.altapaysecure.com
+	private static String pgwUrl = "https://testgateway.altapaysecure.com/";
 	private static String user = "shop api";
 	private static String password = "testpassword";
 	
