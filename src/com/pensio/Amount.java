@@ -99,21 +99,34 @@ public class Amount
 			throw new AmountConversionException("Invalid amount: " + amount);
 		}
 
-		amount = amount.replaceAll("0+$", "");
-		String[] amountParts = amount.split("\\.");
+        boolean isNegative = false;
+        if (amount.startsWith("-"))
+        {
+            isNegative = true;
+        }
+        amount = amount.replace("-", "");
 
-		long digitPart = 0;
-		long decimalPart = 0;
-		boolean isNegative = false;
-		if(amount.startsWith("-"))
+        amount = amount.replaceAll("0+$", "");
+        String[] amountParts = amount.split("\\.");
+
+        if ("".equals(amountParts[0]))
+        {
+            amountParts[0] = "0";
+        }
+
+        long result = getLongFromStringParts(amount, amountParts);
+
+        if(isNegative)
 		{
-			isNegative = true;
+			result = -1*result;
 		}
 
-        if (amountParts[0].length() > 0)
-        {
-            digitPart = Long.parseLong(amountParts[0].replace("-", ""));
-        }
+        return result;
+    }
+
+    private static long getLongFromStringParts(String amount, String[] amountParts) throws AmountConversionException
+    {
+        long result;
         if (amountParts.length > 1)
         {
             if (amountParts[1].length() > 3)
@@ -124,19 +137,24 @@ public class Amount
             {
                 amountParts[1] += "0";
             }
-            decimalPart = Long.parseLong(amountParts[1]);
+             result = Long.parseLong(amountParts[0] + amountParts[1]);
         }
-
-        long result = digitPart * 1000 + decimalPart;
-        if(isNegative)
-		{
-			result = -1*result;
-		}
+        else
+        {
+            result = Long.parseLong(amountParts[0] + "000");
+        }
         return result;
     }
 
     private static String convertLongWithThreeDecimalsToStringWithTwoDecimals(long amount, Currency currency)
     {
+        String negativePrefix = "";
+        if(amount < 0)
+        {
+            amount = amount*-1;
+            negativePrefix = "-";
+        }
+
         long digitsPow = (long) Math.pow(10,3-currency.getDecimals());
         amount = amount / digitsPow;
 
@@ -148,7 +166,7 @@ public class Amount
             decimalPart = "0" + decimalPart;
         }
 
-        return digitPart + (currency.getDecimals() > 0 ? "."+(decimalPart).substring(3-currency.getDecimals()) : "");
+        return negativePrefix + digitPart + (currency.getDecimals() > 0 ? "."+(decimalPart).substring(3-currency.getDecimals()) : "");
     }
 
     @Override
