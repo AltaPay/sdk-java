@@ -25,4 +25,4 @@ jobs:
         run: ant DistZip
 
       - name: Run Tests
-        run: javac -classpath .:output/javaSDK_20210504.jar:output/commons-codec-1.6.jar:output/commons-collections-3.2.1.jar:output/javacsv.jar;output/javacsv.jar:devlib/junit-4.6.jar:devlib/mockito-all-1.8.5.jar test/unit/com/pensio/api/AmountTests.java
+        run: javac -classpath .:output/javaSDK_20210504.jar:output/commons-codec-1.6.jar:output/commons-collections-3.2.1.jar:output/javacsv.jar:output/javacsv.jar:devlib/junit-4.6.jar:devlib/mockito-all-1.8.5.jar test/unit/com/pensio/api/AmountTests.java
