@@ -2,7 +2,7 @@ name: Java SDK Build and Run Tests
 
 on:
   push:
-    branches: [ java-opensource ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
