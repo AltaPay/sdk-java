@@ -2,7 +2,7 @@ name: Java SDK Build and Run Tests
 
 on:
   push:
-    branches: [ java-opensource ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -24,5 +24,9 @@ jobs:
       - name: Build with Ant
         run: ant DistZip
 
+      - name: Generate Class files
+        run: javac -classpath .:output/javaSDK_20210504.jar:output/commons-codec-1.6.jar:output/commons-collections-3.2.1.jar:output/javacsv.jar:output/javacsv.jar:devlib/junit-4.6.jar:devlib/mockito-all-1.8.5.jar test/unit/com/pensio/api/*.java
+
       - name: Run Tests
-        run: javac -classpath .;output/javaSDK_20210504.jar;output/commons-codec-1.6.jar;output/commons-collections-3.2.1.jar;output/javacsv.jar;output/javacsv.jar;devlib/junit-4.6.jar;devlib/mockito-all-1.8.5.jar test/unit/com/pensio/api/AmountTests.java
+        run: java -classpath .:${GITHUB_WORKSPACE}/output/javaSDK_20210504.jar:${GITHUB_WORKSPACE}/output/commons-codec-1.6.jar:${GITHUB_WORKSPACE}/output/commons-collections-3.2.1.jar:${GITHUB_WORKSPACE}/output/javacsv.jar:${GITHUB_WORKSPACE}/output/javacsv.jar:${GITHUB_WORKSPACE}/devlib/junit-4.6.jar:${GITHUB_WORKSPACE}/devlib/mockito-all-1.8.5.jar org.junit.runner.JUnitCore com.pensio.api.SuiteAltaPayTest
+        working-directory: test/unit
