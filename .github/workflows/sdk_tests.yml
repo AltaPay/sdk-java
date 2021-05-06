@@ -25,8 +25,8 @@ jobs:
         run: ant DistZip
 
       - name: Generate Class files
-        run: javac -classpath .:output/*:devlib/junit-4.6.jar:devlib/mockito-all-1.8.5.jar test/unit/com/pensio/api/*.java
+        run: javac -classpath .:output/*:devlib/* test/unit/com/pensio/api/*.java
 
       - name: Run Tests
-        run: java -classpath .:${GITHUB_WORKSPACE}/output/*:${GITHUB_WORKSPACE}/devlib/junit-4.6.jar:${GITHUB_WORKSPACE}/devlib/mockito-all-1.8.5.jar org.junit.runner.JUnitCore com.pensio.api.SuiteAltaPayTest
+        run: java -classpath .:${GITHUB_WORKSPACE}/output/*:${GITHUB_WORKSPACE}/devlib/* org.junit.runner.JUnitCore com.pensio.api.SuiteAltaPayTest
         working-directory: test/unit
