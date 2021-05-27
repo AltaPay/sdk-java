@@ -439,6 +439,7 @@
 			<xs:element name="CustomerInfo" type="CustomerInfo"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
+            <xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ReconciliationIdentifiers"
 				type="ReconciliationIdentifiers" />
 		</xs:all>
@@ -583,7 +584,7 @@
 		<xs:all>
 			<xs:element name="Year" type="xs:int" />
 			<xs:element name="Month" type="xs:int" />
-		</xs:all>		
+		</xs:all>
 	</xs:complexType>
 
 	<xs:complexType name="CustomerInfoAddress">
@@ -597,5 +598,33 @@
 			<xs:element name="PostalCode" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
-
+    <xs:complexType name="InvoiceOrderInfo">
+        <xs:sequence>
+            <xs:element name="billingAddress" type="InvoiceAddress" />
+            <xs:element name="paymentMethod" type="paymentMethod"/>
+            <xs:element name="currency" type="xs:string"/>
+            <xs:element name="orderAmount" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InvoiceAddress">
+        <xs:sequence>
+            <xs:element name="givenName" type="xs:string" />
+            <xs:element name="familyName" type="xs:string" />
+            <xs:element name="email" type="xs:string" />
+            <xs:element name="phone" type="xs:string" />
+            <xs:element name="streetAddress" type="xs:string" />
+            <xs:element name="region" type="xs:string" />
+            <xs:element name="postalCode" type="xs:string" />
+            <xs:element name="country" type="xs:string" />
+            <xs:element name="city" type="xs:string" />
+            <xs:element name="att" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="paymentMethod">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string" />
+            <xs:element name="description" type="xs:string" />
+            <xs:element name="numberOfInstallments" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>
