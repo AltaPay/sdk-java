@@ -10,5 +10,5 @@ import org.junit.runners.Suite;
         PensioMerchantAPITest.class,
         PensioProcessorAPITest.class
 })
-public class SuiteAltaPayTest {
+public class SuiteAltaPayIntegrationTest {
 }
