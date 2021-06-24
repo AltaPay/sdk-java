@@ -11,6 +11,7 @@ import java.util.*;
 import com.pensio.api.generated.*;
 import com.pensio.api.request.*;
 import com.pensio.api.request.AuthType;
+import com.pensio.api.request.AgreementType;
 import com.pensio.api.request.CaptureReservationRequest;
 import com.pensio.api.request.ChargeSubscriptionRequest;
 import com.pensio.api.request.CreateInvoiceReservationRequest;
@@ -143,6 +144,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
+				.setAgreementType(AgreementType.recurring)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
@@ -162,6 +164,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
+				.setAgreementType(AgreementType.recurring)
 				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
 				
 		);

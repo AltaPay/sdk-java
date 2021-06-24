@@ -24,6 +24,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	protected CustomerInfo customerInfo;
 	private PaymentInfos paymentInfos;
 	private List<OrderLine> orderLines;
+	protected AgreementType agreementType;
 
 	{
 		paymentInfos = new PaymentInfos();
@@ -217,6 +218,18 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	public T setOrderLines(List<OrderLine> orderLines) {
 		this.orderLines.clear();
 		this.orderLines.addAll(orderLines);
+		return (T)this;
+	}
+
+	public AgreementType getAgreementType()
+	{
+		return agreementType;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setAgreementType(AgreementType agreementType)
+	{
+		this.agreementType = agreementType;
 		return (T)this;
 	}
 }
