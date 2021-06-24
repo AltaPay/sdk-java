@@ -6,6 +6,7 @@
 ### 1.0.0
 
 - Supports API changes from 20210324
+- Added method to set "agreement_type" parameter for payment request
 
 ## How to build
 
