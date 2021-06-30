@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,19 +52,6 @@ public abstract class PensioAbstractAPI {
 		{
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, params, username, password, getSdkVersion());
 			
-//			InputStreamReader is = new InputStreamReader(inStream);
-//			StringBuilder sb=new StringBuilder();
-//			BufferedReader br = new BufferedReader(is);
-//			String read = br.readLine();
-//
-//			while(read != null) {
-//			    //System.out.println(read);
-//			    sb.append(read);
-//			    read =br.readLine();
-//
-//			}
-//			System.out.print(sb.toString());
-
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
 			
