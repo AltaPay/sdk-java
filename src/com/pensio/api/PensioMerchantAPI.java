@@ -259,6 +259,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
 
 		addAuthType(paymentRequest, params);
+		addAgreementType(paymentRequest, params);
 
 		if(paymentRequest.getUsePayPass())
 		{
@@ -303,6 +304,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		// Optional arguments
 		addAuthType(request, params);
+		addAgreementType(request, params);
 		addPaymentInfo(request, params);
 		addParam(params, "accountNumber", request.getAccountNumber());
 		addParam(params, "bankCode", request.getBankCode());
@@ -576,4 +578,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return "merchant/API/";
 	}
 
+	private void addAgreementType(PaymentRequest<?> request, HashMap<String, String> params)
+	{
+		if(request.getAgreementType() != null)
+		{
+			addParam(params, "agreement_type", request.getAgreementType().name());
+		}
+	}
 }

@@ -36,7 +36,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	public void setUp()
 		throws Exception, Throwable
 	{
-		String apiUrl = System.getProperty("pensio.TestUrl","http://gateway.dev.earth.pensio.com/");
+		String apiUrl = System.getProperty("pensio.TestUrl","https://testgateway.pensio.com/");
 		String username = System.getProperty("pensio.TestApiUsername","shop api");
 		String password = System.getProperty("pensio.TestApiPassword","testpassword");
 		api = new PensioProcessorAPI(apiUrl, username, password);
@@ -374,7 +374,12 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	@Theory
 	public void verify3DSecureReservation_3dSecureWasNotVerified_TransactionStatusIs3dSecure_Failed(boolean callReservationOfFixedAmount) throws Throwable
 	{
-		String paymentId = getSecureStartedPaymentId(false, callReservationOfFixedAmount);
+		PaymentReservationRequest paymentRequest = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		paymentRequest.setSource(PaymentSource.eCommerce).setCreditCard(CreditCard.get("4140000000000466", "12", "2025").setCvc("111"));
+
+		APIResponse paymentResult = null;
+		paymentResult = api.reservationOfFixedAmount(paymentRequest);
+		String paymentId = paymentResult.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
 
 		APIResponse result = api.verify3dSecure(request);
@@ -413,7 +418,15 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 	@Test
 	public void verify3DSecureReservationAndCapture_3dSecureWasNotVerified_ResultIsError() throws Throwable
 	{
-		String paymentId = getSecureStartedPaymentId(true);
+		PaymentReservationRequest paymentRequest = new PaymentReservationRequest(getOrderId(), get3DSecureTerminalName(), Amount.get(5.68, Currency.EUR));
+		paymentRequest.setSource(PaymentSource.eCommerce).setCreditCard(CreditCard.get("4140000000000466", "12", "2025").setCvc("111"));
+
+		APIResponse paymentResult = null;
+		paymentResult = api.reservationOfFixedAmount(paymentRequest);
+		paymentResult = api.reservation(paymentRequest);
+
+		String paymentId = paymentResult.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+
 		Verify3dRequest request = new Verify3dRequest(paymentId, "FailingPaRes");
 		
 		APIResponse result = api.verify3dSecure(request);
@@ -460,7 +473,7 @@ public class PensioProcessorAPITest extends PensioAPITestBase
 			message = ex.getMessage(); 
 		}
 
-		assertTrue(message.contains("Parameter customer_info[client_ip] was not a valid IPv4 (" + badClientIp + ")"));
+		assertTrue(message.contains("Parameter customer_info[client_ip] was not a valid IPv4 or IPv6 ('" + badClientIp + "')"));
 
 	}
 	

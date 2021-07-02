@@ -2,9 +2,9 @@
 <!DOCTYPE project>
 <project name="AltapayJavaSDK" default="jar">
 	<import file="build-common.xml"/>
-	<property name="testUrl" value="https://cigateway.pensio.mars.com/" />
-	<property name="xsdUrl" value="https://cigateway.pensio.mars.com/" />
-	<property name="outputdirs" value="build,devbuild,output,dependencylib" />
+	<property name="testUrl" value="https://testgateway.pensio.com/" />
+	<property name="xsdUrl" value="https://testgateway.pensio.com/" />
+	<property name="outputdirs" value="build,devbuild,output,dependencylib,generated" />
 	<property name="local_dependencies" value="" />
 	<property name="altapay.release" value="1.0.0" />
 
@@ -81,7 +81,12 @@
 		<mkdir dir="dist" />
 	</target>
 
-	<target name="DistZip" depends="-EnsureDist,jar">
+	<target name="-EnsureGenerated">
+		<delete dir="generated" />
+		<mkdir dir="generated" />
+	</target>
+
+	<target name="DistZip" depends="-EnsureDist,-EnsureGenerated,jar">
 		<zip destfile="dist/${ant.project.name}_${altapay.release}.zip">
 			<zipfileset dir="output" includes="javaSDK_${altapay.release}.jar" prefix="lib/" />
 			<zipfileset dir=".">
