@@ -1,5 +1,5 @@
 
-# JavaSDK - for intergrating Java projects with the gateway
+# JavaSDK - for integrating Java projects with the AltaPay gateway.
 
 ## Change Log
 
