@@ -19,7 +19,7 @@ task javadocJar(type: Jar) {
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = "io.github.altapay"
+            groupId = "com.altapay"
             artifactId = "sdk-java"
             version = "1.0.0"
             artifact "output/javaSDK_${version}.jar"
