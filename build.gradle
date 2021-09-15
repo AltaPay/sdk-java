@@ -1,37 +1,68 @@
-buildscript {
-	repositories.maven {
-		url getProperty('pensio.repository')
-		credentials {
-			username = getProperty('pensio.repository.username') // Artifactory user name
-			password = getProperty('pensio.repository.password') // encrypted password
-		}
-		authentication {
-			basic(BasicAuthentication)
-		}
-	}
-	dependencies {
-		classpath 'com.pensio:PensioGradleMaster:1.0-SNAPSHOT'
-	}
+// Publish module to Maven
+
+plugins {
+    id "maven-publish"
+    id "java"
+    id "signing"
 }
 
-apply plugin: 'com.pensio.master'
-group = 'com.pensio'
-
-allprojects{
-	repositories.maven {
-		url getProperty('pensio.repository')
-		credentials {
-			username = getProperty('pensio.repository.username') // Artifactory user name
-			password = getProperty('pensio.repository.password') // encrypted password
-		}
-		authentication {
-			basic(BasicAuthentication)
-		}
-	}
+task sourceJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
 }
 
-dependencies{
-	compile(group: 'com.csvreader', name: 'javacsv', version: '1.0')
-	compile(group: 'commons-codec', name: 'commons-codec', version: '1.6')
+task javadocJar(type: Jar) {
+    classifier = "javadoc"
+    from javadoc
 }
-version = 1.0
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "com.altapay"
+            artifactId = "sdk-java"
+            version = "1.0.0"
+            artifact "output/javaSDK_${version}.jar"
+            artifact sourceJar
+            artifact javadocJar
+
+            pom {
+                name = "sdk-java"
+                description = "JavaSDK - for integrating Java projects with the AltaPay gateway."
+                url  = "https://github.com/AltaPay/sdk-java"
+                scm {
+                  connection =  "scm:https://github.com/AltaPay/sdk-java.git"
+                  developerConnection = "scm:git://github.com:AltaPay/sdk-java.git"
+                  url = "https://github.com/AltaPay/sdk-java"
+                }
+                licenses {
+                  license {
+                    name = "MIT License"
+                    url = "https://github.com/AltaPay/sdk-java/blob/master/LICENSE"
+                  }
+                }
+                developers {
+                  developer {
+                    id = "altapay"
+                    name = "AltaPay"
+                    email = "3rdpartydeps@altapay.com"
+                  }
+              }
+            }
+        }
+    }
+    repositories {
+      maven {
+          credentials {
+              username = "$usr"
+              password = "$pwd"
+          }
+
+          url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+      }
+  }
+}
+
+signing {
+    sign publishing.publications.maven
+}
