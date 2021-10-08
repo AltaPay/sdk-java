@@ -1,14 +1,9 @@
 
-# JavaSDK - for integrating Java projects with the AltaPay gateway.
+# AltaPay - JavaSDK
 
-## Change Log
+For integrating Java projects with the AltaPay gateway.
 
-### 1.0.0
-
-- Supports API changes from 20210324
-- Add support to agreements using agreement_type
-
-## How to build
+## How to Build
 
 To update the SDK with the latest payment gateway changes run below command from the root of the project
 
@@ -27,3 +22,18 @@ To update the SDK with the latest payment gateway changes run below command from
 ### Gradle
 
     implementation 'com.altapay:sdk-java:1.0.0'
+
+## Changelog
+
+See [Changelog](CHANGELOG.md) for all the release notes.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+## Documentation
+
+For more details please see [AltaPay docs](https://documentation.altapay.com/)
+
+## Contact
+Feel free to contact our support team (support@altapay.com) if you need any assistance.
