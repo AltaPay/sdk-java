@@ -1,0 +1,41 @@
+name: Publish Java SDK to Nexus/Maven Repository
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+          
+      - name: Build with Ant
+        run: ant DistZip
+      
+      - name: Create GPG key file
+        run: |
+          echo -n "$GPG_KEY" | base64 --decode > secring.gpg
+        env:
+           GPG_KEY : ${{secrets.GPG_KEY}}
+            
+      - name: Create gradle.properties file  
+        run: |
+         echo signing.keyId=${{secrets.GPG_KEY_ID}} > gradle.properties
+         echo signing.password=${{secrets.GPG_KEY_PASSPHRASE}} >> gradle.properties
+         echo signing.secretKeyRingFile=secring.gpg >> gradle.properties
+         echo usr=${{ secrets.OSSRH_USERNAME }} >> gradle.properties
+         echo pwd=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
+        
+      - name: Publish package
+        run: gradle publish
+        
