@@ -3,6 +3,8 @@ name: Publish Java SDK to Nexus/Maven Repository
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
