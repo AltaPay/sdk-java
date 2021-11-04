@@ -52,7 +52,7 @@
 	</target>
 
 	<target name="sdkVersion" depends="CopyMetaInf">
-		<echo file="build/META-INF/sdk.version">JavaSDK/${altapay.release}</echo>
+		<echo file="build/META-INF/sdk.version">sdk-java/${altapay.release}</echo>
 	</target>
 
 	<target name="jar" depends="sdkVersion,GenerateSource,CompileSource">
