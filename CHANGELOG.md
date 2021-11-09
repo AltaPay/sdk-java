@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-- Update User-Agent header
+- Update format of the User-Agent header
 
 ## [1.0.0]
 
