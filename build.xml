@@ -6,7 +6,7 @@
 	<property name="xsdUrl" value="https://testgateway.pensio.com/" />
 	<property name="outputdirs" value="build,devbuild,output,dependencylib,generated" />
 	<property name="local_dependencies" value="" />
-	<property name="altapay.release" value="1.0.0" />
+	<property name="altapay.release" value="1.0.1" />
 
 	<path id="CompileSource_classpath">
 		<fileset dir="lib/" includes="*.jar" />
@@ -52,7 +52,7 @@
 	</target>
 
 	<target name="sdkVersion" depends="CopyMetaInf">
-		<echo file="build/META-INF/sdk.version">JavaSDK/${altapay.release}</echo>
+		<echo file="build/META-INF/sdk.version">sdk-java/${altapay.release}</echo>
 	</target>
 
 	<target name="jar" depends="sdkVersion,GenerateSource,CompileSource">

@@ -46,7 +46,8 @@ public class HTTPHelper {
 		urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		
 		urlConn.setRequestProperty("x-altapay-client-version", sdkVersion);
-		
+		urlConn.setRequestProperty("User-Agent", sdkVersion);
+
 		if(username != null)
 		{
 			String encoded = new String(Base64.encodeBase64((username+":"+password).getBytes()));
