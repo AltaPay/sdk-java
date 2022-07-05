@@ -582,7 +582,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return getAPIResponse("cardWallet/session", params);
 	}
 
-	public APIResponse cardWalletAuthorize(CardWalletSessionRequest request) throws PensioAPIException
+	public APIResponse cardWalletAuthorize(CardWalletAuthorizeRequest request) throws PensioAPIException
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "provider_data", request.getProviderData());
