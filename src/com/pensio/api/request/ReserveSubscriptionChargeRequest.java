@@ -4,17 +4,42 @@ import com.pensio.Amount;
 
 public class ReserveSubscriptionChargeRequest
 {
+	/**
+	 *
+	 * @deprecated subscriptionId is deprecated, please use agreementId instead.
+	 */
 	private String subscriptionId;
+	private String agreementId;
+	private AgreementUnscheduledType  agreementUnscheduledType;
 	private Amount amount;
 	
-	public ReserveSubscriptionChargeRequest(String subscriptionId)
+	public ReserveSubscriptionChargeRequest(String agreementId)
 	{
-		this.subscriptionId = subscriptionId;
+		this.subscriptionId = agreementId;
+		this.agreementId = agreementId;
 	}
 
+	/**
+	 *
+	 * @deprecated getSubscriptionId() is deprecated, please use {@link #getAgreementId()} instead
+	 */
 	public String getSubscriptionId()
 	{
 		return subscriptionId;
+	}
+
+	public String getAgreementId()
+	{
+		return agreementId;
+	}
+
+	public AgreementUnscheduledType getAgreementUnscheduledType() {
+		return agreementUnscheduledType;
+	}
+
+	public ReserveSubscriptionChargeRequest setAgreementUnscheduledType(AgreementUnscheduledType agreementUnscheduledType) {
+		this.agreementUnscheduledType = agreementUnscheduledType;
+		return this;
 	}
 
 	public Amount getAmount()

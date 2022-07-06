@@ -59,6 +59,21 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	}
 
 	@Test
+	public void createPaymentRequestWithAgreement() throws Throwable
+	{
+        AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.unscheduled);
+        agreementConfig.setAgreementUnscheduledType(AgreementUnscheduledType.incremental);
+
+		PaymentRequestResponse result = api.createPaymentRequest(
+				new PaymentRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(7.77, Currency.EUR))
+						.setAgreementConfig(agreementConfig)
+		);		
+
+		assertNotNull(result.getUrl());
+	}
+
+	@Test
 	public void createMotoReservation() throws Throwable 
 	{
 		APIResponse result = api.reservation(
@@ -155,6 +170,31 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+	}	
+	
+	@Test
+	public void chargeSubscriptionWithAgreement() throws Throwable 
+	{
+		String orderId = getOrderId();
+        AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.unscheduled);
+        agreementConfig.setAgreementUnscheduledType(AgreementUnscheduledType.incremental);
+                
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(7.77, Currency.EUR))
+				.setAuthType(AuthType.subscription)
+				.setAgreementConfig(agreementConfig)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("123"))
+		);
+		String agreementId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.chargeSubscription(
+				new ChargeSubscriptionRequest(agreementId)
+						.setAmount(Amount.get(7.00, Currency.EUR))
+						.setReconciliationIdentifier(orderId)
+						.setAgreementUnscheduledType(AgreementUnscheduledType.incremental)
+		);
+		
+		assertEquals("Success",captureResult.getBody().getResult());
 	}
 
 	@Test
@@ -172,6 +212,31 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		APIResponse captureResult = api.reserveSubscriptionCharge(
 			new ReserveSubscriptionChargeRequest(paymentId)
 			.setAmount(Amount.get(2.00, Currency.EUR))
+		);
+		
+		assertEquals("Success",captureResult.getBody().getResult());
+	}
+
+	@Test
+	public void reserveSubscriptionChargeWithAgreement() throws Throwable 
+	{
+		String orderId = getOrderId();
+        AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.unscheduled);
+        agreementConfig.setAgreementUnscheduledType(AgreementUnscheduledType.incremental);
+                
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.subscription)
+				.setAgreementConfig(agreementConfig)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2025").setCvc("123"))
+				
+		);
+		String agreementId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		APIResponse captureResult = api.reserveSubscriptionCharge(
+				new ReserveSubscriptionChargeRequest(agreementId)
+						.setAmount(Amount.get(2.00, Currency.EUR))
+						.setAgreementUnscheduledType(AgreementUnscheduledType.incremental)
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());

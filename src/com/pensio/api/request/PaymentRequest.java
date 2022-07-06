@@ -24,7 +24,13 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	protected CustomerInfo customerInfo;
 	private PaymentInfos paymentInfos;
 	private List<OrderLine> orderLines;
+
+	/**
+	 *
+	 * @deprecated agreementType is deprecated, please use AgreementConfig instead.
+	 */
 	protected AgreementType agreementType;
+	protected AgreementConfig agreementConfig;
 
 	{
 		paymentInfos = new PaymentInfos();
@@ -221,15 +227,35 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 		return (T)this;
 	}
 
+	/**
+	 *
+	 * @deprecated getAgreementType() is deprecated, please use {@link #getAgreementConfig()} instead
+	 */
 	public AgreementType getAgreementType()
 	{
 		return agreementType;
 	}
 
+	/**
+	 *
+	 * @deprecated setAgreementType() is deprecated, please use {@link #setAgreementConfig()} instead
+	 */
 	@SuppressWarnings("unchecked")
 	public T setAgreementType(AgreementType agreementType)
 	{
 		this.agreementType = agreementType;
+		return (T)this;
+	}
+
+	public AgreementConfig getAgreementConfig()
+	{
+		return agreementConfig;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setAgreementConfig(AgreementConfig agreementConfig)
+	{
+		this.agreementConfig = agreementConfig;
 		return (T)this;
 	}
 }

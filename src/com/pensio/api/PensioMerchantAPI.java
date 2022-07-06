@@ -115,19 +115,29 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		addParam(params, "transaction_id", request.getSubscriptionId());
+		if(request.getAgreementId() != null){
+			addParam(params, "agreement[id]", request.getAgreementId());
+		}else {
+			addParam(params, "transaction_id", request.getSubscriptionId());
+		}
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
-		
+		parameters.Add("agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+
 		return getAPIResponse("chargeSubscription", params);
 	}
 	
 	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		addParam(params, "transaction_id", request.getSubscriptionId());
+		if(request.getAgreementId() != null){
+			addParam(params, "agreement[id]", request.getAgreementId());
+		}else {
+			addParam(params, "transaction_id", request.getSubscriptionId());
+		}
 		addParam(params, "amount", request.getAmountString());
-		
+		parameters.Add("agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+
 		return getAPIResponse("reserveSubscriptionCharge", params);
 	}
 	
@@ -259,7 +269,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "shop_orderid", paymentRequest.getShopOrderId());
 
 		addAuthType(paymentRequest, params);
-		addAgreementType(paymentRequest, params);
 
 		if(paymentRequest.getUsePayPass())
 		{
@@ -288,6 +297,21 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addPaymentInfo(paymentRequest, params);
 
 		addOrderLines("orderLines",params, paymentRequest.getOrderLines());
+
+		if(paymentRequest.getAgreementConfig() != null)
+		{
+			addParam(params, "agreement[id]", paymentRequest.getAgreementConfig().getAgreementId());
+			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType().name());
+			addParam(params, "agreement[unscheduled_type]", paymentRequest.getAgreementConfig().getAgreementUnscheduledType().name());
+			addParam(params, "agreement[expiry]", DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementExpiry()));
+			addParam(params, "agreement[frequency]", paymentRequest.getAgreementConfig().getAgreementFrequency());
+			addParam(params, "agreement[next_charge_date]", DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementNextChargeDate()));
+			addParam(params, "agreement[admin_url]", paymentRequest.getAgreementConfig().getAgreementAdminUrl());
+		}
+		//below check is to be removed as getAgreementType() is deprecated.
+		if(paymentRequest.getAgreementType() != null){
+			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType().name());
+		}
 	}
 
 	protected void setInvoiceReservationRequestParameters(
@@ -304,7 +328,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		// Optional arguments
 		addAuthType(request, params);
-		addAgreementType(request, params);
 		addPaymentInfo(request, params);
 		addParam(params, "accountNumber", request.getAccountNumber());
 		addParam(params, "bankCode", request.getBankCode());
@@ -601,11 +624,4 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return "merchant/API/";
 	}
 
-	private void addAgreementType(PaymentRequest<?> request, HashMap<String, String> params)
-	{
-		if(request.getAgreementType() != null)
-		{
-			addParam(params, "agreement_type", request.getAgreementType().name());
-		}
-	}
 }
