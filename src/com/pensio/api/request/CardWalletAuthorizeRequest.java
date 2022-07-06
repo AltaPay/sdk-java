@@ -20,7 +20,7 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
         return providerData;
     }
 
-    public CardWalletSessionRequest setProviderData(String providerData) {
+    public CardWalletAuthorizeRequest setProviderData(String providerData) {
         this.providerData = providerData;
         return this;
     }
@@ -29,7 +29,7 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
         return saleReconciliationIdentifier;
     }
 
-    public CardWalletSessionRequest setSaleReconciliationIdentifier(String saleReconciliationIdentifier) {
+    public CardWalletAuthorizeRequest setSaleReconciliationIdentifier(String saleReconciliationIdentifier) {
         this.saleReconciliationIdentifier = saleReconciliationIdentifier;
         return this;
     }
@@ -38,7 +38,7 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
         return saleInvoiceNumber;
     }
 
-    public CardWalletSessionRequest setSaleInvoiceNumber(String saleInvoiceNumber) {
+    public CardWalletAuthorizeRequest setSaleInvoiceNumber(String saleInvoiceNumber) {
         this.saleInvoiceNumber = saleInvoiceNumber;
         return this;
     }
@@ -47,7 +47,7 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
         return salesTax;
     }
 
-    public CardWalletSessionRequest setSalesTax(String salesTax) {
+    public CardWalletAuthorizeRequest setSalesTax(String salesTax) {
         this.salesTax = salesTax;
         return this;
     }
