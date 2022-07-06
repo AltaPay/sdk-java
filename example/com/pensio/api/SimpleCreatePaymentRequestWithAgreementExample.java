@@ -11,6 +11,8 @@ import com.pensio.Currency;
 import com.pensio.api.request.PaymentRequest;
 import com.pensio.api.request.PaymentRequestConfig;
 import com.pensio.api.request.AgreementConfig;
+import com.pensio.api.request.AgreementType;
+import com.pensio.api.request.AgreementUnscheduledType;
 
 public class SimpleCreatePaymentRequestWithAgreementExample {
 

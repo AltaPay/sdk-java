@@ -14,6 +14,9 @@ import com.pensio.api.generated.Transactions;
 import com.pensio.api.request.CaptureReservationRequest;
 import com.pensio.api.request.CreditCard;
 import com.pensio.api.request.PaymentReservationRequest;
+import com.pensio.api.request.AgreementConfig;
+import com.pensio.api.request.AgreementType;
+import com.pensio.api.request.AgreementUnscheduledType;
 
 public class SimpleCreateReservationWithAgreementExample {
 
