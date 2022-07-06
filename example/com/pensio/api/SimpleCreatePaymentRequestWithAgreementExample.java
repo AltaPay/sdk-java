@@ -32,9 +32,7 @@ public class SimpleCreatePaymentRequestWithAgreementExample {
 		pr.setTerminal("AltaPay Test Terminal");
 		pr.setAmount(Amount.get("100.00",Currency.DKK));			
 		pr.setShopOrderId(getRandonString());
-//		PaymentRequestConfig config = new PaymentRequestConfig();
-//		config.setCallbackOk("http://google.com");
-//		pr.setConfig(config);
+
 		AgreementConfig agreementConfig = new AgreementConfig();
 		agreementConfig.setAgreementType(AgreementType.unscheduled);
 		agreementConfig.setAgreementUnscheduledType(AgreementUnscheduledType.incremental);
