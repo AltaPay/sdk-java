@@ -5,3 +5,4 @@ devbuild/
 dist/
 output/
 generated/
+idea/
