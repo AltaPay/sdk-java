@@ -1,5 +1,7 @@
 package com.pensio.api.request;
 
+import java.util.Date;
+
 public class AgreementConfig
 {
 	private String agreementId;
@@ -27,10 +29,10 @@ public class AgreementConfig
 	}
 
 	@SuppressWarnings("unchecked")
-	public T setAgreementType(AgreementType agreementType)
+	public AgreementConfig setAgreementType(AgreementType agreementType)
 	{
 		this.agreementType = agreementType;
-		return (T)this;
+		return this;
 	}
 
 	public AgreementUnscheduledType getAgreementUnscheduledType()
@@ -39,10 +41,10 @@ public class AgreementConfig
 	}
 
 	@SuppressWarnings("unchecked")
-	public T setAgreementUnscheduledType(AgreementUnscheduledType agreementUnscheduledType)
+	public AgreementConfig setAgreementUnscheduledType(AgreementUnscheduledType agreementUnscheduledType)
 	{
 		this.agreementUnscheduledType = agreementUnscheduledType;
-		return (T)this;
+		return this;
 	}
 
 	public Date getAgreementExpiry()
