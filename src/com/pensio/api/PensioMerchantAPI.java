@@ -122,7 +122,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
-		parameters.Add("agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 
 		return getAPIResponse("chargeSubscription", params);
 	}
@@ -136,7 +136,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "transaction_id", request.getSubscriptionId());
 		}
 		addParam(params, "amount", request.getAmountString());
-		parameters.Add("agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 
 		return getAPIResponse("reserveSubscriptionCharge", params);
 	}
@@ -614,7 +614,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "sales_tax", request.getSalesTax());
 
 		setPaymentRequestParameters(request, params);
-		setPaymentSource(request, params);
 
 		return getAPIResponse("cardWallet/authorize", params);
 	}
