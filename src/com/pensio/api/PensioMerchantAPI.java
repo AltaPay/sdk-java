@@ -572,6 +572,29 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 
+	public APIResponse cardWalletSession(CardWalletSessionRequest request) throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "terminal", request.getTerminal());
+		addParam(params, "validationUrl", request.getValidationUrl());
+		addParam(params, "domain", request.getDomain());
+
+		return getAPIResponse("cardWallet/session", params);
+	}
+
+	public APIResponse cardWalletAuthorize(CardWalletSessionRequest request) throws PensioAPIException
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		addParam(params, "provider_data", request.getProviderData());
+		addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
+		addParam(params, "sale_invoice_number", request.getSaleInvoiceNumber());
+		addParam(params, "sales_tax", request.getSalesTax());
+
+		setPaymentRequestParameters(request, params);
+		setPaymentSource(request, params);
+
+		return getAPIResponse("cardWallet/authorize", params);
+	}
 
 	protected String getAppAPIPath()
 	{
