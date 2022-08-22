@@ -4,11 +4,6 @@ import com.pensio.Amount;
 
 public class ChargeSubscriptionRequest
 {
-	/**
-	 *
-	 * @deprecated subscriptionId is deprecated, please use agreementId instead.
-	 */
-	private String subscriptionId;
 	private String agreementId;
 	private AgreementUnscheduledType agreementUnscheduledType;
 	private Amount amount;
@@ -16,7 +11,6 @@ public class ChargeSubscriptionRequest
 	
 	public ChargeSubscriptionRequest(String agreementId)
 	{
-		this.subscriptionId = agreementId;
 		this.agreementId = agreementId;
 	}
 
@@ -24,9 +18,10 @@ public class ChargeSubscriptionRequest
 	 *
 	 * @deprecated getSubscriptionId() is deprecated, please use {@link #getAgreementId()} instead
 	 */
+	@Deprecated
 	public String getSubscriptionId()
 	{
-		return subscriptionId;
+		return agreementId;
 	}
 
 	public String getAgreementId()

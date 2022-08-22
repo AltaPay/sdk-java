@@ -115,11 +115,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		if(request.getAgreementId() != null){
-			addParam(params, "agreement[id]", request.getAgreementId());
-		}else {
-			addParam(params, "transaction_id", request.getSubscriptionId());
-		}
+		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
@@ -130,11 +126,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException 
 	{
 		HashMap<String, String> params = new HashMap<String, String>();
-		if(request.getAgreementId() != null){
-			addParam(params, "agreement[id]", request.getAgreementId());
-		}else {
-			addParam(params, "transaction_id", request.getSubscriptionId());
-		}
+		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 

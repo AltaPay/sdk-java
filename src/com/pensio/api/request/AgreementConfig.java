@@ -28,7 +28,6 @@ public class AgreementConfig
 		return agreementType;
 	}
 
-	@SuppressWarnings("unchecked")
 	public AgreementConfig setAgreementType(AgreementType agreementType)
 	{
 		this.agreementType = agreementType;
@@ -40,7 +39,6 @@ public class AgreementConfig
 		return agreementUnscheduledType;
 	}
 
-	@SuppressWarnings("unchecked")
 	public AgreementConfig setAgreementUnscheduledType(AgreementUnscheduledType agreementUnscheduledType)
 	{
 		this.agreementUnscheduledType = agreementUnscheduledType;

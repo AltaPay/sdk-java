@@ -29,7 +29,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	 *
 	 * @deprecated agreementType is deprecated, please use AgreementConfig instead.
 	 */
-	protected AgreementType agreementType;
+	@Deprecated protected AgreementType agreementType;
 	protected AgreementConfig agreementConfig;
 
 	{
@@ -231,6 +231,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	 *
 	 * @deprecated getAgreementType() is deprecated, please use {@link #getAgreementConfig()} instead
 	 */
+	@Deprecated
 	public AgreementType getAgreementType()
 	{
 		return agreementType;
@@ -240,10 +241,14 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	 *
 	 * @deprecated setAgreementType() is deprecated, please use {@link #setAgreementConfig()} instead
 	 */
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	public T setAgreementType(AgreementType agreementType)
 	{
 		this.agreementType = agreementType;
+		AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.unscheduled);
+		this.setAgreementConfig(agreementConfig);
 		return (T)this;
 	}
 
