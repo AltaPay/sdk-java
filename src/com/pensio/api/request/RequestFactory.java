@@ -9,9 +9,9 @@ public class RequestFactory
 		return new CaptureReservationRequest(paymentId);
 	}
 	
-	public ChargeSubscriptionRequest getChargeRequest(String subscriptionId)
+	public ChargeSubscriptionRequest getChargeRequest(String agreementId)
 	{
-		return new ChargeSubscriptionRequest(subscriptionId);
+		return new ChargeSubscriptionRequest(agreementId);
 	}
 	
 	public PaymentRequest getPaymentRequest(String shopOrderId, String terminal, Amount amount)
@@ -19,9 +19,9 @@ public class RequestFactory
 		return new PaymentRequest(shopOrderId, terminal, amount);
 	}
 	
-	public ReserveSubscriptionChargeRequest getReserveSubscriptionChargeRequest(String subscriptionId)
+	public ReserveSubscriptionChargeRequest getReserveSubscriptionChargeRequest(String agreementId)
 	{
-		return new ReserveSubscriptionChargeRequest(subscriptionId);
+		return new ReserveSubscriptionChargeRequest(agreementId);
 	}
 	
 	public RefundRequest getRefundRequest(String paymentId)

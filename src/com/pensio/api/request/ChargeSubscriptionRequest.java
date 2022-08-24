@@ -4,18 +4,38 @@ import com.pensio.Amount;
 
 public class ChargeSubscriptionRequest
 {
-	private String subscriptionId;
+	private String agreementId;
+	private AgreementUnscheduledType agreementUnscheduledType;
 	private Amount amount;
 	private String reconciliationIdentifier;
 	
-	public ChargeSubscriptionRequest(String subscriptionId)
+	public ChargeSubscriptionRequest(String agreementId)
 	{
-		this.subscriptionId = subscriptionId;
+		this.agreementId = agreementId;
 	}
 
+	/**
+	 *
+	 * @deprecated getSubscriptionId() is deprecated, please use {@link #getAgreementId()} instead
+	 */
+	@Deprecated
 	public String getSubscriptionId()
 	{
-		return subscriptionId;
+		return agreementId;
+	}
+
+	public String getAgreementId()
+	{
+		return agreementId;
+	}
+
+	public AgreementUnscheduledType getAgreementUnscheduledType() {
+		return agreementUnscheduledType;
+	}
+
+	public ChargeSubscriptionRequest setAgreementUnscheduledType(AgreementUnscheduledType agreementUnscheduledType) {
+		this.agreementUnscheduledType = agreementUnscheduledType;
+		return this;
 	}
 
 	public Amount getAmount()
