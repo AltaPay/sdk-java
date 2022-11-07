@@ -162,6 +162,7 @@
 			<xs:element name="Country" type="xs:string" />
 			<xs:element name="Natures" type="Natures" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Currencies" type="Currencies" maxOccurs="1" minOccurs="0" />
+            <xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
@@ -170,6 +171,12 @@
 			<xs:element name="Currency" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+
+    <xs:complexType name="Methods">
+        <xs:sequence>
+            <xs:element name="Method" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
 
 	<xs:complexType name="Natures">
 		<xs:sequence>
@@ -295,6 +302,7 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="IsTokenized" type="xs:boolean" />
+			<xs:element name="CardInformation" type="CardInformation" maxOccurs="1" minOccurs="0" />
 			<xs:element name="GiftCardToken" type="xs:string" maxOccurs="1" minOccurs="0" />
             <xs:element name="MaskedGiftCard" type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ThreeDSecureResult">
@@ -584,6 +592,36 @@
 		<xs:all>
 			<xs:element name="Year" type="xs:int" />
 			<xs:element name="Month" type="xs:int" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="CardInformation">
+		<xs:all>
+			<xs:element name="IsTokenized" type="xs:boolean" />
+			<xs:element name="Token" type="xs:string" />
+			<xs:element name="MaskedPan">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="([\d\*]*)" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Expiry" type="CreditCardExpiry" maxOccurs="1" minOccurs="0" />
+			<xs:element name="IssuingCountry">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LastFourDigits">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="([\d]{4})" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Scheme" type="xs:string" />
 		</xs:all>
 	</xs:complexType>
 
