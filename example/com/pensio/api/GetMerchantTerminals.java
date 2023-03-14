@@ -36,6 +36,7 @@ public class GetMerchantTerminals {
 				System.out.println("Currencies: " + currencies.toString());
 				System.out.println("Natures: " + natures.toString());
 				System.out.println("Methods: " + methods.toString());
+				System.out.println("ApplePayMerchantId: " + terminal.getApplePayMerchantId());
 
 			}
 
