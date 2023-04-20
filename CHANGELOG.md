@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.4]
+
+- Supports API changes from 20230412
+- Support enforced HTTP methods
+
 ## [1.0.3]
 
 - Supports API changes from 20221026
