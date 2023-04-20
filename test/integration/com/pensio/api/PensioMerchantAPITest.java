@@ -78,7 +78,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	{
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(1.00, Currency.EUR))
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 		);
 		
 		assertEquals("Success",result.getBody().getResult());
@@ -97,7 +97,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		System.out.println(orderId);
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.capture(
@@ -117,7 +117,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	{
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(getOrderId(), "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.release(
@@ -139,7 +139,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.paymentAndCapture)
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.refund(
@@ -155,12 +155,16 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	@Test
 	public void chargeSubscription() throws Throwable 
 	{
+		AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.recurring);
+		
+		
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
-				.setAgreementType(AgreementType.recurring)
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setAgreementConfig(agreementConfig)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
 		APIResponse captureResult = api.chargeSubscription(
@@ -173,7 +177,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	}	
 	
 	@Test
-	public void chargeSubscriptionWithAgreement() throws Throwable 
+	public void chargeSubscriptionWithUnscheduledAgreement() throws Throwable 
 	{
 		String orderId = getOrderId();
         AgreementConfig agreementConfig = new AgreementConfig();
@@ -200,12 +204,15 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	@Test
 	public void reserveSubscriptionCharge() throws Throwable 
 	{
+		AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.recurring);
+		
 		String orderId = getOrderId();
 		APIResponse result = api.reservation(
 			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.subscription)
-				.setAgreementType(AgreementType.recurring)
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setAgreementConfig(agreementConfig)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 				
 		);
 		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
@@ -218,7 +225,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 	}
 
 	@Test
-	public void reserveSubscriptionChargeWithAgreement() throws Throwable 
+	public void reserveSubscriptionChargeWithUnscheduledAgreement() throws Throwable 
 	{
 		String orderId = getOrderId();
         AgreementConfig agreementConfig = new AgreementConfig();
@@ -240,6 +247,39 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+	}
+	
+	@Test
+	public void getTerminalsTest() throws Throwable 
+	{      
+		APIResponse result = api.getTerminals();
+		
+		
+		assertEquals("Success",result.getBody().getResult());
+		assertNotNull(result.getBody().getTerminals());
+		assertTrue(result.getBody().getTerminals().getTerminal().size() > 0);
+	}
+	
+	@Test
+	public void getTransactionsTest() throws Throwable 
+	{   
+		AgreementConfig agreementConfig = new AgreementConfig();
+		agreementConfig.setAgreementType(AgreementType.recurring);
+		
+		String orderId = getOrderId();
+		APIResponse result = api.reservation(
+			new PaymentReservationRequest(orderId, "AltaPay Test Terminal", Amount.get(3.00, Currency.EUR))
+				.setAuthType(AuthType.subscription)
+				.setAgreementConfig(agreementConfig)
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
+				
+		);
+		String paymentId = result.getBody().getTransactions().getTransaction().get(0).getTransactionId();
+		
+		APIResponse transactionsResult = api.transactions(new TransactionsRequest(paymentId));
+		
+		assertNotNull(transactionsResult.getBody().getTransactions());
+		assertEquals(1, transactionsResult.getBody().getTransactions().getTransaction().size());
 	}
 
 	@Test
@@ -289,7 +329,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 			new PaymentReservationRequest(orderId, "AltaPay Red Test Terminal", Amount.get(3.00, Currency.EUR))
 				.setAuthType(AuthType.payment)
 				.setSource(PaymentSource.eCommerce)
-				.setCreditCard(CreditCard.get("4111111111111111", "12", "2020").setCvc("123"))
+				.setCreditCard(CreditCard.get("4111111111111111", "12", "2029").setCvc("123"))
 				.addPaymentInfo("fraudCheckTest", "Checkit!")
 				
 		);
