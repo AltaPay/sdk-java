@@ -8,6 +8,7 @@ import com.pensio.api.request.*;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.MalformedURLException;
@@ -26,6 +27,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public boolean login() throws PensioAPIException 
 	{
 		APIResponse response = getAPIResponse("login",
+				HttpMethod.POST, 
 				new HashMap<String, String>());
 		return "OK".equals(response.getBody().getResult());
 	}
@@ -37,7 +39,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			HashMap<String, String> params = new HashMap<String, String>();
 			setPaymentRequestParameters(paymentRequest, params);
 			
-			APIResponse response = getAPIResponse("createPaymentRequest", params);
+			APIResponse response = getAPIResponse("createPaymentRequest", HttpMethod.POST, params);
 
 
 			return new PaymentRequestResponseImpl()
@@ -57,7 +59,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		setInvoiceReservationRequestParameters(request, params);
 
-		return getAPIResponse("createInvoiceReservation", params);
+		return getAPIResponse("createInvoiceReservation", HttpMethod.POST, params);
 	}
 
 	public APIResponse updateOrder(UpdateOrderRequest request) throws PensioAPIException
@@ -66,7 +68,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		setUpdateOrderRequestParameters (request, params);
 
-		return getAPIResponse("updateOrder", params);
+		return getAPIResponse("updateOrder", HttpMethod.POST, params);
 	}
 	
 	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
@@ -76,7 +78,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		setCreditCardRequestParameters(request, params);
 		setPaymentSource(request, params);
 		
-		return getAPIResponse("reservation", params);
+		return getAPIResponse("reservation", HttpMethod.POST, params);
 	}
 	
 	private void setPaymentSource(PaymentReservationRequest request,
@@ -98,7 +100,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "sales_tax", request.getSalesTax());
 		OrderLine[] orderLines = request.getOrderLines();
 		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
-		return getAPIResponse("captureReservation", params);
+		return getAPIResponse("captureReservation", HttpMethod.POST, params);
 	}
 
 	public APIResponse refund(RefundRequest request) throws PensioAPIException 
@@ -109,7 +111,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		OrderLine[] orderLines = request.getOrderLines();
 		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
-		return getAPIResponse("refundCapturedReservation", params);
+		return getAPIResponse("refundCapturedReservation", HttpMethod.POST, params);
 	}
 	
 	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException 
@@ -118,9 +120,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
-		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		if(request.getAgreementUnscheduledType() != null) {
+			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		}
 
-		return getAPIResponse("chargeSubscription", params);
+		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
 	
 	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException 
@@ -128,9 +132,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
-		addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		if(request.getAgreementUnscheduledType() != null) {
+			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		}
 
-		return getAPIResponse("reserveSubscriptionCharge", params);
+		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
 	
 	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException 
@@ -138,11 +144,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "page", String.valueOf(request.getPage()));
 		
-		return getAPIResponse("fundingList", params);
+		return getAPIResponse("fundingList", HttpMethod.GET, params);
 	}
 
 	public APIResponse getTerminals() throws PensioAPIException {
-		return getAPIResponse("getTerminals", new HashMap<String, String>());
+		return getAPIResponse("getTerminals", HttpMethod.GET, new HashMap<String, String>());
 	}
 	
 	public List<FundingRecord> downloadFunding(String downloadLink) throws PensioAPIException
@@ -216,7 +222,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transaction_id", request.getPaymentId());
 		
-		return getAPIResponse("releaseReservation", params);
+		return getAPIResponse("releaseReservation", HttpMethod.POST, params);
 	}
 	
 	public APIResponse queryGiftCard(PaymentReservationRequest request) throws PensioAPIException 
@@ -231,7 +237,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, "giftcard[provider]", request.getGiftCard().getProvider());
         }
 
-		return getAPIResponse("queryGiftCard", params);
+		return getAPIResponse("queryGiftCard", HttpMethod.POST, params);
 	}
 	
 	private void setCreditCardRequestParameters(
@@ -293,11 +299,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if(paymentRequest.getAgreementConfig() != null)
 		{
 			addParam(params, "agreement[id]", paymentRequest.getAgreementConfig().getAgreementId());
-			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType().name());
-			addParam(params, "agreement[unscheduled_type]", paymentRequest.getAgreementConfig().getAgreementUnscheduledType().name());
-			addParam(params, "agreement[expiry]", DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementExpiry()));
+			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType() != null ? paymentRequest.getAgreementConfig().getAgreementType().name() : null);
+			addParam(params, "agreement[unscheduled_type]", paymentRequest.getAgreementConfig().getAgreementUnscheduledType() != null ? paymentRequest.getAgreementConfig().getAgreementUnscheduledType().name() : null);
+			addParam(params, "agreement[expiry]", paymentRequest.getAgreementConfig().getAgreementExpiry() != null ? DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementExpiry()) : null);
 			addParam(params, "agreement[frequency]", paymentRequest.getAgreementConfig().getAgreementFrequency());
-			addParam(params, "agreement[next_charge_date]", DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementNextChargeDate()));
+			addParam(params, "agreement[next_charge_date]", paymentRequest.getAgreementConfig().getAgreementNextChargeDate() != null ? DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementNextChargeDate()) : null);
 			addParam(params, "agreement[admin_url]", paymentRequest.getAgreementConfig().getAgreementAdminUrl());
 		}
 		//below check is to be removed as getAgreementType() is deprecated.
@@ -354,12 +360,18 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	}
 
 	protected APIResponse getAPIResponse(String method,
-			Map<String, String> postVars) throws PensioAPIException 
+			HttpMethod httpMethod,
+			Map<String, String> requestVars) throws PensioAPIException 
 	{
 
 		try 
 		{
-			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, postVars, username, password, getSdkVersion());
+			InputStream inStream = null;
+			if(HttpMethod.GET.equals(httpMethod)) {
+				inStream = this.httpHelper.doGet(this.baseURL + getAppAPIPath() + method, requestVars, username, password, getSdkVersion());
+			} else {
+				inStream = this.httpHelper.doPost(this.baseURL + getAppAPIPath() + method, requestVars, username, password, getSdkVersion());
+			}
 
 			@SuppressWarnings("unchecked")
 			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
@@ -387,7 +399,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			HashMap<String, String> params = new HashMap<String, String>();
 			setMultiPaymentRequestParameters(multiPaymentRequest, params);
 			
-			APIResponse response = getAPIResponse("createMultiPaymentRequest", params);
+			APIResponse response = getAPIResponse("createMultiPaymentRequest", HttpMethod.POST, params);
 		
 			return new PaymentRequestResponseImpl()
 				.setUrl(new URL(response.getBody().getUrl()));
@@ -418,7 +430,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transaction_id", request.getPaymentId());
 
-		return getAPIResponse("transactions", params);
+		return getAPIResponse("transactions", HttpMethod.GET, params);
 	}
 
 	private void setMultiPaymentRequestParameters(
@@ -594,7 +606,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "validationUrl", request.getValidationUrl());
 		addParam(params, "domain", request.getDomain());
 
-		return getAPIResponse("cardWallet/session", params);
+		return getAPIResponse("cardWallet/session", HttpMethod.POST, params);
 	}
 
 	public APIResponse cardWalletAuthorize(CardWalletAuthorizeRequest request) throws PensioAPIException
@@ -607,7 +619,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		setPaymentRequestParameters(request, params);
 
-		return getAPIResponse("cardWallet/authorize", params);
+		return getAPIResponse("cardWallet/authorize", HttpMethod.POST, params);
 	}
 
 	protected String getAppAPIPath()
