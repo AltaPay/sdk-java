@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.5]
+
+- Supports API changes for getTerminals
+
 ## [1.0.4]
 
 - Supports API changes from 20230412

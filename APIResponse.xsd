@@ -166,7 +166,7 @@
 			<xs:element name="Natures" type="Natures" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Currencies" type="Currencies" maxOccurs="1" minOccurs="0" />
             <xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
-            <xs:element name="ApplePayMerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
+            <xs:element name="MerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
