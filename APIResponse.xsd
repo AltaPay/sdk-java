@@ -163,6 +163,7 @@
 		<xs:all>
 			<xs:element name="Title" type="xs:string" />
 			<xs:element name="Country" type="xs:string" />
+			<xs:element name="PrimaryMethod" type="PrimaryMethod" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Natures" type="Natures" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Currencies" type="Currencies" maxOccurs="1" minOccurs="0" />
             <xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
@@ -187,6 +188,13 @@
 			<xs:element name="Nature" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+
+    <xs:complexType name="PrimaryMethod">
+        <xs:all>
+            <xs:element name="Nature" type="xs:string" />
+            <xs:element name="Identifier" type="xs:string" />
+        </xs:all>
+    </xs:complexType>
 
 	<xs:complexType name="Fundings">
 		<xs:sequence>
