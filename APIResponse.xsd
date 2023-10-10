@@ -31,15 +31,15 @@
 			<xs:element name="SurchargeAmount" maxOccurs="1" minOccurs="0"
 						type="xs:double" />
 			<xs:element name="PaReq" maxOccurs="1" minOccurs="0"
-			            type="xs:string" />
+						type="xs:string" />
 			<xs:element name="RedirectUrl" maxOccurs="1" minOccurs="0"
-			            type="xs:string" />
+						type="xs:string" />
 			<xs:element name="RedirectResponse" maxOccurs="1" minOccurs="0"
 						type="RedirectResponse" />
 			<xs:element name="Transactions" type="Transactions"
 				maxOccurs="1" minOccurs="0" />
-            <xs:element name="Actions" type="Actions"
-                        maxOccurs="1" minOccurs="0" />
+			<xs:element name="Actions" type="Actions"
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="MerchantErrorMessage" type="xs:string"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
@@ -88,42 +88,47 @@
 				type="xs:string" />
 			<xs:element name="ResultFilter" type="ResultFilter"
 				maxOccurs="1" minOccurs="0" />
-            <xs:element name="PaymentRequestId" type="xs:string" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="PaymentRequestId" type="xs:string" maxOccurs="1" minOccurs="0"/>
 			<xs:element name="Url" type="xs:string" maxOccurs="1"
 				minOccurs="0"/>
 			<xs:element name="DynamicJavascriptUrl" type="xs:string" maxOccurs="1"
-			            minOccurs="0"/>
+						minOccurs="0"/>
+			<xs:element name="AppUrl" type="xs:string" maxOccurs="1"
+						minOccurs="0"/>
 			<xs:element name="RecurringDefaultAmount" type="xs:double" maxOccurs="1" minOccurs="0" />
 			<xs:element name="GiftCard" type="GiftCard" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Fundings" type="Fundings" maxOccurs="1" minOccurs="0" />
-            <xs:element name="Accounts" type="Accounts" maxOccurs="1" minOccurs="0" />
-            <xs:element name="Terminals" type="Terminals" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Accounts" type="Accounts" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Terminals" type="Terminals" maxOccurs="1" minOccurs="0" />
+			<xs:element name="User" type="User" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Shop" type="MerchantShop" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Terminal" type="Terminal" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ApplePaySession" type="xs:string" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
-    <xs:complexType name="Actions">
-        <xs:sequence>
-            <xs:element name="Action" type="Action" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="Actions">
+		<xs:sequence>
+			<xs:element name="Action" type="Action" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="Action">
-        <xs:all>
-            <xs:element name="Result" maxOccurs="1" minOccurs="0"
-                        type="xs:string" />
-            <xs:element name="MerchantErrorMessage" type="xs:string"
-                        maxOccurs="1" minOccurs="0">
-            </xs:element>
-            <xs:element name="CardHolderErrorMessage" type="xs:string"
-                        maxOccurs="1" minOccurs="0">
-            </xs:element>
-            <xs:element name="Transactions" type="Transactions"
-                        maxOccurs="1" minOccurs="0" />
-        </xs:all>
-    </xs:complexType>
+	<xs:complexType name="Action">
+		<xs:all>
+			<xs:element name="Result" maxOccurs="1" minOccurs="0"
+						type="xs:string" />
+			<xs:element name="MerchantErrorMessage" type="xs:string"
+						maxOccurs="1" minOccurs="0">
+			</xs:element>
+			<xs:element name="CardHolderErrorMessage" type="xs:string"
+						maxOccurs="1" minOccurs="0">
+			</xs:element>
+			<xs:element name="Transactions" type="Transactions"
+						maxOccurs="1" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
 
-    <xs:complexType name="ResultFilter">
+	<xs:complexType name="ResultFilter">
 		<xs:sequence>
 			<xs:element name="ShopEquals" type="xs:string" maxOccurs="1"
 				minOccurs="0">
@@ -166,8 +171,46 @@
 			<xs:element name="PrimaryMethod" type="PrimaryMethod" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Natures" type="Natures" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Currencies" type="Currencies" maxOccurs="1" minOccurs="0" />
-            <xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
-            <xs:element name="MerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
+			<xs:element name="MerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
+            <xs:element name="CanUseCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
+            <xs:element name="CanIssueNewCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
+        </xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="User">
+		<xs:all>
+			<xs:element name="Id" type="xs:string" />
+			<xs:element name="Username" type="xs:string" />
+			<xs:element name="Firstname" type="PrimaryMethod" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Lastname" type="Natures" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Email" type="Natures" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Credentials" type="Credentials" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Shops" type="Shops" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Flags" type="Flags" maxOccurs="1" minOccurs="0" />
+			<xs:element name="MerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="Credentials">
+		<xs:sequence>
+			<xs:element name="Credential" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Flags">
+		<xs:sequence>
+			<xs:element name="Flag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MerchantShop">
+		<xs:all>
+			<xs:element name="Id" type="xs:string" />
+			<xs:element name="Title" type="xs:string" />
+			<xs:element name="Currency" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="ApiVersion" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="SearchIndex" type="xs:string" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
@@ -177,11 +220,11 @@
 		</xs:sequence>
 	</xs:complexType>
 
-    <xs:complexType name="Methods">
-        <xs:sequence>
-            <xs:element name="Method" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="Methods">
+		<xs:sequence>
+			<xs:element name="Method" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="Natures">
 		<xs:sequence>
@@ -189,12 +232,12 @@
 		</xs:sequence>
 	</xs:complexType>
 
-    <xs:complexType name="PrimaryMethod">
-        <xs:all>
-            <xs:element name="Nature" type="xs:string" />
-            <xs:element name="Identifier" type="xs:string" />
-        </xs:all>
-    </xs:complexType>
+	<xs:complexType name="PrimaryMethod">
+		<xs:all>
+			<xs:element name="Nature" type="xs:string" />
+			<xs:element name="Identifier" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
 
 	<xs:complexType name="Fundings">
 		<xs:sequence>
@@ -248,18 +291,18 @@
 		</xs:all>
 	</xs:complexType>
 
-    <xs:complexType name="Accounts">
-        <xs:sequence>
-            <xs:element name="Account" type="Account" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="Accounts">
+		<xs:sequence>
+			<xs:element name="Account" type="Account" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="Account">
-        <xs:all>
-            <xs:element name="Currency" type="xs:string" />
-            <xs:element name="Balance" type="xs:string" />
-        </xs:all>
-    </xs:complexType>
+	<xs:complexType name="Account">
+		<xs:all>
+			<xs:element name="Currency" type="xs:string" />
+			<xs:element name="Balance" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
 
 	<xs:complexType name="Shops">
 		<xs:sequence>
@@ -316,7 +359,7 @@
 			<xs:element name="IsTokenized" type="xs:boolean" />
 			<xs:element name="CardInformation" type="CardInformation" maxOccurs="1" minOccurs="0" />
 			<xs:element name="GiftCardToken" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="MaskedGiftCard" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="MaskedGiftCard" type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ThreeDSecureResult">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -385,7 +428,7 @@
 			<xs:element name="RefundedAmount" type="xs:double" />
 			<xs:element name="CreditedAmount" type="xs:double" />
 			<xs:element name="RecurringDefaultAmount" type="xs:double" />
-            <xs:element name="SurchargeAmount" type="xs:double" />
+			<xs:element name="SurchargeAmount" type="xs:double" />
 			<xs:element name="CreatedDate">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -459,7 +502,7 @@
 			<xs:element name="CustomerInfo" type="CustomerInfo"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
-            <xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
+			<xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ReconciliationIdentifiers"
 				type="ReconciliationIdentifiers" />
 		</xs:all>
@@ -648,33 +691,33 @@
 			<xs:element name="PostalCode" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
-    <xs:complexType name="InvoiceOrderInfo">
-        <xs:sequence>
-            <xs:element name="billingAddress" type="InvoiceAddress" />
-            <xs:element name="paymentMethod" type="paymentMethod"/>
-            <xs:element name="currency" type="xs:string"/>
-            <xs:element name="orderAmount" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="InvoiceAddress">
-        <xs:sequence>
-            <xs:element name="givenName" type="xs:string" />
-            <xs:element name="familyName" type="xs:string" />
-            <xs:element name="email" type="xs:string" />
-            <xs:element name="phone" type="xs:string" />
-            <xs:element name="streetAddress" type="xs:string" />
-            <xs:element name="region" type="xs:string" />
-            <xs:element name="postalCode" type="xs:string" />
-            <xs:element name="country" type="xs:string" />
-            <xs:element name="city" type="xs:string" />
-            <xs:element name="att" type="xs:string" />
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="paymentMethod">
-        <xs:sequence>
-            <xs:element name="type" type="xs:string" />
-            <xs:element name="description" type="xs:string" />
-            <xs:element name="numberOfInstallments" type="xs:string" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="InvoiceOrderInfo">
+		<xs:sequence>
+			<xs:element name="billingAddress" type="InvoiceAddress" />
+			<xs:element name="paymentMethod" type="paymentMethod"/>
+			<xs:element name="currency" type="xs:string"/>
+			<xs:element name="orderAmount" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InvoiceAddress">
+		<xs:sequence>
+			<xs:element name="givenName" type="xs:string" />
+			<xs:element name="familyName" type="xs:string" />
+			<xs:element name="email" type="xs:string" />
+			<xs:element name="phone" type="xs:string" />
+			<xs:element name="streetAddress" type="xs:string" />
+			<xs:element name="region" type="xs:string" />
+			<xs:element name="postalCode" type="xs:string" />
+			<xs:element name="country" type="xs:string" />
+			<xs:element name="city" type="xs:string" />
+			<xs:element name="att" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="paymentMethod">
+		<xs:sequence>
+			<xs:element name="type" type="xs:string" />
+			<xs:element name="description" type="xs:string" />
+			<xs:element name="numberOfInstallments" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>

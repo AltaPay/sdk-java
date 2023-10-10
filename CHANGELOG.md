@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.8]
+
+- Exposes `CanUseCredit` and `CanIssueNewCredit` in `/getTerminals` to comply with the newest Finnish Consumer protection act changes
+
 ## [1.0.7]
 
 - Fixes for retrieving PrimaryMethod object in Terminal
