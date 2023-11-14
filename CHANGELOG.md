@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.9]
+
+- Exposes `Products` in `/getTerminals` in order to support multi-product payment providers
+
 ## [1.0.8]
 
 - Exposes `CanUseCredit` and `CanIssueNewCredit` in `/getTerminals` to comply with the newest Finnish Consumer protection act changes
