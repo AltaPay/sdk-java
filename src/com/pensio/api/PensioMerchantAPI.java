@@ -42,9 +42,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			APIResponse response = getAPIResponse("createPaymentRequest", HttpMethod.POST, params);
 
 
-			return new PaymentRequestResponseImpl()
+			PaymentRequestResponseImpl paymentRequestResponseImpl = new PaymentRequestResponseImpl()
 				.setUrl(new URL(response.getBody().getUrl()))
                 .setPaymentRequestId(response.getBody().getPaymentRequestId());
+
+			if (response.getBody().getAppUrl() != null) {
+				paymentRequestResponseImpl.setAppUrl(new URL(response.getBody().getAppUrl()));
+			}
+
+			return paymentRequestResponseImpl;
 		}
 		catch (MalformedURLException e)
 		{
@@ -400,9 +406,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			setMultiPaymentRequestParameters(multiPaymentRequest, params);
 			
 			APIResponse response = getAPIResponse("createMultiPaymentRequest", HttpMethod.POST, params);
-		
-			return new PaymentRequestResponseImpl()
+
+			PaymentRequestResponseImpl paymentRequestResponseImpl = new PaymentRequestResponseImpl()
 				.setUrl(new URL(response.getBody().getUrl()));
+
+			if (response.getBody().getAppUrl() != null) {
+				paymentRequestResponseImpl.setAppUrl(new URL(response.getBody().getAppUrl()));
+			}
+
+			return paymentRequestResponseImpl;
 		}
 		catch (MalformedURLException e)
 		{
