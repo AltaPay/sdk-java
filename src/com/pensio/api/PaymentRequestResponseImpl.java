@@ -5,6 +5,7 @@ import java.net.URL;
 public class PaymentRequestResponseImpl implements PaymentRequestResponse 
 {
 	private URL url;
+	private URL appUrl;
     private String paymentRequestId;
 
 	/* (non-Javadoc)
@@ -19,6 +20,18 @@ public class PaymentRequestResponseImpl implements PaymentRequestResponse
 	public PaymentRequestResponseImpl setUrl(URL url)
 	{
 		this.url = url;
+		return this;
+	}
+
+	@Override
+	public URL getAppUrl()
+	{
+		return appUrl;
+	}
+
+	public PaymentRequestResponseImpl setAppUrl(URL appUrl)
+	{
+		this.appUrl = appUrl;
 		return this;
 	}
 
