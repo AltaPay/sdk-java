@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.11]
+
+- Exposes `SupportedAgreementTypes` in `/getTerminals` response in order filter out non-agreement payment methods if session relates to agreement payment type
+
+
 ## [1.0.10]
 
 - Exposes `appUrl` in `/createPaymentRequest` response in order to support app redirect for mobile requests
