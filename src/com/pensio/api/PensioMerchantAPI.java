@@ -311,6 +311,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "agreement[frequency]", paymentRequest.getAgreementConfig().getAgreementFrequency());
 			addParam(params, "agreement[next_charge_date]", paymentRequest.getAgreementConfig().getAgreementNextChargeDate() != null ? DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementNextChargeDate()) : null);
 			addParam(params, "agreement[admin_url]", paymentRequest.getAgreementConfig().getAgreementAdminUrl());
+			addParam(params, "agreement[retention_period]", paymentRequest.getAgreementConfig().getRetentionPeriod());
 		}
 		//below check is to be removed as getAgreementType() is deprecated.
 		if(paymentRequest.getAgreementType() != null){
