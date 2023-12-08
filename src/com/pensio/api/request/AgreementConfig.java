@@ -11,6 +11,7 @@ public class AgreementConfig
 	private String agreementFrequency;
 	private Date agreementNextChargeDate;
 	private String agreementAdminUrl;
+	private String retentionPeriod;
 
 	public String getAgreementId()
 	{
@@ -87,5 +88,13 @@ public class AgreementConfig
 	{
 		this.agreementAdminUrl = agreementAdminUrl;
 		return this;
+	}
+
+	public String getRetentionPeriod() {
+		return retentionPeriod;
+	}
+
+	public void setRetentionPeriod(String retentionPeriod) {
+		this.retentionPeriod = retentionPeriod;
 	}
 }
