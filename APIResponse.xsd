@@ -167,6 +167,7 @@
 	<xs:complexType name="Terminal">
 		<xs:all>
 			<xs:element name="Title" type="xs:string" />
+            <xs:element name="ShopName" type="xs:string" />
 			<xs:element name="Country" type="xs:string" />
 			<xs:element name="PrimaryMethod" type="PrimaryMethod" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Products" type="Products" maxOccurs="1" minOccurs="0" />
