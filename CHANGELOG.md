@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.13]
+
+- Exposes `ShopName` in `/getTerminals` response to be able to filter payment methods by shop name
+
 ## [1.0.12]
 
 - Add `retentionParameter` field to `AgreementConfig`
