@@ -15,6 +15,7 @@ public class OrderLine {
 	private double discount;
 	private String goodsType;
 	private String imageUrl;
+	private String productUrl;
 	
 	public OrderLine(String description, String itemId, double quantity, double unit)
 	{
@@ -109,5 +110,13 @@ public class OrderLine {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getProductUrl() {
+		return productUrl;
+	}
+
+	public void setProductUrl(String productUrl) {
+		this.productUrl = productUrl;
 	}
 }

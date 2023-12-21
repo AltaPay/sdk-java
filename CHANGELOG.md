@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.14]
+
+- Add `productUrl` field to `OrderLine` to be included in /createPaymentRequest
+
 ## [1.0.13]
 
 - Exposes `ShopName` in `/getTerminals` response to be able to filter payment methods by shop name

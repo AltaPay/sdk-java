@@ -553,6 +553,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
             addParam(params, prepend+"["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
 			addParam(params, prepend+"["+orderLineIdx+"][imageUrl]", orderLine.getImageUrl());
+			addParam(params, prepend+"["+orderLineIdx+"][productUrl]", orderLine.getProductUrl());
             orderLineIdx++;
         }
 	}
