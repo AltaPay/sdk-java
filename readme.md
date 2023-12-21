@@ -16,12 +16,12 @@ To update the SDK with the latest payment gateway changes run below command from
     <dependency>
         <groupId>com.altapay</groupId>
         <artifactId>sdk-java</artifactId>
-        <version>1.0.13</version>
+        <version>1.0.14</version>
     </dependency>
 
 ### Gradle
 
-    implementation 'com.altapay:sdk-java:1.0.13'
+    implementation 'com.altapay:sdk-java:1.0.14'
 
 ## Changelog
 
