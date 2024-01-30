@@ -37,11 +37,6 @@
 	</target>
 
 	<target name="GenerateSource">
-		<exec command="wget --no-check-certificate" failifexecutionfails="true">
-			<arg value="${xsdUrl}APIResponse.xsd"/>
-			<arg value="-O"/>
-			<arg value="APIResponse.xsd"/>
-		</exec>
 		<exec command="xjc" failifexecutionfails="true">
 			<arg value="-d"/>
 			<arg value="generated/"/>
