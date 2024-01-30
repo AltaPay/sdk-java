@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.15]
+
+- Exposes `LogoUrl` and `Description` in `/getTerminals` response to be able to customize the display of payment methods
+
 ## [1.0.14]
 
 - Add `productUrl` field to `OrderLine` to be included in /createPaymentRequest
