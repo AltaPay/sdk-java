@@ -248,11 +248,18 @@
         </xs:sequence>
     </xs:complexType>
 
+	<xs:complexType name="SupportedPrimaryPaymentAuthTypes">
+		<xs:sequence>
+			<xs:element name="PrimaryPaymentAuthType" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="PrimaryMethod">
 		<xs:all>
 			<xs:element name="Nature" type="xs:string" />
 			<xs:element name="Identifier" type="xs:string" />
             <xs:element name="SupportedAgreementTypes" type="SupportedAgreementTypes" maxOccurs="1" minOccurs="0" />
+			<xs:element name="SupportedPrimaryPaymentAuthTypes" type="SupportedPrimaryPaymentAuthTypes" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
 
