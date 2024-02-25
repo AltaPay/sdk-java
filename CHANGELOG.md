@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.16]
+
+- Exposes `SupportedPrimaryPaymentAuthTypes` in `/getTerminals` response in order to filter out payment methods not matched with auth type from session
+
 ## [1.0.15]
 
 - Exposes `LogoUrl` and `Description` in `/getTerminals` response to be able to customize the display of payment methods
