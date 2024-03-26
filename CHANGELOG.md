@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.17]
+
+- Exposes `Translations` in `/getTerminals` response in order to support custom field translations per language
+
 ## [1.0.16]
 
 - Exposes `SupportedPrimaryPaymentAuthTypes` in `/getTerminals` response in order to filter out payment methods not matched with auth type from session
