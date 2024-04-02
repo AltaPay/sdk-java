@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.18]
+
+Restores `Description` in `/getTerminals` response to be able to customize the display of payment methods (originally introduced in 1.0.15)
+
 ## [1.0.17]
 
 - Exposes `Translations` in `/getTerminals` response in order to support custom field translations per language
