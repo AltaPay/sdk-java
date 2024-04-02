@@ -179,6 +179,7 @@
             <xs:element name="CanIssueNewCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
             <xs:element name="LogoUrl" type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Translations" type="Translations" maxOccurs="1" minOccurs="0" />
+			<xs:element name="Description" type="xs:string" maxOccurs="1" minOccurs="0" />
         </xs:all>
 	</xs:complexType>
 
