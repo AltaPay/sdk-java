@@ -381,7 +381,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			}
 
 			@SuppressWarnings("unchecked")
-			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
+			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)getUnmarshaller().unmarshal(inStream);
 			
 			APIResponse response = result.getValue();
 			
@@ -428,7 +428,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		try
 		{
 			@SuppressWarnings("unchecked")
-			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(new StringReader(xmlParameter));
+			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)getUnmarshaller().unmarshal(new StringReader(xmlParameter));
 			return result.getValue();
 		}
 		catch (JAXBException e)
