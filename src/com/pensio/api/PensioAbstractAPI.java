@@ -18,7 +18,7 @@ public abstract class PensioAbstractAPI {
 	protected String baseURL;
 	protected String username;
 	protected String password;
-	protected Unmarshaller u = null;
+	protected JAXBContext jc;
 
 	protected HTTPHelper httpHelper;
 
@@ -31,13 +31,16 @@ public abstract class PensioAbstractAPI {
 
 		try 
 		{
-			JAXBContext jc = JAXBContext.newInstance("com.pensio.api.generated");
-			u = jc.createUnmarshaller();
+			this.jc = JAXBContext.newInstance("com.pensio.api.generated");
 		}
 		catch (JAXBException e) 
 		{
 			e.printStackTrace();
 		}
+	}
+
+	protected Unmarshaller getUnmarshaller() throws JAXBException {
+		return this.jc.createUnmarshaller();
 	}
 
 	protected String getSdkVersion()
@@ -53,7 +56,7 @@ public abstract class PensioAbstractAPI {
 			InputStream inStream = this.httpHelper.doPost(this.baseURL+getAppAPIPath()+method, params, username, password, getSdkVersion());
 			
 			@SuppressWarnings("unchecked")
-			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)u.unmarshal(inStream);
+			JAXBElement<APIResponse> result = (JAXBElement<APIResponse>)getUnmarshaller().unmarshal(inStream);
 			
 			APIResponse response = result.getValue();
 			

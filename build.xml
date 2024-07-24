@@ -6,7 +6,7 @@
 	<property name="xsdUrl" value="https://testgateway.pensio.com/" />
 	<property name="outputdirs" value="build,devbuild,output,dependencylib,generated" />
 	<property name="local_dependencies" value="" />
-	<property name="altapay.release" value="1.0.18" />
+	<property name="altapay.release" value="1.0.19" />
 
 	<path id="CompileSource_classpath">
 		<fileset dir="lib/" includes="*.jar" />
