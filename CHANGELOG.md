@@ -1,25 +1,30 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.20]
+
+- Expose `FormTemplate` in `/getTerminals`  indicating template used to display payment form
+- Expose `MethodConfiguration` in `/getTerminals` allowing to pass custom configuration needed for some of they payment methods (like PayPal)
+
 ## [1.0.19]
 
 - Fix multi-threading issues while parsing XML documents 
 
 ## [1.0.18]
 
-- Restores `Description` in `/getTerminals` response to be able to customize the display of payment methods (originally introduced in 1.0.15)
+- Restore `Description` in `/getTerminals` response to be able to customize the display of payment methods (originally introduced in 1.0.15)
 
 ## [1.0.17]
 
-- Exposes `Translations` in `/getTerminals` response in order to support custom field translations per language
+- Expose `Translations` in `/getTerminals` response in order to support custom field translations per language
 
 ## [1.0.16]
 
-- Exposes `SupportedPrimaryPaymentAuthTypes` in `/getTerminals` response in order to filter out payment methods not matched with auth type from session
+- Expose `SupportedPrimaryPaymentAuthTypes` in `/getTerminals` response in order to filter out payment methods not matched with auth type from session
 
 ## [1.0.15]
 
-- Exposes `LogoUrl` and `Description` in `/getTerminals` response to be able to customize the display of payment methods
+- Expose `LogoUrl` and `Description` in `/getTerminals` response to be able to customize the display of payment methods
 
 ## [1.0.14]
 
@@ -27,7 +32,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.13]
 
-- Exposes `ShopName` in `/getTerminals` response to be able to filter payment methods by shop name
+- Expose `ShopName` in `/getTerminals` response to be able to filter payment methods by shop name
 
 ## [1.0.12]
 
@@ -35,24 +40,24 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.11]
 
-- Exposes `SupportedAgreementTypes` in `/getTerminals` response in order filter out non-agreement payment methods if session relates to agreement payment type
+- Expose `SupportedAgreementTypes` in `/getTerminals` response in order filter out non-agreement payment methods if session relates to agreement payment type
 
 
 ## [1.0.10]
 
-- Exposes `appUrl` in `/createPaymentRequest` response in order to support app redirect for mobile requests
+- Expose `appUrl` in `/createPaymentRequest` response in order to support app redirect for mobile requests
 
 ## [1.0.9]
 
-- Exposes `Products` in `/getTerminals` in order to support multi-product payment providers
+- Expose `Products` in `/getTerminals` in order to support multi-product payment providers
 
 ## [1.0.8]
 
-- Exposes `CanUseCredit` and `CanIssueNewCredit` in `/getTerminals` to comply with the newest Finnish Consumer protection act changes
+- Expose `CanUseCredit` and `CanIssueNewCredit` in `/getTerminals` to comply with the newest Finnish Consumer protection act changes
 
 ## [1.0.7]
 
-- Fixes for retrieving PrimaryMethod object in Terminal
+- Fix for retrieving PrimaryMethod object in Terminal
 
 ## [1.0.6]
 
@@ -60,16 +65,16 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.5]
 
-- Supports API changes for getTerminals
+- Support API changes for getTerminals
 
 ## [1.0.4]
 
-- Supports API changes from 20230412
+- Support API changes from 20230412
 - Support enforced HTTP methods
 
 ## [1.0.3]
 
-- Supports API changes from 20221026
+- Support API changes from 20221026
 - Support new `method` list in `/getTerminals`
 
 ## [1.0.2]
@@ -83,5 +88,5 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.0]
 
-- Supports API changes from 20210324
+- Support API changes from 20210324
 - Add support to agreements using agreement_type

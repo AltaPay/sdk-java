@@ -22,11 +22,11 @@
 	<xs:complexType name="Body">
 		<xs:all>
 			<xs:element name="Result" maxOccurs="1" minOccurs="0"
-				type="xs:string" />
+						type="xs:string" />
 
 			<!--TODO deprecate SurchageAmount-->
 			<xs:element name="SurchageAmount" maxOccurs="1" minOccurs="0"
-				type="xs:double" />
+						type="xs:double" />
 
 			<xs:element name="SurchargeAmount" maxOccurs="1" minOccurs="0"
 						type="xs:double" />
@@ -37,24 +37,24 @@
 			<xs:element name="RedirectResponse" maxOccurs="1" minOccurs="0"
 						type="RedirectResponse" />
 			<xs:element name="Transactions" type="Transactions"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="Actions" type="Actions"
 						maxOccurs="1" minOccurs="0" />
 			<xs:element name="MerchantErrorMessage" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="CardHolderErrorMessage" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="MerchantErrorCode" type="xs:string"
 						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="CardHolderMessageMustBeShown" type="xs:boolean" maxOccurs="1" minOccurs="0" />
 			<xs:element name="CaptureAmount" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="CaptureCurrency" maxOccurs="1"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="3" />
@@ -62,18 +62,18 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="CaptureResult" maxOccurs="1" minOccurs="0"
-				type="xs:string" />
+						type="xs:string" />
 			<xs:element name="Status" type="xs:string" maxOccurs="1"
-				minOccurs="0">
+						minOccurs="0">
 			</xs:element>
 			<xs:element name="PreauthAmount" type="xs:double"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="RefundedAmount" type="xs:double"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="RefundCurrency" maxOccurs="1"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="3" />
@@ -81,16 +81,16 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="RefundResult" maxOccurs="1" minOccurs="0"
-				type="xs:string" />
+						type="xs:string" />
 			<xs:element name="CancelResult" maxOccurs="1" minOccurs="0"
-				type="xs:string" />
+						type="xs:string" />
 			<xs:element name="SplitResult" maxOccurs="1" minOccurs="0"
-				type="xs:string" />
+						type="xs:string" />
 			<xs:element name="ResultFilter" type="ResultFilter"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="PaymentRequestId" type="xs:string" maxOccurs="1" minOccurs="0"/>
 			<xs:element name="Url" type="xs:string" maxOccurs="1"
-				minOccurs="0"/>
+						minOccurs="0"/>
 			<xs:element name="DynamicJavascriptUrl" type="xs:string" maxOccurs="1"
 						minOccurs="0"/>
 			<xs:element name="AppUrl" type="xs:string" maxOccurs="1"
@@ -131,24 +131,24 @@
 	<xs:complexType name="ResultFilter">
 		<xs:sequence>
 			<xs:element name="ShopEquals" type="xs:string" maxOccurs="1"
-				minOccurs="0">
+						minOccurs="0">
 			</xs:element>
 			<xs:element name="TerminalEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="TransactionIdEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="ShopOrderIdEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="PaymentStatusEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="ReconciliationIdentifierEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="AcquirerReconciliationIdentifierEquals" type="xs:string"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -167,17 +167,19 @@
 	<xs:complexType name="Terminal">
 		<xs:all>
 			<xs:element name="Title" type="xs:string" />
-            <xs:element name="ShopName" type="xs:string" />
+			<xs:element name="ShopName" type="xs:string" />
 			<xs:element name="Country" type="xs:string" />
 			<xs:element name="PrimaryMethod" type="PrimaryMethod" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Products" type="Products" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Natures" type="Natures" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Currencies" type="Currencies" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Methods" type="Methods" maxOccurs="1" minOccurs="0" />
+			<xs:element name="MethodConfigurations" type="MethodConfigurations" maxOccurs="1" minOccurs="0" />
 			<xs:element name="MerchantId" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="CanUseCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
-            <xs:element name="CanIssueNewCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
-            <xs:element name="LogoUrl" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="CanUseCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
+			<xs:element name="CanIssueNewCredit" type="xs:boolean" maxOccurs="1" minOccurs="0" />
+			<xs:element name="FormTemplate" type="xs:string" maxOccurs="1" minOccurs="0" />
+			<xs:element name="LogoUrl" type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Translations" type="Translations" maxOccurs="1" minOccurs="0" />
 			<xs:element name="Description" type="xs:string" maxOccurs="1" minOccurs="0" />
         </xs:all>
@@ -230,6 +232,18 @@
 			<xs:element name="Method" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="MethodConfigurations">
+		<xs:sequence>
+			<xs:element name="MethodConfig" type="MethodConfig" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MethodConfig">
+		<xs:sequence>
+			<xs:any minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="method" type="xs:string" />
+	</xs:complexType>
+
 
 	<xs:complexType name="Natures">
 		<xs:sequence>
@@ -237,17 +251,17 @@
 		</xs:sequence>
 	</xs:complexType>
 
-    <xs:complexType name="Products">
-        <xs:sequence>
-            <xs:element name="Product" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="Products">
+		<xs:sequence>
+			<xs:element name="Product" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 
-    <xs:complexType name="SupportedAgreementTypes">
-        <xs:sequence>
-            <xs:element name="AgreementType" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+	<xs:complexType name="SupportedAgreementTypes">
+		<xs:sequence>
+			<xs:element name="AgreementType" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="SupportedPrimaryPaymentAuthTypes">
 		<xs:sequence>
@@ -259,7 +273,7 @@
 		<xs:all>
 			<xs:element name="Nature" type="xs:string" />
 			<xs:element name="Identifier" type="xs:string" />
-            <xs:element name="SupportedAgreementTypes" type="SupportedAgreementTypes" maxOccurs="1" minOccurs="0" />
+			<xs:element name="SupportedAgreementTypes" type="SupportedAgreementTypes" maxOccurs="1" minOccurs="0" />
 			<xs:element name="SupportedPrimaryPaymentAuthTypes" type="SupportedPrimaryPaymentAuthTypes" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
@@ -458,7 +472,7 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern
-							value="\d{4}-[01]\d-[0123]\d [012]\d:[012345]\d:[012345]\d" />
+								value="\d{4}-[01]\d-[0123]\d [012]\d:[012345]\d:[012345]\d" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -466,7 +480,7 @@
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:pattern
-							value="\d{4}-[01]\d-[0123]\d [012]\d:[012345]\d:[012345]\d">
+								value="\d{4}-[01]\d-[0123]\d [012]\d:[012345]\d:[012345]\d">
 						</xs:pattern>
 					</xs:restriction>
 				</xs:simpleType>
@@ -502,17 +516,17 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="PaymentSchemeName" type="xs:string"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="PaymentNatureService"
-				type="PaymentNatureService" />
+						type="PaymentNatureService" />
 			<xs:element name="FraudRiskScore" type="xs:double"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="FraudExplanation" type="xs:string"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="FraudRecommendation" type="xs:string"
-				maxOccurs="1" minOccurs="0" />
+						maxOccurs="1" minOccurs="0" />
 			<xs:element name="AddressVerification" maxOccurs="1"
-				minOccurs="0">
+						minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
 						<xs:maxLength value="1" />
@@ -520,16 +534,16 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="AddressVerificationDescription"
-				type="xs:string" maxOccurs="1" minOccurs="0" />
+						type="xs:string" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ChargebackEvents"
-				type="ChargebackEvents" maxOccurs="1" minOccurs="0" />
+						type="ChargebackEvents" maxOccurs="1" minOccurs="0" />
 			<xs:element name="PaymentInfos" type="PaymentInfos" />
 			<xs:element name="CustomerInfo" type="CustomerInfo"
-				maxOccurs="1" minOccurs="0">
+						maxOccurs="1" minOccurs="0">
 			</xs:element>
 			<xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ReconciliationIdentifiers"
-				type="ReconciliationIdentifiers" />
+						type="ReconciliationIdentifiers" />
 		</xs:all>
 	</xs:complexType>
 
