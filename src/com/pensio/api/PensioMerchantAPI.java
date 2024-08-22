@@ -550,7 +550,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             	addParam(params, prepend+"["+orderLineIdx+"]["+TaxType.PERCENT.getName()+"]", String.valueOf(orderLine.getTaxPercent()));
             }                        
             addParam(params, prepend+"["+orderLineIdx+"][unitCode]", orderLine.getUnitCode());
-            addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+            if(orderLine.getDiscount()!=null){
+                addParam(params, prepend+"["+orderLineIdx+"][discount]", String.valueOf(orderLine.getDiscount()));
+            }
             addParam(params, prepend+"["+orderLineIdx+"][goodsType]", orderLine.getGoodsType());
 			addParam(params, prepend+"["+orderLineIdx+"][imageUrl]", orderLine.getImageUrl());
 			addParam(params, prepend+"["+orderLineIdx+"][productUrl]", orderLine.getProductUrl());

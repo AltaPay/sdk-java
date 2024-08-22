@@ -12,7 +12,7 @@ public class OrderLine {
 	private double taxPercent;
 	private double taxAmount;
 	private String unitCode;
-	private double discount;
+	private Double discount;
 	private String goodsType;
 	private String imageUrl;
 	private String productUrl;
@@ -88,11 +88,11 @@ public class OrderLine {
 		this.unitCode = unitCode;
 	}
 
-	public double getDiscount() {
+	public Double getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(double discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 

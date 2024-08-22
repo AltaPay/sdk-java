@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.20]
+
+- Fix optional discount field handling
+
 ## [1.0.19]
 
 - Fix multi-threading issues while parsing XML documents 
