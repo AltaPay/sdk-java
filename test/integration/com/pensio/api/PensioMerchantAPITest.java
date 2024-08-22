@@ -434,7 +434,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		OrderLine ol = new OrderLine("desc", "id", 1, 2);
 		ol.setTaxPercent(10);
 		ol.setUnitCode("code");
-		ol.setDiscount(99);
+		ol.setDiscount(99.0);
 		ol.setGoodsType("Item");
 		request.setOrderLines(Arrays.asList(ol));
 
