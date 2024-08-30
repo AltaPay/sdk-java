@@ -21,7 +21,7 @@ publishing {
         maven(MavenPublication) {
             groupId = "com.altapay"
             artifactId = "sdk-java"
-            version = "1.0.20"
+            version = "1.0.21"
             artifact "output/javaSDK_${version}.jar"
             artifact sourceJar
             artifact javadocJar
