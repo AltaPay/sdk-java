@@ -167,6 +167,18 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 			addParam(params, "startMonth", paymentRequest.getStartMonth());
 			addParam(params, "startYear", paymentRequest.getStartYear());
 		}
+		
+		if(paymentRequest.getAgreementConfig() != null)
+		{
+			addParam(params, "agreement[id]", paymentRequest.getAgreementConfig().getAgreementId());
+			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType() != null ? paymentRequest.getAgreementConfig().getAgreementType().name() : null);
+			addParam(params, "agreement[unscheduled_type]", paymentRequest.getAgreementConfig().getAgreementUnscheduledType() != null ? paymentRequest.getAgreementConfig().getAgreementUnscheduledType().name() : null);
+			addParam(params, "agreement[expiry]", paymentRequest.getAgreementConfig().getAgreementExpiry() != null ? DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementExpiry()) : null);
+			addParam(params, "agreement[frequency]", paymentRequest.getAgreementConfig().getAgreementFrequency());
+			addParam(params, "agreement[next_charge_date]", paymentRequest.getAgreementConfig().getAgreementNextChargeDate() != null ? DateHelper.formatDate("yyyyMMdd", paymentRequest.getAgreementConfig().getAgreementNextChargeDate()) : null);
+			addParam(params, "agreement[admin_url]", paymentRequest.getAgreementConfig().getAgreementAdminUrl());
+			addParam(params, "agreement[retention_period]", paymentRequest.getAgreementConfig().getRetentionPeriod());
+		}
 
 		if(paymentRequest.getGiftCard() != null)
 		{

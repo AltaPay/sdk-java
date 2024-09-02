@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.21]
+
+- Add agreement configuration to Processor API
+
 ## [1.0.20]
 
 - Fix optional discount field handling
