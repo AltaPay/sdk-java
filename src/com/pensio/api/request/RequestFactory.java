@@ -34,9 +34,15 @@ public class RequestFactory
 		return new PaymentReservationRequest(shopOrderId, terminal, amount);
 	}
 
+	@Deprecated
 	public Verify3dRequest getVerify3dRequest(String transactionId, String paRes)
 	{
 		return new Verify3dRequest(transactionId, paRes);
+	}
+
+	public Verify3dRequest getVerify3dRequest(String transactionId)
+	{
+		return new Verify3dRequest(transactionId);
 	}
 
 	public TransactionsRequest getTransactionsRequest(String transactionId)

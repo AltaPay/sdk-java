@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.22]
+
+- Add browser information to Processor API
+- Add 3DSv2 data to Processor API
+
 ## [1.0.21]
 
 - Add agreement configuration to Processor API
