@@ -88,6 +88,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "transactionId", request.getTransactionId());
 		addParam(params, "3DSecureRegular[paRes]", request.getPaRes());
 		addParam(params, "3DSecureRegular[MD]", request.getTransactionId());
+		addParam(params, "3DSecureV2[3ds_data]", request.getThreeDSecureData());
 
 		return getAPIResponse("verify3dSecure", params);
 	}
