@@ -13,6 +13,7 @@ public class CustomerInfo
 	
 	private CustomerInfoAddress billingAddress;
 	private CustomerInfoAddress shippingAddress;
+	private BrowserData browserData;
 
 	public String getOrganisationNumber()
 	{
@@ -120,6 +121,15 @@ public class CustomerInfo
 	public CustomerInfo setGender(Gender gender)
 	{
 		this.gender = gender;
+		return this;
+	}
+
+	public BrowserData getBrowserData() {
+		return browserData;
+	}
+
+	public CustomerInfo setBrowserData(BrowserData browserData) {
+		this.browserData = browserData;
 		return this;
 	}
 }

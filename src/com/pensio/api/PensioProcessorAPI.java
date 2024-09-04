@@ -119,6 +119,17 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "customer_info[billing_postal]", billingAddress.getPostal());
 		addParam(params, "customer_info[billing_country]", billingAddress.getCountry());
 
+		BrowserData browserData = customerInfo.getBrowserData();
+		addParam(params, "customer_info[client_time_zone]", browserData.getTimeZone());
+		addParam(params, "customer_info[client_javascript_enabled]", browserData.getJavascriptEnabled());
+		addParam(params, "customer_info[client_screen_width]", browserData.getScreenWidth());
+		addParam(params, "customer_info[client_screen_height]", browserData.getScreenHeight());
+		addParam(params, "customer_info[client_color_depth]", browserData.getColorDepth());
+		addParam(params, "customer_info[client_java_enabled]", browserData.getJavaEnabled());
+		addParam(params, "customer_info[client_forwarded_ip]", browserData.getForwardedIp());
+		addParam(params, "customer_info[client_user_agent]", browserData.getUserAgent());
+		addParam(params, "customer_info[client_accept]", browserData.getAccept());
+		addParam(params, "customer_info[client_accept_language]", browserData.getAcceptLanguage());
 	}
 
 
