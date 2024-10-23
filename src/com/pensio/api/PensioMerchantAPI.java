@@ -443,7 +443,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transaction_id", request.getPaymentId());
 
-		return getAPIResponse("transactions", HttpMethod.GET, params);
+		return getAPIResponse("payments", HttpMethod.GET, params);
 	}
 
 	private void setMultiPaymentRequestParameters(
