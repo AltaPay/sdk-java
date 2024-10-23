@@ -7,7 +7,25 @@ public class ReserveSubscriptionChargeRequest
 	private String agreementId;
 	private AgreementUnscheduledType  agreementUnscheduledType;
 	private Amount amount;
-	
+    private PaymentInfos paymentInfos;
+
+    {
+        paymentInfos = new PaymentInfos();
+        orderLines = new ArrayList<>();
+    }
+
+    public PaymentInfos getPaymentInfos()
+    {
+        return paymentInfos;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T addPaymentInfo(String key, String value)
+    {
+        paymentInfos.add(key, value);
+        return (T)this;
+    }
+
 	public ReserveSubscriptionChargeRequest(String agreementId)
 	{
 		this.agreementId = agreementId;

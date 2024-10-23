@@ -8,7 +8,25 @@ public class ChargeSubscriptionRequest
 	private AgreementUnscheduledType agreementUnscheduledType;
 	private Amount amount;
 	private String reconciliationIdentifier;
-	
+	private PaymentInfos paymentInfos;
+
+    {
+        paymentInfos = new PaymentInfos();
+        orderLines = new ArrayList<>();
+    }
+
+    public PaymentInfos getPaymentInfos()
+    {
+        return paymentInfos;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T addPaymentInfo(String key, String value)
+    {
+        paymentInfos.add(key, value);
+        return (T)this;
+    }
+
 	public ChargeSubscriptionRequest(String agreementId)
 	{
 		this.agreementId = agreementId;
