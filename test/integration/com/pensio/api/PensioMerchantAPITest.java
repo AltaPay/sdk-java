@@ -175,6 +175,8 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+		assertEquals("description",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals("Recurring Agreement",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getValue());
 	}	
 	
 	@Test
@@ -249,6 +251,8 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+		assertEquals("description",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals("Unscheduled Incremental Agreement",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getValue());
 	}
 	
 	@Test
