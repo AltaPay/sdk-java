@@ -2,7 +2,7 @@ package com.pensio.api.request;
 
 import com.pensio.Amount;
 
-public class ReserveSubscriptionChargeRequest
+public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionChargeRequest<T>>
 {
 	private String agreementId;
 	private AgreementUnscheduledType  agreementUnscheduledType;
@@ -11,7 +11,6 @@ public class ReserveSubscriptionChargeRequest
 
     {
         paymentInfos = new PaymentInfos();
-        orderLines = new ArrayList<>();
     }
 
     public PaymentInfos getPaymentInfos()
