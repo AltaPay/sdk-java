@@ -130,6 +130,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 		}
 
+		for(PaymentInfo paymentInfo : request.getPaymentInfos().getAll())
+		{
+			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
+		}
+
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
 	
@@ -140,6 +145,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "amount", request.getAmountString());
 		if(request.getAgreementUnscheduledType() != null) {
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
+		}
+
+		for(PaymentInfo paymentInfo : request.getPaymentInfos().getAll())
+		{
+			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
 		}
 
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
