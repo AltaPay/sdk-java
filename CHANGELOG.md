@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.23]
+
+- Add birthdate to customer information in Merchant API
+
 ## [1.0.22]
 
 - Add browser information to Processor API

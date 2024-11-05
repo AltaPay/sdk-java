@@ -1,5 +1,7 @@
 package com.pensio.api.request;
 
+import java.util.Date;
+
 public class CustomerInfo
 {
 	private String organisationNumber;
@@ -7,6 +9,7 @@ public class CustomerInfo
 	private String username;
 	private String customerPhone;
 	private String bankName;
+	private Date birthDate;
 	private String bankPhone;
 	private String clientIp;
 	private Gender gender;
@@ -131,5 +134,13 @@ public class CustomerInfo
 	public CustomerInfo setBrowserData(BrowserData browserData) {
 		this.browserData = browserData;
 		return this;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 }
