@@ -128,14 +128,25 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
+
 		if(request.getAgreementUnscheduledType() != null) {
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 		}
+
 		if (!request.getPaymentInfos().getAll().isEmpty()) {
 			for (PaymentInfo paymentInfo : request.getPaymentInfos().getAll()) {
 				addParam(params, "transaction_info[" + paymentInfo.getKey() + "]", paymentInfo.getValue());
 			}
 		}
+
+		if (request.getCallbackOk() != null && !request.getCallbackOk().isEmpty()) {
+			addParam(params, "config[callback_ok]", request.getCallbackOk());
+		}
+
+		if (request.getCallbackFail() != null && !request.getCallbackFail().isEmpty()) {
+			addParam(params, "config[callback_fail]", request.getCallbackFail());
+		}
+
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
 	
@@ -144,14 +155,25 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
+
 		if(request.getAgreementUnscheduledType() != null) {
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 		}
+
 		if (!request.getPaymentInfos().getAll().isEmpty()) {
 			for (PaymentInfo paymentInfo : request.getPaymentInfos().getAll()) {
 				addParam(params, "transaction_info[" + paymentInfo.getKey() + "]", paymentInfo.getValue());
 			}
 		}
+
+		if (request.getCallbackOk() != null && !request.getCallbackOk().isEmpty()) {
+			addParam(params, "config[callback_ok]", request.getCallbackOk());
+		}
+
+		if (request.getCallbackFail() != null && !request.getCallbackFail().isEmpty()) {
+			addParam(params, "config[callback_fail]", request.getCallbackFail());
+		}
+
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
 	

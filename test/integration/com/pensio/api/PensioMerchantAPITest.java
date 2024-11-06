@@ -172,6 +172,8 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 			.setAmount(Amount.get(2.00, Currency.EUR))
 			.setReconciliationIdentifier(orderId)
 			.addPaymentInfo("description", "Recurring Agreement")
+			.setCallbackOk("http://example.com/callback/ok")
+			.setCallbackFail("http://example.com/callback/fail")
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
@@ -248,6 +250,8 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 						.setAmount(Amount.get(2.00, Currency.EUR))
 						.setAgreementUnscheduledType(AgreementUnscheduledType.incremental)
 						.addPaymentInfo("description", "Unscheduled Incremental Agreement")
+						.setCallbackOk("http://example.com/callback/ok")
+						.setCallbackFail("http://example.com/callback/fail")
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
