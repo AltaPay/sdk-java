@@ -131,7 +131,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if(request.getAgreementUnscheduledType() != null) {
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 		}
-
+		if (!request.getPaymentInfos().getAll().isEmpty()) {
+			for (PaymentInfo paymentInfo : request.getPaymentInfos().getAll()) {
+				addParam(params, "transaction_info[" + paymentInfo.getKey() + "]", paymentInfo.getValue());
+			}
+		}
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
 	
@@ -143,7 +147,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if(request.getAgreementUnscheduledType() != null) {
 			addParam(params, "agreement[unscheduled_type]", request.getAgreementUnscheduledType().name());
 		}
-
+		if (!request.getPaymentInfos().getAll().isEmpty()) {
+			for (PaymentInfo paymentInfo : request.getPaymentInfos().getAll()) {
+				addParam(params, "transaction_info[" + paymentInfo.getKey() + "]", paymentInfo.getValue());
+			}
+		}
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
 	
@@ -445,7 +453,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		HashMap<String, String> params = new HashMap<String, String>();
 		addParam(params, "transaction_id", request.getPaymentId());
 
-		return getAPIResponse("transactions", HttpMethod.GET, params);
+		return getAPIResponse("payments", HttpMethod.GET, params);
 	}
 
 	private void setMultiPaymentRequestParameters(

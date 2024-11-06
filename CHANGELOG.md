@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.24]
+
+- Add `transaction_info` for subscription endpoints
+- Use new `payments` endpoint for fetching transactions
+
 ## [1.0.23]
 
 - Add birthdate to customer information in Merchant API

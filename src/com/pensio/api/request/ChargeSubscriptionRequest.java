@@ -2,13 +2,30 @@ package com.pensio.api.request;
 
 import com.pensio.Amount;
 
-public class ChargeSubscriptionRequest
+public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 {
 	private String agreementId;
 	private AgreementUnscheduledType agreementUnscheduledType;
 	private Amount amount;
 	private String reconciliationIdentifier;
-	
+	private PaymentInfos paymentInfos;
+
+    {
+        paymentInfos = new PaymentInfos();
+    }
+
+    public PaymentInfos getPaymentInfos()
+    {
+        return paymentInfos;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T addPaymentInfo(String key, String value)
+    {
+        paymentInfos.add(key, value);
+        return (T)this;
+    }
+
 	public ChargeSubscriptionRequest(String agreementId)
 	{
 		this.agreementId = agreementId;

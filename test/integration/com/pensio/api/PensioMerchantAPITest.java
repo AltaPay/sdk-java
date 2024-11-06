@@ -171,9 +171,12 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 			new ChargeSubscriptionRequest(paymentId)
 			.setAmount(Amount.get(2.00, Currency.EUR))
 			.setReconciliationIdentifier(orderId)
+			.addPaymentInfo("description", "Recurring Agreement")
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+		assertEquals("description",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals("Recurring Agreement",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getValue());
 	}	
 	
 	@Test
@@ -244,9 +247,12 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 				new ReserveSubscriptionChargeRequest(agreementId)
 						.setAmount(Amount.get(2.00, Currency.EUR))
 						.setAgreementUnscheduledType(AgreementUnscheduledType.incremental)
+						.addPaymentInfo("description", "Unscheduled Incremental Agreement")
 		);
 		
 		assertEquals("Success",captureResult.getBody().getResult());
+		assertEquals("description",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getName());
+		assertEquals("Unscheduled Incremental Agreement",captureResult.getBody().getTransactions().getTransaction().get(1).getPaymentInfos().getPaymentInfo().get(0).getValue());
 	}
 	
 	@Test
