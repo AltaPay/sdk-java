@@ -7,25 +7,25 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private String agreementId;
 	private AgreementUnscheduledType  agreementUnscheduledType;
 	private Amount amount;
-    private PaymentInfos paymentInfos;
+  private PaymentInfos paymentInfos;
 	private String callbackOk;
 	private String callbackFail;
 
-    {
-        paymentInfos = new PaymentInfos();
-    }
+  {
+      paymentInfos = new PaymentInfos();
+  }
 
-    public PaymentInfos getPaymentInfos()
-    {
-        return paymentInfos;
-    }
+  public PaymentInfos getPaymentInfos()
+  {
+      return paymentInfos;
+  }
 
-    @SuppressWarnings("unchecked")
-    public T addPaymentInfo(String key, String value)
-    {
-        paymentInfos.add(key, value);
-        return (T)this;
-    }
+  @SuppressWarnings("unchecked")
+  public T addPaymentInfo(String key, String value)
+  {
+      paymentInfos.add(key, value);
+      return (T)this;
+  }
 
 	public ReserveSubscriptionChargeRequest(String agreementId)
 	{

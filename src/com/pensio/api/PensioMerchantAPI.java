@@ -172,6 +172,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if (request.getCallbackFail() != null && !request.getCallbackFail().isEmpty()) {
 			addParam(params, "config[callback_fail]", request.getCallbackFail());
 		}
+
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
 	
