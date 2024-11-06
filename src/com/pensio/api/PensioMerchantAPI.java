@@ -14,10 +14,12 @@ import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PensioMerchantAPI extends PensioAbstractAPI
 {
+	private static final SimpleDateFormat BIRTH_DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
 	public PensioMerchantAPI(String baseURL, String username, String password) 
 	{
@@ -484,32 +486,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		
 		if(multiPaymentRequest.getCustomerInfo() != null)
 		{
-			addParam(params, "organisation_number", multiPaymentRequest.getCustomerInfo().getOrganisationNumber());
-			addParam(params, "customer_info[email]", multiPaymentRequest.getCustomerInfo().getEmail());
-			addParam(params, "customer_info[bank_name]", multiPaymentRequest.getCustomerInfo().getBankName());
-			addParam(params, "customer_info[bank_phone]", multiPaymentRequest.getCustomerInfo().getBankPhone());
-			addParam(params, "customer_info[customer_phone]", multiPaymentRequest.getCustomerInfo().getCustomerPhone());
-			addParam(params, "customer_info[username]", multiPaymentRequest.getCustomerInfo().getUsername());
-			if(multiPaymentRequest.getCustomerInfo().getBillingAddress() != null)
-			{
-				addParam(params, "customer_info[billing_address]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getAddress());
-				addParam(params, "customer_info[billing_city]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getCity());
-				addParam(params, "customer_info[billing_country]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getCountry());
-				addParam(params, "customer_info[billing_firstname]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getFirstname());
-				addParam(params, "customer_info[billing_lastname]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getLastname());
-				addParam(params, "customer_info[billing_postal]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getPostal());
-				addParam(params, "customer_info[billing_region]", multiPaymentRequest.getCustomerInfo().getBillingAddress().getRegion());
-			}
-			if(multiPaymentRequest.getCustomerInfo().getShippingAddress() != null)
-			{
-				addParam(params, "customer_info[shipping_address]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getAddress());
-				addParam(params, "customer_info[shipping_city]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getCity());
-				addParam(params, "customer_info[shipping_country]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getCountry());
-				addParam(params, "customer_info[shipping_firstname]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getFirstname());
-				addParam(params, "customer_info[shipping_lastname]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getLastname());
-				addParam(params, "customer_info[shipping_postal]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getPostal());
-				addParam(params, "customer_info[shipping_region]", multiPaymentRequest.getCustomerInfo().getShippingAddress().getRegion());
-			}
+			setCustomerInfo(params, multiPaymentRequest.getCustomerInfo());
 		}
 		
 		for(PaymentInfo paymentInfo : multiPaymentRequest.getPaymentInfos().getAll())
@@ -544,6 +521,45 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 
+	private void setCustomerInfo(HashMap<String, String> params, CustomerInfo customerInfo) {
+		addParam(params, "organisation_number", customerInfo.getOrganisationNumber());
+		addParam(params, "customer_info[email]", customerInfo.getEmail());
+		addParam(params, "customer_info[bank_name]", customerInfo.getBankName());
+		addParam(params, "customer_info[bank_phone]", customerInfo.getBankPhone());
+		addParam(params, "customer_info[customer_phone]", customerInfo.getCustomerPhone());
+		addParam(params, "customer_info[username]", customerInfo.getUsername());
+		addParam(params, "customer_info[client_ip]", customerInfo.getClientIp());
+		if(customerInfo.getBirthDate() != null)
+		{
+			addParam(params, "customer_info[birthdate]", BIRTH_DATE_FORMATTER.format(customerInfo.getBirthDate()));
+		}
+		if(customerInfo.getGender() != null)
+		{
+			addParam(params, "customer_info[gender]", customerInfo.getGender().name());
+		}
+
+		if(customerInfo.getBillingAddress() != null)
+		{
+			addParam(params, "customer_info[billing_address]", customerInfo.getBillingAddress().getAddress());
+			addParam(params, "customer_info[billing_city]", customerInfo.getBillingAddress().getCity());
+			addParam(params, "customer_info[billing_country]", customerInfo.getBillingAddress().getCountry());
+			addParam(params, "customer_info[billing_firstname]", customerInfo.getBillingAddress().getFirstname());
+			addParam(params, "customer_info[billing_lastname]", customerInfo.getBillingAddress().getLastname());
+			addParam(params, "customer_info[billing_postal]", customerInfo.getBillingAddress().getPostal());
+			addParam(params, "customer_info[billing_region]", customerInfo.getBillingAddress().getRegion());
+		}
+		if(customerInfo.getShippingAddress() != null)
+		{
+			addParam(params, "customer_info[shipping_address]", customerInfo.getShippingAddress().getAddress());
+			addParam(params, "customer_info[shipping_city]", customerInfo.getShippingAddress().getCity());
+			addParam(params, "customer_info[shipping_country]", customerInfo.getShippingAddress().getCountry());
+			addParam(params, "customer_info[shipping_firstname]", customerInfo.getShippingAddress().getFirstname());
+			addParam(params, "customer_info[shipping_lastname]", customerInfo.getShippingAddress().getLastname());
+			addParam(params, "customer_info[shipping_postal]", customerInfo.getShippingAddress().getPostal());
+			addParam(params, "customer_info[shipping_region]", customerInfo.getShippingAddress().getRegion());
+		}
+	}
+
 	private void addOrderLines(String prepend, HashMap<String, String> params, List<OrderLine> orderLines)
 	{
 		int orderLineIdx = 0;
@@ -575,37 +591,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		if(paymentRequest.getCustomerInfo() != null)
 		{
-			addParam(params, "organisation_number", paymentRequest.getCustomerInfo().getOrganisationNumber());
-			addParam(params, "customer_info[email]", paymentRequest.getCustomerInfo().getEmail());
-			addParam(params, "customer_info[bank_name]", paymentRequest.getCustomerInfo().getBankName());
-			addParam(params, "customer_info[bank_phone]", paymentRequest.getCustomerInfo().getBankPhone());
-			addParam(params, "customer_info[customer_phone]", paymentRequest.getCustomerInfo().getCustomerPhone());
-			addParam(params, "customer_info[username]", paymentRequest.getCustomerInfo().getUsername());
-			addParam(params, "customer_info[client_ip]", paymentRequest.getCustomerInfo().getClientIp());
-			if(paymentRequest.getCustomerInfo().getGender() != null)
-			{
-				addParam(params, "customer_info[gender]", paymentRequest.getCustomerInfo().getGender().name());
-			}
-			if(paymentRequest.getCustomerInfo().getBillingAddress() != null)
-			{
-				addParam(params, "customer_info[billing_address]", paymentRequest.getCustomerInfo().getBillingAddress().getAddress());
-				addParam(params, "customer_info[billing_city]", paymentRequest.getCustomerInfo().getBillingAddress().getCity());
-				addParam(params, "customer_info[billing_country]", paymentRequest.getCustomerInfo().getBillingAddress().getCountry());
-				addParam(params, "customer_info[billing_firstname]", paymentRequest.getCustomerInfo().getBillingAddress().getFirstname());
-				addParam(params, "customer_info[billing_lastname]", paymentRequest.getCustomerInfo().getBillingAddress().getLastname());
-				addParam(params, "customer_info[billing_postal]", paymentRequest.getCustomerInfo().getBillingAddress().getPostal());
-				addParam(params, "customer_info[billing_region]", paymentRequest.getCustomerInfo().getBillingAddress().getRegion());
-			}
-			if(paymentRequest.getCustomerInfo().getShippingAddress() != null)
-			{
-				addParam(params, "customer_info[shipping_address]", paymentRequest.getCustomerInfo().getShippingAddress().getAddress());
-				addParam(params, "customer_info[shipping_city]", paymentRequest.getCustomerInfo().getShippingAddress().getCity());
-				addParam(params, "customer_info[shipping_country]", paymentRequest.getCustomerInfo().getShippingAddress().getCountry());
-				addParam(params, "customer_info[shipping_firstname]", paymentRequest.getCustomerInfo().getShippingAddress().getFirstname());
-				addParam(params, "customer_info[shipping_lastname]", paymentRequest.getCustomerInfo().getShippingAddress().getLastname());
-				addParam(params, "customer_info[shipping_postal]", paymentRequest.getCustomerInfo().getShippingAddress().getPostal());
-				addParam(params, "customer_info[shipping_region]", paymentRequest.getCustomerInfo().getShippingAddress().getRegion());
-			}
+			setCustomerInfo(params, paymentRequest.getCustomerInfo());
 		}
 	}
 
