@@ -7,7 +7,7 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private String agreementId;
 	private AgreementUnscheduledType  agreementUnscheduledType;
 	private Amount amount;
-    private PaymentInfos paymentInfos;
+	private PaymentInfos paymentInfos;
 	private String callbackOk;
 	private String callbackFail;
 
