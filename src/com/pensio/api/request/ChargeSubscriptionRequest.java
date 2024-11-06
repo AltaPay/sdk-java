@@ -2,13 +2,32 @@ package com.pensio.api.request;
 
 import com.pensio.Amount;
 
-public class ChargeSubscriptionRequest
+public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 {
 	private String agreementId;
 	private AgreementUnscheduledType agreementUnscheduledType;
 	private Amount amount;
 	private String reconciliationIdentifier;
-	
+	private PaymentInfos paymentInfos;
+	private String callbackOk;
+	private String callbackFail;
+
+	{
+		paymentInfos = new PaymentInfos();
+	}
+
+	public PaymentInfos getPaymentInfos()
+	{
+		return paymentInfos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T addPaymentInfo(String key, String value)
+	{
+		paymentInfos.add(key, value);
+		return (T)this;
+	}
+
 	public ChargeSubscriptionRequest(String agreementId)
 	{
 		this.agreementId = agreementId;
@@ -42,7 +61,7 @@ public class ChargeSubscriptionRequest
 	{
 		return amount;
 	}
-	
+
 	public String getAmountString()
 	{
 		if(amount == null)
@@ -69,5 +88,26 @@ public class ChargeSubscriptionRequest
 		return this;
 	}
 
-	
+	public String getCallbackOk()
+	{
+		return callbackOk;
+	}
+
+	public ChargeSubscriptionRequest setCallbackOk(String callbackOk)
+	{
+		this.callbackOk = callbackOk;
+		return this;
+	}
+
+	public String getCallbackFail()
+	{
+		return callbackFail;
+	}
+
+	public ChargeSubscriptionRequest setCallbackFail(String callbackFail)
+	{
+		this.callbackFail = callbackFail;
+		return this;
+	}
+
 }
