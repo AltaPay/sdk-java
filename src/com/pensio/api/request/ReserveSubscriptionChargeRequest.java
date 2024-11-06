@@ -81,7 +81,7 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 		return callbackOk;
 	}
 
-	public PaymentRequestConfig setCallbackOk(String callbackOk)
+	public ReserveSubscriptionChargeRequest setCallbackOk(String callbackOk)
 	{
 		this.callbackOk = callbackOk;
 		return this;
@@ -92,7 +92,7 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 		return callbackFail;
 	}
 
-	public PaymentRequestConfig setCallbackFail(String callbackFail)
+	public ReserveSubscriptionChargeRequest setCallbackFail(String callbackFail)
 	{
 		this.callbackFail = callbackFail;
 		return this;

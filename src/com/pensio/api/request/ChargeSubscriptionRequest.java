@@ -93,7 +93,7 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 		return callbackOk;
 	}
 
-	public PaymentRequestConfig setCallbackOk(String callbackOk)
+	public ChargeSubscriptionRequest setCallbackOk(String callbackOk)
 	{
 		this.callbackOk = callbackOk;
 		return this;
@@ -104,7 +104,7 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 		return callbackFail;
 	}
 
-	public PaymentRequestConfig setCallbackFail(String callbackFail)
+	public ChargeSubscriptionRequest setCallbackFail(String callbackFail)
 	{
 		this.callbackFail = callbackFail;
 		return this;
