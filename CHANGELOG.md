@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.25]
+
+- Add `callback_ok` and `callback_fail` for subscription endpoints.
+
 ## [1.0.24]
 
 - Add `transaction_info` for subscription endpoints
