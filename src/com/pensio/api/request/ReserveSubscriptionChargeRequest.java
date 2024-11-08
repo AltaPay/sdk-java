@@ -7,7 +7,9 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private String agreementId;
 	private AgreementUnscheduledType  agreementUnscheduledType;
 	private Amount amount;
-    private PaymentInfos paymentInfos;
+	private PaymentInfos paymentInfos;
+	private String callbackOk;
+	private String callbackFail;
 
     {
         paymentInfos = new PaymentInfos();
@@ -71,6 +73,28 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	public ReserveSubscriptionChargeRequest setAmount(Amount amount)
 	{
 		this.amount = amount;
+		return this;
+	}
+
+	public String getCallbackOk()
+	{
+		return callbackOk;
+	}
+
+	public ReserveSubscriptionChargeRequest setCallbackOk(String callbackOk)
+	{
+		this.callbackOk = callbackOk;
+		return this;
+	}
+
+	public String getCallbackFail()
+	{
+		return callbackFail;
+	}
+
+	public ReserveSubscriptionChargeRequest setCallbackFail(String callbackFail)
+	{
+		this.callbackFail = callbackFail;
 		return this;
 	}
 	

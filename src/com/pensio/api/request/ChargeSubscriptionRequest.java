@@ -9,6 +9,8 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 	private Amount amount;
 	private String reconciliationIdentifier;
 	private PaymentInfos paymentInfos;
+ 	private String callbackOk;
+	private String callbackFail;
 
     {
         paymentInfos = new PaymentInfos();
@@ -86,5 +88,25 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 		return this;
 	}
 
-	
+	public String getCallbackOk()
+	{
+		return callbackOk;
+	}
+
+	public ChargeSubscriptionRequest setCallbackOk(String callbackOk)
+	{
+		this.callbackOk = callbackOk;
+		return this;
+	}
+
+	public String getCallbackFail()
+	{
+		return callbackFail;
+	}
+
+	public ChargeSubscriptionRequest setCallbackFail(String callbackFail)
+	{
+		this.callbackFail = callbackFail;
+		return this;
+	}
 }
