@@ -6,6 +6,23 @@ plugins {
     id "signing"
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+    test {
+        java {
+            srcDirs 'test/functional'
+            srcDirs 'test/integration'
+            srcDirs 'test/unit'
+        }
+    }
+
+
+}
+
 task sourceJar(type: Jar) {
     archiveClassifier = "sources"
     from sourceSets.main.allJava
