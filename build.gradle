@@ -1,68 +1,121 @@
-// Publish module to Maven
-
 plugins {
-    id "maven-publish"
     id "java"
+    id "com.github.bjornvester.xjc" version "1.8.2"
+    id 'java-library'
+    id "maven-publish"
     id "signing"
 }
 
-task sourceJar(type: Jar) {
-    archiveClassifier = "sources"
-    from sourceSets.main.allJava
+group = 'com.altapay'
+version = '2.0.1'
+
+repositories {
+    mavenCentral()
 }
 
-task javadocJar(type: Jar) {
-    archiveClassifier = "javadoc"
-    from javadoc
+sourceSets {
+    integrationTest {
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'net.sourceforge.javacsv:javacsv:2.0'
+    implementation 'commons-collections:commons-collections:3.2.2'
+    implementation 'commons-codec:commons-codec:1.17.1'
+
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+
+    integrationTestImplementation platform('org.junit:junit-bom:5.11.4')
+    integrationTestImplementation 'org.junit.jupiter:junit-jupiter-api'
+    integrationTestImplementation 'org.junit.jupiter:junit-jupiter-params'
+    integrationTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    integrationTestRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+}
+
+xjc {
+    xjcVersion.set("2.3.8")
+    useJakarta.set(false)
+    markGenerated.set(true)
+    xsdDir.set(layout.projectDirectory.dir("src/main/resources/xsd"))
+    outputResourcesDir.set(layout.projectDirectory.dir("generated"))
+    defaultPackage.set("com.pensio.api.generated")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register("integrationTest", Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output
+    classpath = sourceSets.integrationTest.runtimeClasspath
+
+    shouldRunAfter test
+    useJUnitPlatform()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = "com.altapay"
+        mavenJava(MavenPublication) {
             artifactId = "sdk-java"
-            version = "1.0.25"
-            artifact "output/javaSDK_${version}.jar"
-            artifact sourceJar
-            artifact javadocJar
+            from components.java
 
             pom {
                 name = "sdk-java"
                 description = "JavaSDK - for integrating Java projects with the AltaPay gateway."
-                url  = "https://github.com/AltaPay/sdk-java"
+                url = "https://github.com/AltaPay/sdk-java"
                 scm {
-                  connection =  "scm:https://github.com/AltaPay/sdk-java.git"
-                  developerConnection = "scm:git://github.com:AltaPay/sdk-java.git"
-                  url = "https://github.com/AltaPay/sdk-java"
+                    connection = "scm:https://github.com/AltaPay/sdk-java.git"
+                    developerConnection = "scm:git://github.com:AltaPay/sdk-java.git"
+                    url = "https://github.com/AltaPay/sdk-java"
                 }
                 licenses {
-                  license {
-                    name = "MIT License"
-                    url = "https://github.com/AltaPay/sdk-java/blob/master/LICENSE"
-                  }
+                    license {
+                        name = "MIT License"
+                        url = "https://github.com/AltaPay/sdk-java/blob/master/LICENSE"
+                    }
                 }
                 developers {
-                  developer {
-                    id = "altapay"
-                    name = "AltaPay"
-                    email = "3rdpartydeps@altapay.com"
-                  }
-              }
+                    developer {
+                        id = "altapay"
+                        name = "AltaPay"
+                        email = "3rdpartydeps@altapay.com"
+                    }
+                }
             }
         }
     }
-    repositories {
-      maven {
-          credentials {
-              username = "$usr"
-              password = "$pwd"
-          }
 
-          url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-      }
-  }
+    repositories {
+        maven {
+            credentials {
+                username = "$usr"
+                password = "$pwd"
+            }
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        }
+    }
 }
 
 signing {
-    sign publishing.publications.maven
+    sign publishing.publications.mavenJava
 }

@@ -5,9 +5,42 @@ For integrating Java projects with the AltaPay gateway.
 
 ## How to Build
 
-To update the SDK with the latest payment gateway changes run below command from the root of the project
+1. Create local `gradle.properties` file in the root of the project with the following content:
 
-    $ ant DistZip
+    ```properties
+    usr=USER
+    pwd=PASSWORD
+    ```
+    
+    Replace `USER` and `PASSWORD` with your credentials in case you're willing to publish the artifact to the Maven repository.
+
+2. Run the following command to build the project:
+
+    ```shell
+    ./gradlew clean build
+    ```
+   
+3. To update the SDK with the latest payment gateway changes, please replace the `src/main/xsd/APIResponse.xsd` file with the newest version and run:
+
+    ```shell
+    ./gradlew clean xjc build
+    ```
+
+4. To publish the artifact to the local Maven repository, first comment-out:
+
+   ```gradle
+   signing {
+       sign publishing.publications.mavenJava
+   }
+   ```
+   
+   then run:
+
+    ```shell
+    ./gradlew publishToMavenLocal
+    ```
+
+    The artifact will be published to the local Maven repository.
 
 ## Dependency
 
@@ -16,12 +49,12 @@ To update the SDK with the latest payment gateway changes run below command from
     <dependency>
         <groupId>com.altapay</groupId>
         <artifactId>sdk-java</artifactId>
-        <version>1.0.25</version>
+        <version>2.0.1</version>
     </dependency>
 
 ### Gradle
 
-    implementation 'com.altapay:sdk-java:1.0.25'
+    implementation 'com.altapay:sdk-java:2.0.1'
 
 ## Changelog
 

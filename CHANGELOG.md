@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.1]
+
+- Update java compilation version to 17
+- Migrate build from Ant to Gradle
+- Use transitive dependencies instead of embedded ones in jar
+
 ## [1.0.25]
 
 - Add `callback_ok` and `callback_fail` for subscription endpoints.
