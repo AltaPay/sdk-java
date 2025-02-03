@@ -530,9 +530,49 @@
 			<xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ReconciliationIdentifiers"
 				type="ReconciliationIdentifiers" />
+			<xs:element name="Authentication" type="Authentication" maxOccurs="1" minOccurs="0" />
 		</xs:all>
 	</xs:complexType>
-
+	<xs:complexType name="Authentication">
+		<xs:all>
+			<xs:element name="Flow" type="AuthenticationFlow" />
+			<xs:element name="Liability" type="AuthenticationLiability" />
+			<xs:element name="Result" type="AuthenticationResult" />
+			<xs:element name="Version" type="xs:string" />
+			<xs:element name="Type" type="AuthenticationType" />
+		</xs:all>
+	</xs:complexType>
+	<xs:simpleType name="AuthenticationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="3DSECURE"/>
+			<xs:enumeration value="UNKNOWN" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthenticationFlow">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FRICTIONLESS" />
+			<xs:enumeration value="CHALLENGE" />
+			<xs:enumeration value="UNKNOWN" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthenticationLiability">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MERCHANT" />
+			<xs:enumeration value="ISSUER" />
+			<xs:enumeration value="UNKNOWN" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuthenticationResult">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AUTHENTICATED" />
+			<xs:enumeration value="ACCEPTED" />
+			<xs:enumeration value="NOT_AUTHENTICATED" />
+			<xs:enumeration value="FAILED" />
+			<xs:enumeration value="REJECTED" />
+			<xs:enumeration value="INFORMATIONAL" />
+			<xs:enumeration value="UNKNOWN" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="PaymentNatureService">
 		<xs:all>
 			<xs:element name="SupportsRefunds">
