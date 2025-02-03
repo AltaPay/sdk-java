@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.altapay'
-version = '2.0.1'
+version = '2.0.2'
 
 repositories {
     mavenCentral()
@@ -51,6 +51,7 @@ xjc {
     xsdDir.set(layout.projectDirectory.dir("src/main/resources/xsd"))
     outputResourcesDir.set(layout.projectDirectory.dir("generated"))
     defaultPackage.set("com.pensio.api.generated")
+    bindingFiles = layout.files(layout.projectDirectory.file("src/main/resources/xsd/bindings.xjb"))
 }
 
 test {

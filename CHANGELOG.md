@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+## [2.0.2]
+
+- Add `Authentication` entity to `Transaction` 
+
 ## [2.0.1]
 
 - Update java compilation version to 17
