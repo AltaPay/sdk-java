@@ -6,3 +6,5 @@ dist/
 output/
 generated/
 .idea/
+
+gradle.properties
