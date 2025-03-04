@@ -535,6 +535,9 @@
 			<xs:element name="CustomerInfo" type="CustomerInfo"
 				maxOccurs="1" minOccurs="0">
 			</xs:element>
+			<xs:element name="RecipientInfo" type="CustomerInfo"
+						maxOccurs="1" minOccurs="0">
+			</xs:element>
 			<xs:element name="InvoiceOrderInfo" type="InvoiceOrderInfo" maxOccurs="1" minOccurs="0" />
 			<xs:element name="ReconciliationIdentifiers"
 				type="ReconciliationIdentifiers" />
@@ -644,6 +647,9 @@
 			</xs:element>
 			<xs:element name="Username" type="xs:string" maxOccurs="1"
 				minOccurs="0">
+			</xs:element>
+			<xs:element name="AccountIdentifier" type="xs:string" maxOccurs="1"
+						minOccurs="0">
 			</xs:element>
 			<xs:element name="CustomerPhone" type="xs:string"
 				maxOccurs="1" minOccurs="0">

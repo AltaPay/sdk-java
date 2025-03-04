@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.4]
+
+- Add `Recipient` information to `PaymentRequest`
+- Add `AccountIdentifier` to `CustomerInfo`
+
 ## [2.0.3]
 
 - Add `AuthorisationExpiryDate` to `Transaction`

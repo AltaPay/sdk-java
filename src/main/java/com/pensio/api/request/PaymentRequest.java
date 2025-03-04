@@ -22,8 +22,9 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
-	private PaymentInfos paymentInfos;
-	private List<OrderLine> orderLines;
+	protected CustomerInfo recipientInfo;
+	private final PaymentInfos paymentInfos;
+	private final List<OrderLine> orderLines;
 
 	/**
 	 *
@@ -178,6 +179,16 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	public T setCustomerInfo(CustomerInfo customerInfo)
 	{
 		this.customerInfo = customerInfo;
+		return (T)this;
+	}
+
+	public CustomerInfo getRecipientInfo() {
+		return recipientInfo;
+	}
+
+	@SuppressWarnings("unchecked")
+	public T setRecipientInfo(CustomerInfo recipientInfo) {
+		this.recipientInfo = recipientInfo;
 		return (T)this;
 	}
 
