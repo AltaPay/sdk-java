@@ -1,7 +1,5 @@
 package com.pensio.api.request;
 
-import java.util.Date;
-
 import com.pensio.Amount;
 
 public class PaymentReservationRequest

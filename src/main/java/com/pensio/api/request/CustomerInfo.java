@@ -9,6 +9,7 @@ public class CustomerInfo
 	private String username;
 	private String customerPhone;
 	private String bankName;
+	private String accountIdentifier;
 	private Date birthDate;
 	private String bankPhone;
 	private String clientIp;
@@ -70,6 +71,15 @@ public class CustomerInfo
 	public CustomerInfo setBankName(String bankName)
 	{
 		this.bankName = bankName;
+		return this;
+	}
+
+	public String getAccountIdentifier() {
+		return accountIdentifier;
+	}
+
+	public CustomerInfo setAccountIdentifier(String accountIdentifier) {
+		this.accountIdentifier = accountIdentifier;
 		return this;
 	}
 

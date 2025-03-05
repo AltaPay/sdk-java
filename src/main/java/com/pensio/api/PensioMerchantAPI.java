@@ -329,6 +329,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 
 		addCustomerInfo(paymentRequest, params);
+		addRecipientInfo(paymentRequest, params);
 
 		addPaymentInfo(paymentRequest, params);
 
@@ -362,6 +363,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "amount", request.getAmount().getAmountString());
 		addParam(params, "currency", request.getAmount().getCurrency().name());
 		addCustomerInfo(request, params);
+		addRecipientInfo(request, params);
 
 		// Optional arguments
 		addAuthType(request, params);
@@ -506,7 +508,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		
 		if(multiPaymentRequest.getCustomerInfo() != null)
 		{
-			setCustomerInfo(params, multiPaymentRequest.getCustomerInfo());
+			setCustomerInfo(params, multiPaymentRequest.getCustomerInfo(), "customer_info");
 		}
 		
 		for(PaymentInfo paymentInfo : multiPaymentRequest.getPaymentInfos().getAll())
@@ -541,14 +543,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 
-	private void setCustomerInfo(HashMap<String, String> params, CustomerInfo customerInfo) {
+	private void setCustomerInfo(HashMap<String, String> params, CustomerInfo customerInfo, String groupTag) {
 		addParam(params, "organisation_number", customerInfo.getOrganisationNumber());
-		addParam(params, "customer_info[email]", customerInfo.getEmail());
-		addParam(params, "customer_info[bank_name]", customerInfo.getBankName());
-		addParam(params, "customer_info[bank_phone]", customerInfo.getBankPhone());
-		addParam(params, "customer_info[customer_phone]", customerInfo.getCustomerPhone());
-		addParam(params, "customer_info[username]", customerInfo.getUsername());
-		addParam(params, "customer_info[client_ip]", customerInfo.getClientIp());
+		addParam(params, String.format("%s[email]", groupTag), customerInfo.getEmail());
+		addParam(params, String.format("%s[bank_name]", groupTag), customerInfo.getBankName());
+		addParam(params, String.format("%s[bank_phone]", groupTag), customerInfo.getBankPhone());
+		addParam(params, String.format("%s[account_identifier]", groupTag), customerInfo.getAccountIdentifier());
+		addParam(params, String.format("%s[customer_phone]", groupTag), customerInfo.getCustomerPhone());
+		addParam(params, String.format("%s[username]", groupTag), customerInfo.getUsername());
+		addParam(params, String.format("%s[client_ip]", groupTag), customerInfo.getClientIp());
 		if(customerInfo.getBirthDate() != null)
 		{
 			addParam(params, "customer_info[birthdate]", BIRTH_DATE_FORMATTER.format(customerInfo.getBirthDate()));
@@ -560,23 +563,23 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		if(customerInfo.getBillingAddress() != null)
 		{
-			addParam(params, "customer_info[billing_address]", customerInfo.getBillingAddress().getAddress());
-			addParam(params, "customer_info[billing_city]", customerInfo.getBillingAddress().getCity());
-			addParam(params, "customer_info[billing_country]", customerInfo.getBillingAddress().getCountry());
-			addParam(params, "customer_info[billing_firstname]", customerInfo.getBillingAddress().getFirstname());
-			addParam(params, "customer_info[billing_lastname]", customerInfo.getBillingAddress().getLastname());
-			addParam(params, "customer_info[billing_postal]", customerInfo.getBillingAddress().getPostal());
-			addParam(params, "customer_info[billing_region]", customerInfo.getBillingAddress().getRegion());
+			addParam(params, String.format("%s[billing_address]",groupTag), customerInfo.getBillingAddress().getAddress());
+			addParam(params, String.format("%s[billing_city]",groupTag), customerInfo.getBillingAddress().getCity());
+			addParam(params, String.format("%s[billing_country]",groupTag), customerInfo.getBillingAddress().getCountry());
+			addParam(params, String.format("%s[billing_firstname]",groupTag), customerInfo.getBillingAddress().getFirstname());
+			addParam(params, String.format("%s[billing_lastname]",groupTag), customerInfo.getBillingAddress().getLastname());
+			addParam(params, String.format("%s[billing_postal]",groupTag), customerInfo.getBillingAddress().getPostal());
+			addParam(params, String.format("%s[billing_region]",groupTag), customerInfo.getBillingAddress().getRegion());
 		}
 		if(customerInfo.getShippingAddress() != null)
 		{
-			addParam(params, "customer_info[shipping_address]", customerInfo.getShippingAddress().getAddress());
-			addParam(params, "customer_info[shipping_city]", customerInfo.getShippingAddress().getCity());
-			addParam(params, "customer_info[shipping_country]", customerInfo.getShippingAddress().getCountry());
-			addParam(params, "customer_info[shipping_firstname]", customerInfo.getShippingAddress().getFirstname());
-			addParam(params, "customer_info[shipping_lastname]", customerInfo.getShippingAddress().getLastname());
-			addParam(params, "customer_info[shipping_postal]", customerInfo.getShippingAddress().getPostal());
-			addParam(params, "customer_info[shipping_region]", customerInfo.getShippingAddress().getRegion());
+			addParam(params, String.format("%s[shipping_address]",groupTag), customerInfo.getShippingAddress().getAddress());
+			addParam(params, String.format("%s[shipping_city]",groupTag), customerInfo.getShippingAddress().getCity());
+			addParam(params, String.format("%s[shipping_country]",groupTag), customerInfo.getShippingAddress().getCountry());
+			addParam(params, String.format("%s[shipping_firstname]",groupTag), customerInfo.getShippingAddress().getFirstname());
+			addParam(params, String.format("%s[shipping_lastname]",groupTag), customerInfo.getShippingAddress().getLastname());
+			addParam(params, String.format("%s[shipping_postal]",groupTag), customerInfo.getShippingAddress().getPostal());
+			addParam(params, String.format("%s[shipping_region]",groupTag), customerInfo.getShippingAddress().getRegion());
 		}
 	}
 
@@ -611,7 +614,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		if(paymentRequest.getCustomerInfo() != null)
 		{
-			setCustomerInfo(params, paymentRequest.getCustomerInfo());
+			setCustomerInfo(params, paymentRequest.getCustomerInfo(), "customer_info");
+		}
+	}
+
+	private void addRecipientInfo(PaymentRequest<?> paymentRequest, HashMap<String, String> params)
+	{
+		if(paymentRequest.getRecipientInfo() != null)
+		{
+			setCustomerInfo(params, paymentRequest.getRecipientInfo(), "recipient_info");
 		}
 	}
 

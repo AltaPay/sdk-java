@@ -459,6 +459,7 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		customerInfo.setCustomerPhone("phone");
 		customerInfo.setBankName("bank name");
 		customerInfo.setBankPhone("bank phone");
+		customerInfo.setAccountIdentifier("account identifier");
 
 		CustomerInfoAddress billingAddress = new CustomerInfoAddress();
 		billingAddress.setAddress("some address");
@@ -480,7 +481,26 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		shippingAddress.setPostal("ship postal code 1234");
 		customerInfo.setShippingAddress(shippingAddress);
 
+		CustomerInfo recipientInfo = new CustomerInfo();
+		recipientInfo.setEmail("customer email2");
+		recipientInfo.setUsername("user2");
+		recipientInfo.setCustomerPhone("phone2");
+		recipientInfo.setBankName("bank name2");
+		recipientInfo.setBankPhone("bank phone2");
+		recipientInfo.setAccountIdentifier("account identifier2");
+
+		CustomerInfoAddress recipientAddress = new CustomerInfoAddress();
+		recipientAddress.setAddress("some address2");
+		recipientAddress.setCity("city2");
+		recipientAddress.setCountry("US");
+		recipientAddress.setFirstname("first2");
+		recipientAddress.setLastname("last2");
+		recipientAddress.setRegion("region2");
+		recipientAddress.setPostal("postal code 12345");
+		recipientInfo.setBillingAddress(recipientAddress);
+
 		request.setCustomerInfo(customerInfo);
+		request.setRecipientInfo(recipientInfo);
 
 		APIResponse result = api.createInvoiceReservation(request);
 
@@ -494,12 +514,19 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		assertEquals("auxinfo1", transaction.getPaymentInfos().getPaymentInfo().get(0).getName());
 		assertEquals(request.getPaymentInfos().get("auxinfo1").getValue(), transaction.getPaymentInfos().getPaymentInfo().get(0).getValue());
 
-		com.pensio.api.generated.CustomerInfo ci = transaction.getCustomerInfo();
-		CustomerInfo ciReq = request.getCustomerInfo();
+		assertCustomerInfo(request.getCustomerInfo(), transaction.getCustomerInfo());
+		assertCustomerInfo(request.getRecipientInfo(), transaction.getRecipientInfo());
 
+		assertNull(result.getBody().getMerchantErrorMessage());
+		assertNull(result.getBody().getCardHolderErrorMessage());
+		assertEquals("Success", result.getBody().getResult());
+	}
+
+	private static void assertCustomerInfo(CustomerInfo ciReq, com.pensio.api.generated.CustomerInfo ci) {
 		assertEquals(ciReq.getEmail(), ci.getEmail());
 		assertEquals(ciReq.getUsername(), ci.getUsername());
 		assertEquals(ciReq.getCustomerPhone(), ci.getCustomerPhone());
+		assertEquals(ciReq.getAccountIdentifier(), ci.getAccountIdentifier());
 
 		assertEquals(ciReq.getBillingAddress().getFirstname(), ci.getBillingAddress().getFirstname());
 		assertEquals(ciReq.getBillingAddress().getLastname(), ci.getBillingAddress().getLastname());
@@ -516,9 +543,5 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		assertEquals(ciReq.getShippingAddress().getRegion(), ci.getShippingAddress().getRegion());
 		assertEquals(ciReq.getShippingAddress().getPostal(), ci.getShippingAddress().getPostalCode());
 		assertEquals(ciReq.getShippingAddress().getCountry(), ci.getShippingAddress().getCountry());
-
-		assertNull(result.getBody().getMerchantErrorMessage());
-		assertNull(result.getBody().getCardHolderErrorMessage());
-		assertEquals("Success", result.getBody().getResult());
 	}
 }
