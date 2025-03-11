@@ -554,11 +554,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, String.format("%s[client_ip]", groupTag), customerInfo.getClientIp());
 		if(customerInfo.getBirthDate() != null)
 		{
-			addParam(params, "customer_info[birthdate]", BIRTH_DATE_FORMATTER.format(customerInfo.getBirthDate()));
+			addParam(params, String.format("%s[birthdate]", groupTag), BIRTH_DATE_FORMATTER.format(customerInfo.getBirthDate()));
 		}
 		if(customerInfo.getGender() != null)
 		{
-			addParam(params, "customer_info[gender]", customerInfo.getGender().name());
+			addParam(params, String.format("%s[gender]", groupTag), customerInfo.getGender().name());
 		}
 
 		if(customerInfo.getBillingAddress() != null)
