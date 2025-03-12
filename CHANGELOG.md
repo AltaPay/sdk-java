@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+## [2.0.5]
+
+- Fix typo in mapping recipient's `BirthDate` and `Gender` fields
+
 ## [2.0.4]
 
 - Add `Recipient` information to `PaymentRequest`
