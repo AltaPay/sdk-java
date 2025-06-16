@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.6]
+
+- Added `organisationName` field to `CustomerInfo`
+- Added `organisationEntityType` field to `CustomerInfo`
+- Added `organisationVatId` field to `CustomerInfo`
 
 ## [2.0.5]
 

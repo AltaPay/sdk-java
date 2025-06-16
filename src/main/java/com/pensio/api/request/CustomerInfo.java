@@ -5,6 +5,9 @@ import java.util.Date;
 public class CustomerInfo
 {
 	private String organisationNumber;
+	private String organisationName;
+	private String organisationEntityType;
+	private String organisationVatId;
 	private String email;
 	private String username;
 	private String customerPhone;
@@ -152,5 +155,29 @@ public class CustomerInfo
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public String getOrganisationName() {
+		return organisationName;
+	}
+
+	public void setOrganisationName(String organisationName) {
+		this.organisationName = organisationName;
+	}
+
+	public String getOrganisationEntityType() {
+		return organisationEntityType;
+	}
+
+	public void setOrganisationEntityType(String organisationEntityType) {
+		this.organisationEntityType = organisationEntityType;
+	}
+
+	public String getOrganisationVatId() {
+		return organisationVatId;
+	}
+
+	public void setOrganisationVatId(String organisationVatId) {
+		this.organisationVatId = organisationVatId;
 	}
 }
