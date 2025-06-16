@@ -544,7 +544,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	}
 
 	private void setCustomerInfo(HashMap<String, String> params, CustomerInfo customerInfo, String groupTag) {
-		addParam(params, "organisation_number", customerInfo.getOrganisationNumber());
+		addParam(params, String.format("%s[organisation_number]", groupTag), customerInfo.getOrganisationNumber());
+		addParam(params, String.format("%s[organisation_name]", groupTag), customerInfo.getOrganisationName());
+		addParam(params, String.format("%s[organisation_entity_type]", groupTag), customerInfo.getOrganisationEntityType());
+		addParam(params, String.format("%s[organisation_vat_id]", groupTag), customerInfo.getOrganisationVatId());
 		addParam(params, String.format("%s[email]", groupTag), customerInfo.getEmail());
 		addParam(params, String.format("%s[bank_name]", groupTag), customerInfo.getBankName());
 		addParam(params, String.format("%s[bank_phone]", groupTag), customerInfo.getBankPhone());
