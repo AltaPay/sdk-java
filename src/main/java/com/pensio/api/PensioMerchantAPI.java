@@ -6,8 +6,8 @@ import com.pensio.TaxType;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.request.*;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
 
 import java.io.InputStream;
 import java.io.StringReader;

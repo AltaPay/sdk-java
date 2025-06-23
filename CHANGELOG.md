@@ -7,6 +7,10 @@ All notable changes to this project will be documented in this file.
 - Added `organisationEntityType` field to `CustomerInfo`
 - Added `organisationVatId` field to `CustomerInfo`
 
+## [3.0.1]
+
+- Update to Jakarta 10 and Java 17
+
 ## [2.0.5]
 
 - Fix typo in mapping recipient's `BirthDate` and `Gender` fields
