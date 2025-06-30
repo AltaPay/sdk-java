@@ -1,11 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.7]
+
+- Added `organisationName`, `organisationEntityType`, `organisationVatId`  field to `CustomerInfo` in API responses
+- Added `Firstname`, `Lastname`, `CardHolderName` fields to `CustomerInfo` in API responses
+- Added `orderId` and `returnUrl` fields to `Body` in API responses
+- Added `MethodConfigurations` field to `Terminal` in API responses
+- Added `ExtraData` field to `Funding` in API responses
+- 
+
 ## [2.0.6]
 
-- Added `organisationName` field to `CustomerInfo`
-- Added `organisationEntityType` field to `CustomerInfo`
-- Added `organisationVatId` field to `CustomerInfo`
+- Added `organisationName` field to `CustomerInfo` in API requests
+- Added `organisationEntityType` field to `CustomerInfo` in API requests
+- Added `organisationVatId` field to `CustomerInfo` in API requests
 
 ## [2.0.5]
 
@@ -140,3 +149,4 @@ All notable changes to this project will be documented in this file.
 
 - Supports API changes from 20210324
 - Add support to agreements using agreement_type
+
