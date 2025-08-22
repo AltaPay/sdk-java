@@ -44,6 +44,7 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 	 *
 	 * @deprecated use {@link #reservation(PaymentReservationRequest)} instead
 	 */
+    @Deprecated
 	public APIResponse reservationOfFixedAmount(PaymentReservationRequest paymentRequest)
 			throws PensioAPIException
 	{
