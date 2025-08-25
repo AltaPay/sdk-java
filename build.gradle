@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.altapay'
-version = '2.0.7'
+version = '3.0.1'
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
     implementation 'net.sourceforge.javacsv:javacsv:2.0'
     implementation 'commons-collections:commons-collections:3.2.2'
     implementation 'commons-codec:commons-codec:1.17.1'
@@ -35,18 +35,18 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    testRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
 
     integrationTestImplementation platform('org.junit:junit-bom:5.11.4')
     integrationTestImplementation 'org.junit.jupiter:junit-jupiter-api'
     integrationTestImplementation 'org.junit.jupiter:junit-jupiter-params'
     integrationTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    integrationTestRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+    integrationTestRuntimeOnly 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
 }
 
 xjc {
-    xjcVersion.set("2.3.8")
-    useJakarta.set(false)
+    xjcVersion.set("3.0.2")
+    useJakarta.set(true)
     markGenerated.set(true)
     xsdDir.set(layout.projectDirectory.dir("src/main/resources/xsd"))
     outputResourcesDir.set(layout.projectDirectory.dir("generated"))
@@ -70,6 +70,9 @@ tasks.register("integrationTest", Test) {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
     withJavadocJar()
     withSourcesJar()
 }

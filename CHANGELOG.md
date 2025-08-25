@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.1]
+
+- Update to Jakarta 10 and Java 17
+
 ## [2.0.7]
 
 - Added `organisationName`, `organisationEntityType`, `organisationVatId`  field to `CustomerInfo` in API responses
@@ -8,7 +12,6 @@ All notable changes to this project will be documented in this file.
 - Added `orderId` and `returnUrl` fields to `Body` in API responses
 - Added `MethodConfigurations` field to `Terminal` in API responses
 - Added `ExtraData` field to `Funding` in API responses
-- 
 
 ## [2.0.6]
 
