@@ -138,11 +138,7 @@ tasks.register("centralManualUpload") {
         def conn = (HttpURLConnection) new URL(urlStr).openConnection()
         conn.setRequestMethod("POST")
         conn.setDoOutput(true)
-
-        // Basic auth with the same token pair used for upload
-        def basic = "${usr}:${pwd}".bytes.encodeBase64().toString()
-        conn.setRequestProperty("Authorization", "Basic ${basic}")
-
+        conn.setRequestProperty("Authorization", "Basic ${"${usr}:${pwd}".bytes.encodeBase64()}")
         // Empty body is fine; just trigger the action
         conn.getOutputStream().withCloseable { /* no payload */ }
 
