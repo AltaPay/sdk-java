@@ -134,6 +134,9 @@ tasks.register("centralManualUpload") {
     group = "publishing"
     description = "POST to /manual/upload/defaultRepository/com.altapay"
 
+    // Skip if version already exists in Maven Central
+    onlyIf { !versionExistsInMavenCentral() }
+
     doLast {
         def urlStr = "https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/com.altapay"
         def conn = (HttpURLConnection) new URL(urlStr).openConnection()
@@ -142,4 +145,14 @@ tasks.register("centralManualUpload") {
 
         conn.getResponseCode()
     }
+}
+
+ext.versionExistsInMavenCentral= {
+    def artifact  = "sdk-java"
+    def pomUrl    = "https://repo1.maven.org/maven2/com/altapay/${artifact}/${version}/${artifact}-${version}.pom"
+    def conn = (HttpURLConnection) new URL(pomUrl).openConnection()
+    conn.setRequestMethod("HEAD")
+    def code = conn.getResponseCode()
+
+    return code == 200
 }
