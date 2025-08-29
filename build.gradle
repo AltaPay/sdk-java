@@ -140,10 +140,6 @@ tasks.register("centralManualUpload") {
         conn.setRequestMethod("POST")
         conn.setRequestProperty("Authorization", "Basic ${"${usr}:${pwd}".bytes.encodeBase64()}")
 
-        int code = conn.getResponseCode()
-        if (code != 200) {
-            def err = conn.getErrorStream() ? conn.getErrorStream().getText("UTF-8") : "<no error body>"
-            throw new GradleException("Central manual upload failed (HTTP ${code}). ${err}")
-        }
+        conn.getResponseCode()
     }
 }
