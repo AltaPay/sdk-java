@@ -1,11 +1,10 @@
-import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-
 plugins {
     id "java"
     id "com.github.bjornvester.xjc" version "1.8.2"
     id 'java-library'
     id "maven-publish"
     id "signing"
+    id "org.jreleaser" version "1.20.0"
 }
 
 group = 'com.altapay'
@@ -66,8 +65,7 @@ tasks.register("integrationTest", Test) {
 
     testClassesDirs = sourceSets.integrationTest.output
     classpath = sourceSets.integrationTest.runtimeClasspath
-
-    shouldRunAfter test
+    shouldRunAfter(tasks.test)
     useJUnitPlatform()
 }
 
@@ -113,46 +111,47 @@ publishing {
 
     repositories {
         maven {
-            credentials {
-                username = "$usr"
-                password = "$pwd"
-            }
-            url = "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/"
+            name = "staging"
+            url = layout.buildDirectory.dir("jreleaser/staging-deploy").get().asFile.toURI()
         }
     }
 }
 
-tasks.withType(PublishToMavenRepository).configureEach {
-    finalizedBy(tasks.named("centralManualUpload"))
-}
 
 signing {
     sign publishing.publications.mavenJava
 }
 
-tasks.register("centralManualUpload") {
-    group = "publishing"
-    description = "POST to /manual/upload/defaultRepository/com.altapay"
+tasks.named("jreleaserDeploy").configure {
+    dependsOn(
+        tasks.named("publishMavenJavaPublicationToStagingRepository")
+    )
+}
 
-    // Skip if version already exists in Maven Central
-    onlyIf { !versionExistsInMavenCentral() }
+jreleaser {
+  project {
+    name = "sdk-java"
+    description = "JavaSDK - for integrating Java projects with the AltaPay gateway."
+    links { homepage = "https://github.com/AltaPay/sdk-java" }
+  }
 
-    doLast {
-        def urlStr = "https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/com.altapay"
-        def conn = (HttpURLConnection) new URL(urlStr).openConnection()
-        conn.setRequestMethod("POST")
-        conn.setRequestProperty("Authorization", "Basic ${"${usr}:${pwd}".bytes.encodeBase64()}")
-
-        conn.getResponseCode()
+  deploy {
+    maven {
+      mavenCentral {
+        sonatype {
+          active = 'ALWAYS'
+          url = 'https://central.sonatype.com/api/v1/publisher'
+          username = providers.gradleProperty("jreleaser.mavencentral.username").orNull
+          password = providers.gradleProperty("jreleaser.mavencentral.password").orNull
+          // Artifacts are already signed by Gradle
+          sign = false
+          // Path where Gradle stages the signed repo
+          stagingRepository(
+            layout.buildDirectory.dir("jreleaser/staging-deploy").get().asFile.absolutePath
+          )
+        }
+      }
     }
+  }
 }
 
-ext.versionExistsInMavenCentral= {
-    def artifact  = "sdk-java"
-    def pomUrl    = "https://repo1.maven.org/maven2/com/altapay/${artifact}/${version}/${artifact}-${version}.pom"
-    def conn = (HttpURLConnection) new URL(pomUrl).openConnection()
-    conn.setRequestMethod("HEAD")
-    def code = conn.getResponseCode()
-
-    return code == 200
-}

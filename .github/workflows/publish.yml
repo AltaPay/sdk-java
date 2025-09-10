@@ -1,4 +1,4 @@
-name: Publish Java SDK to Nexus/Maven Repository
+name: Publish Java SDK to Maven Repository
 
 on:
   push:
@@ -32,9 +32,9 @@ jobs:
          echo signing.keyId=${{secrets.GPG_KEY_ID}} > gradle.properties
          echo signing.password=${{secrets.GPG_KEY_PASSPHRASE}} >> gradle.properties
          echo signing.secretKeyRingFile=secring.gpg >> gradle.properties
-         echo usr=${{ secrets.OSSRH_USERNAME }} >> gradle.properties
-         echo pwd=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
+         echo jreleaser.mavencentral.username=${{ secrets.OSSRH_USERNAME }} >> gradle.properties
+         echo jreleaser.mavencentral.password=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
         
       - name: Publish package
-        run: ./gradlew publish
+        run: ./gradlew -Djreleaser.mavencentral.stage=UPLOAD jreleaserDeploy
         
