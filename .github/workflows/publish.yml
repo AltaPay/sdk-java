@@ -27,7 +27,7 @@ jobs:
         run: |
           echo -n "$GPG_KEY" | base64 --decode > secring.gpg
         env:
-           GPG_KEY : ${{secrets.GPG_KEY}}
+           GPG_KEY: ${{secrets.GPG_KEY}}
             
       - name: Create gradle.properties file  
         run: |
