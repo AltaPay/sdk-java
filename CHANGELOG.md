@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.0.3]
+
+- Fix maven publishing
+
 ## [3.0.2]
 
 - Added support for `dynamic_descriptor` for `MerchantAPI` operations:
