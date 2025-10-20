@@ -2,8 +2,9 @@ name: Publish Java SDK to Maven Repository
 
 on:
   push:
-    branches: [ main ]
-
+    branches:
+      - main
+      - fix-publish-sdk
 jobs:
   build:
     runs-on: ubuntu-latest
