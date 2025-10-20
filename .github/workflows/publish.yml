@@ -37,7 +37,7 @@ jobs:
          echo jreleaser.mavencentral.password=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
         
       - name: Publish artifacts to local staging directory
-        run: ./gradlew publishMavenJavaPublicationToStagingRepository
+        run: ./gradlew publishMavenJavaPublicationToLocalStagingRepository
 
       - name: Upload to Sonatype Central (no publish)
         run: ./gradlew -Djreleaser.mavencentral.stage=UPLOAD jreleaserDeploy
