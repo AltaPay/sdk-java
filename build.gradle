@@ -111,8 +111,8 @@ publishing {
 
     repositories {
         maven {
-            name = "staging"
-            url = layout.buildDirectory.dir("jreleaser/staging-deploy").get().asFile.toURI()
+            name = "localStaging"
+            url = uri("${buildDir}/publications/mavenJava")
         }
     }
 }
