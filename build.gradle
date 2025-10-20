@@ -112,7 +112,7 @@ publishing {
     repositories {
         maven {
             name = "localStaging"
-            url = uri("${buildDir}/publications/mavenJava")
+            url = uri("${buildDir}/staging-deploy")
         }
     }
 }
@@ -146,7 +146,7 @@ jreleaser {
           // Artifacts are already signed by Gradle
           sign = false
           // Path where Gradle stages the signed repo
-          stagingRepository("${buildDir}/publications/mavenJava")
+          stagingRepository("${buildDir}/staging-deploy")
         }
       }
     }
