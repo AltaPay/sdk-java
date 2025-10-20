@@ -2,7 +2,9 @@ name: Publish Java SDK to Maven Repository
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - fix-publish-sdk
 
 jobs:
   build:
@@ -35,6 +37,9 @@ jobs:
          echo jreleaser.mavencentral.username=${{ secrets.OSSRH_USERNAME }} >> gradle.properties
          echo jreleaser.mavencentral.password=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
         
+      - name: Publish to local staging
+        run: ./gradlew publishMavenJavaPublicationToStagingRepository
+
       - name: Publish package
         run: ./gradlew -Djreleaser.mavencentral.stage=UPLOAD jreleaserDeploy
         
