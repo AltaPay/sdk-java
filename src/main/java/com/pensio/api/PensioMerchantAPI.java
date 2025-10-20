@@ -147,6 +147,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "config[callback_fail]", request.getCallbackFail());
 		}
 
+        if (request.getDynamicDescriptor() != null) {
+            addParam(params, "dynamic_descriptor", request.getDynamicDescriptor());
+        }
+
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
 	
@@ -173,6 +177,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if (request.getCallbackFail() != null && !request.getCallbackFail().isEmpty()) {
 			addParam(params, "config[callback_fail]", request.getCallbackFail());
 		}
+
+        if (request.getDynamicDescriptor() != null) {
+            addParam(params, "dynamic_descriptor", request.getDynamicDescriptor());
+        }
 
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
@@ -350,6 +358,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		if(paymentRequest.getAgreementType() != null){
 			addParam(params, "agreement[type]", paymentRequest.getAgreementConfig().getAgreementType().name());
 		}
+        if (paymentRequest.getDynamicDescriptor() != null) {
+            addParam(params, "dynamic_descriptor", paymentRequest.getDynamicDescriptor());
+        }
 	}
 
 	protected void setInvoiceReservationRequestParameters(

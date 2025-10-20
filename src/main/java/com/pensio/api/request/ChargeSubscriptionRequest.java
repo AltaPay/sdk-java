@@ -11,6 +11,7 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 	private PaymentInfos paymentInfos;
  	private String callbackOk;
 	private String callbackFail;
+    private String dynamicDescriptor;
 
     {
         paymentInfos = new PaymentInfos();
@@ -109,4 +110,15 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
 		this.callbackFail = callbackFail;
 		return this;
 	}
+
+    public String getDynamicDescriptor()
+    {
+        return dynamicDescriptor;
+    }
+
+    public ChargeSubscriptionRequest setDynamicDescriptor(String dynamicDescriptor)
+    {
+        this.dynamicDescriptor = dynamicDescriptor;
+        return this;
+    }
 }

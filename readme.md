@@ -49,12 +49,12 @@ For integrating Java projects with the AltaPay gateway.
     <dependency>
         <groupId>com.altapay</groupId>
         <artifactId>sdk-java</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
     </dependency>
 
 ### Gradle
 
-    implementation 'com.altapay:sdk-java:3.0.1'
+    implementation 'com.altapay:sdk-java:3.0.2'
 
 ## Changelog
 
