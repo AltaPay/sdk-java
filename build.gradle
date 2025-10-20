@@ -146,10 +146,11 @@ jreleaser {
           // Artifacts are already signed by Gradle
           sign = false
           // Path where Gradle stages the signed repo
-          stagingRepository("${project.buildDir}/publications/mavenJava")
+          stagingRepository("${buildDir}/publications/mavenJava")
         }
       }
     }
   }
 }
+
 
