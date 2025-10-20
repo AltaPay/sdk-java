@@ -19,6 +19,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	protected Date customerCreateAt;
 	private boolean usePayPass;
 	private String giftCardToken;
+    private String dynamicDescriptor;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -225,6 +226,16 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 		this.giftCardToken = giftCardToken;
 		return (T)this;
 	}
+
+    public String getDynamicDescriptor() {
+        return dynamicDescriptor;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setDynamicDescriptor(String dynamicDescriptor) {
+        this.dynamicDescriptor = dynamicDescriptor;
+        return (T)this;
+    }
 
 	public List<OrderLine> getOrderLines()
 	{

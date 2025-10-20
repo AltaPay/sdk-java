@@ -10,6 +10,7 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private PaymentInfos paymentInfos;
 	private String callbackOk;
 	private String callbackFail;
+    private String dynamicDescriptor;
 
     {
         paymentInfos = new PaymentInfos();
@@ -97,5 +98,15 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 		this.callbackFail = callbackFail;
 		return this;
 	}
-	
+
+    public String getDynamicDescriptor()
+    {
+        return dynamicDescriptor;
+    }
+
+    public ReserveSubscriptionChargeRequest setDynamicDescriptor(String dynamicDescriptor)
+    {
+        this.dynamicDescriptor = dynamicDescriptor;
+        return this;
+    }
 }
