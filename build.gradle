@@ -124,7 +124,7 @@ signing {
 
 tasks.named("jreleaserDeploy").configure {
     dependsOn(
-        tasks.named("publishMavenJavaPublicationToLocalStagingRepository")
+        tasks.named("publishMavenJavaPublicationToStagingRepository")
     )
 }
 
