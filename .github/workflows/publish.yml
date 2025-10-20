@@ -2,9 +2,7 @@ name: Publish Java SDK to Maven Repository
 
 on:
   push:
-    branches:
-      - main
-      - fix-publish-sdk
+    branches: [ main ]
 
 jobs:
   build:
@@ -27,7 +25,7 @@ jobs:
         run: |
           echo -n "$GPG_KEY" | base64 --decode > secring.gpg
         env:
-           GPG_KEY: ${{secrets.GPG_KEY}}
+           GPG_KEY : ${{secrets.GPG_KEY}}
             
       - name: Create gradle.properties file  
         run: |
@@ -38,7 +36,7 @@ jobs:
          echo jreleaser.mavencentral.password=${{ secrets.OSSRH_TOKEN }} >> gradle.properties
         
       - name: Publish artifacts to local staging directory
-        run: ./gradlew publish
+        run: ./gradlew publishMavenJavaPublicationToMavenLocal
 
       - name: Publish package
         run: ./gradlew -Djreleaser.mavencentral.stage=UPLOAD jreleaserDeploy
