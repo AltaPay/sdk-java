@@ -37,7 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build and analyze with Maven
-        working-directory: ./sdk-java 
+        working-directory: .
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
