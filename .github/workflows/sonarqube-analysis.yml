@@ -10,11 +10,11 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # important for SonarQube analysis
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -29,19 +29,19 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Cache Maven packages
+      - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          path: ~/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: ${{ runner.os }}-gradle
 
-      - name: Build and analyze with Maven
-        working-directory: .
+      - name: Build and analyze with Gradle
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          chmod +x ./gradlew
+          ./gradlew clean build sonarqube \
             -Dsonar.host.url="$SONAR_HOST_URL" \
             -Dsonar.login="$SONAR_TOKEN"
