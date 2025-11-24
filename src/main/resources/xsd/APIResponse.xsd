@@ -36,6 +36,8 @@
                         type="xs:string"/>
             <xs:element name="RedirectResponse" maxOccurs="1" minOccurs="0"
                         type="RedirectResponse"/>
+            <xs:element name="SessionResponse" maxOccurs="1" minOccurs="0"
+                        type="SessionResponse"/>
             <xs:element name="Transactions" type="Transactions"
                         maxOccurs="1" minOccurs="0"/>
             <xs:element name="Actions" type="Actions"
@@ -309,6 +311,12 @@
                 <xs:attribute name="key" type="xs:string"/>
             </xs:extension>
         </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="SessionResponse">
+        <xs:all>
+            <xs:element name="Data" type="xs:string"/>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="GiftCard">
