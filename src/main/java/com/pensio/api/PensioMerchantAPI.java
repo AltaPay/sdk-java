@@ -708,7 +708,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         String apiUrl = "checkoutSession/" + updateCheckoutSessionRequest.sessionId();
 
         HashMap<String, String> params = new HashMap<>();
-        addParam(params, "session_id", updateCheckoutSessionRequest.sessionId());
         addParam(params, "session_status", updateCheckoutSessionRequest.status().name());
 
         return checkoutSession(apiUrl, params);
