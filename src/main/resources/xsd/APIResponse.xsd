@@ -110,6 +110,7 @@
             <xs:element name="Shop" type="MerchantShop" maxOccurs="1" minOccurs="0"/>
             <xs:element name="Terminal" type="Terminal" maxOccurs="1" minOccurs="0"/>
             <xs:element name="ApplePaySession" type="xs:string" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="WalletData" type="WalletData" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
@@ -316,8 +317,13 @@
     <xs:complexType name="Session">
         <xs:all>
             <xs:element name="Id" type="xs:string"/>
-            <xs:element name="Data" type="xs:string"/>
             <xs:element name="Status" type="xs:string"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="WalletData">
+        <xs:all>
+            <xs:element name="Session" type="xs:string"/>
         </xs:all>
     </xs:complexType>
 

@@ -1,11 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [3.1.1]
+## [3.1.2]
 - Added new methods to Merchant API `createCheckoutSession` and `updateCheckoutSession`
-
-## [3.1.0]
-
 - Enhanced interface of the endpoint cardWallet/session to pass create payment request params
 
 ## [3.0.3]
