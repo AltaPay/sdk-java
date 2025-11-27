@@ -4,8 +4,10 @@ import com.csvreader.CsvReader;
 import com.pensio.Amount;
 import com.pensio.TaxType;
 import com.pensio.api.generated.APIResponse;
+import com.pensio.api.generated.Session;
 import com.pensio.api.request.*;
 
+import com.pensio.response.CheckoutSessionResponse;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 
@@ -29,8 +31,8 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	public boolean login() throws PensioAPIException 
 	{
 		APIResponse response = getAPIResponse("login",
-				HttpMethod.POST, 
-				new HashMap<String, String>());
+				HttpMethod.POST,
+                new HashMap<>());
 		return "OK".equals(response.getBody().getResult());
 	}
 	
@@ -38,11 +40,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		try
 		{
-			HashMap<String, String> params = new HashMap<String, String>();
+			HashMap<String, String> params = new HashMap<>();
 			setPaymentRequestParameters(paymentRequest, params);
 			
 			APIResponse response = getAPIResponse("createPaymentRequest", HttpMethod.POST, params);
-
 
 			PaymentRequestResponseImpl paymentRequestResponseImpl = new PaymentRequestResponseImpl()
 				.setUrl(new URL(response.getBody().getUrl()))
@@ -58,12 +59,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		{
 			throw new PensioAPIException(e);
 		}
-		
 	}
 
 	public APIResponse createInvoiceReservation(CreateInvoiceReservationRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 
 		setInvoiceReservationRequestParameters(request, params);
 
@@ -72,7 +72,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	public APIResponse updateOrder(UpdateOrderRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 
 		setUpdateOrderRequestParameters (request, params);
 
@@ -81,7 +81,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	
 	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		setPaymentRequestParameters(request, params);
 		setCreditCardRequestParameters(request, params);
 		setPaymentSource(request, params);
@@ -98,33 +98,33 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 	
-	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException 
+	public APIResponse capture(CaptureReservationRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "transaction_id", request.getTransactionId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		addParam(params, "invoice_number", request.getInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
 		OrderLine[] orderLines = request.getOrderLines();
-		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
+		addOrderLines("orderLines", params, Arrays.asList(orderLines));
 		return getAPIResponse("captureReservation", HttpMethod.POST, params);
 	}
 
-	public APIResponse refund(RefundRequest request) throws PensioAPIException 
+	public APIResponse refund(RefundRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "transaction_id", request.getPaymentId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
 		OrderLine[] orderLines = request.getOrderLines();
-		addOrderLines("orderLines", params, Arrays.asList(orderLines));		
+		addOrderLines("orderLines", params, Arrays.asList(orderLines));
 		return getAPIResponse("refundCapturedReservation", HttpMethod.POST, params);
 	}
-	
-	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException 
+
+	public APIResponse chargeSubscription(ChargeSubscriptionRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 		addParam(params, "reconciliation_identifier", request.getReconciliationIdentifier());
@@ -153,10 +153,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
-	
-	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException 
+
+	public APIResponse reserveSubscriptionCharge(ReserveSubscriptionChargeRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "agreement[id]", request.getAgreementId());
 		addParam(params, "amount", request.getAmountString());
 
@@ -184,28 +184,28 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}
-	
-	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException 
+
+	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "page", String.valueOf(request.getPage()));
-		
+
 		return getAPIResponse("fundingList", HttpMethod.GET, params);
 	}
 
 	public APIResponse getTerminals() throws PensioAPIException {
-		return getAPIResponse("getTerminals", HttpMethod.GET, new HashMap<String, String>());
+		return getAPIResponse("getTerminals", HttpMethod.GET, new HashMap<>());
 	}
-	
+
 	public List<FundingRecord> downloadFunding(String downloadLink) throws PensioAPIException
 	{
 		try
 		{
-			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<String, String>(), username, password, getSdkVersion());
+			InputStream inStream = this.httpHelper.doPost(downloadLink, new HashMap<>(), username, password, getSdkVersion());
 
 			CsvReader reader = new CsvReader(inStream,';', Charset.forName("UTF-8"));
-			ArrayList<FundingRecord> result = new ArrayList<FundingRecord>();
-			
+			ArrayList<FundingRecord> result = new ArrayList<>();
+
 			if(reader.readHeaders())
 			{
 				while(reader.readRecord())
@@ -213,7 +213,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					FundingRecord record = new FundingRecord();
 					String date = reader.get("Date");
 					System.out.println("Date: "+date);
-					
+
 					if (date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"))
 					{
 						record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd hh:mm:ss", date));
@@ -222,7 +222,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					{
 						record.setFundingDate(DateHelper.parseDate("yyyy-MM-dd", date));
 					}
-					
+
 					record.setRecordType(reader.get("Type"));
 					record.setId(reader.get("ID"));
 					record.setReconciliationIdentifier(reader.get("Reconciliation Identifier"));
@@ -232,7 +232,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					record.setShop(reader.get("Shop"));
 					record.setPaymentAmount(Amount.get(reader.get("Transaction Amount"), reader.get("Transaction Currency")));
 					record.setFundingAmount(Amount.get(reader.get("Settlement Amount"), reader.get("Settlement Currency")));
-					
+
 					String exRate = reader.get("Exchange Rate");
 					if (exRate == null || exRate.length() == 0)
 					{
@@ -242,19 +242,19 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 					{
 						record.setExchangeRate(Double.parseDouble(exRate));
 					}
-					
+
 					record.setFixedFeeAmount(Amount.get(reader.get("Fixed Fee"), reader.get("Settlement Currency")));
 					record.setFixedFeeVatAmount(Amount.get(reader.get("Fixed Fee VAT"), reader.get("Settlement Currency")));
 					record.setRateBasedFeeAmount(Amount.get(reader.get("Rate Based Fee"), reader.get("Settlement Currency")));
 					record.setRateBasedFeeVatAmount(Amount.get(reader.get("Rate Based Fee VAT"), reader.get("Settlement Currency")));
-					
+
 					result.add(record);
-					
+
 				}
 			}
 			reader.close();
-			
-			
+
+
 			return result;
 		}
 		catch (Exception e)
@@ -262,18 +262,18 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			throw new PensioAPIException(e);
 		}
 	}
-	
-	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException 
+
+	public APIResponse release(ReleaseReservationRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "transaction_id", request.getPaymentId());
-		
+
 		return getAPIResponse("releaseReservation", HttpMethod.POST, params);
 	}
-	
-	public APIResponse queryGiftCard(PaymentReservationRequest request) throws PensioAPIException 
+
+	public APIResponse queryGiftCard(PaymentReservationRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		if (request.getGiftCard() == null){
             addParam(params, "terminal", request.getTerminal());
             addParam(params, "giftcard[token]", request.getGiftCardToken());
@@ -285,7 +285,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		return getAPIResponse("queryGiftCard", HttpMethod.POST, params);
 	}
-	
+
 	private void setCreditCardRequestParameters(
 			PaymentReservationRequest request, HashMap<String, String> params)
 	{
@@ -293,14 +293,14 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		{
 			return;
 		}
-		
+
 		addParam(params, "credit_card_token", request.getCreditCard().getToken());
 		addParam(params, "cardnum", request.getCreditCard().getCardNumber());
 		addParam(params, "emonth", request.getCreditCard().getExpiryMonth());
 		addParam(params, "eyear", request.getCreditCard().getExpiryYear());
-		
+
 		addParam(params, "cvc", request.getCreditCard().getCvc());
-		
+
 	}
 
 	protected void setPaymentRequestParameters(
@@ -434,8 +434,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			{
 				throw new PensioAPIException(response.getHeader());
 			}
-			
-			
+
 			return response;
 		} 
 		catch (Exception e) 
@@ -448,7 +447,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		try
 		{
-			HashMap<String, String> params = new HashMap<String, String>();
+			HashMap<String, String> params = new HashMap<>();
 			setMultiPaymentRequestParameters(multiPaymentRequest, params);
 			
 			APIResponse response = getAPIResponse("createMultiPaymentRequest", HttpMethod.POST, params);
@@ -485,7 +484,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	public APIResponse transactions(TransactionsRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "transaction_id", request.getPaymentId());
 
 		return getAPIResponse("payments", HttpMethod.GET, params);
@@ -672,7 +671,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	public APIResponse cardWalletAuthorize(CardWalletAuthorizeRequest request) throws PensioAPIException
 	{
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "provider_data", request.getProviderData());
 		addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
 		addParam(params, "sale_invoice_number", request.getSaleInvoiceNumber());
@@ -682,6 +681,48 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 		return getAPIResponse("cardWallet/authorize", HttpMethod.POST, params);
 	}
+
+    public CheckoutSessionResponse createCheckoutSession(CheckoutSessionRequest checkoutSessionRequest) throws PensioAPIException
+    {
+        String apiUrl = "checkoutSession";
+
+        HashMap<String, String> params = new HashMap<>();
+        if (checkoutSessionRequest.getSessionId() != null) {
+            addParam(params, "session_id", checkoutSessionRequest.getSessionId());
+        }
+
+        return checkoutSession(apiUrl, params);
+    }
+
+    public CheckoutSessionResponse updateCheckoutSession(String checkoutSessionId, CheckoutSessionRequest checkoutSessionRequest) throws PensioAPIException
+    {
+        if (checkoutSessionId == null) {
+            throw new PensioAPIException("checkoutSessionId cannot be null for updateCheckoutSession");
+        }
+        if (checkoutSessionRequest == null || checkoutSessionRequest.getStatus() == null) {
+            throw new PensioAPIException("checkoutSessionRequest.sessionStatus cannot be null for updateCheckoutSession");
+        }
+
+        String apiUrl = "checkoutSession/" + checkoutSessionId;
+
+        HashMap<String, String> params = new HashMap<>();
+        addParam(params, "session_id", checkoutSessionId);
+        addParam(params, "session_status", checkoutSessionRequest.getStatus().name());
+
+        return checkoutSession(apiUrl, params);
+    }
+
+    private CheckoutSessionResponse checkoutSession(String apiUrl, HashMap<String, String> params) throws PensioAPIException {
+        APIResponse response = getAPIResponse(apiUrl, HttpMethod.POST, params);
+
+        CheckoutSessionResponse checkoutSessionResponse = new CheckoutSessionResponse();
+        if (response.getBody().getSession() != null) {
+            Session session = response.getBody().getSession();
+            checkoutSessionResponse.setSessionId(session.getId());
+            checkoutSessionResponse.setSessionStatus(SessionStatus.valueOf(session.getStatus()));
+        }
+        return checkoutSessionResponse;
+    }
 
 	protected String getAppAPIPath()
 	{

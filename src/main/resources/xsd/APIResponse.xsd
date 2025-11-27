@@ -315,7 +315,9 @@
 
     <xs:complexType name="Session">
         <xs:all>
+            <xs:element name="Id" type="xs:string"/>
             <xs:element name="Data" type="xs:string"/>
+            <xs:element name="Status" type="xs:string"/>
         </xs:all>
     </xs:complexType>
 
