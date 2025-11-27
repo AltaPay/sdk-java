@@ -20,6 +20,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	private boolean usePayPass;
 	private String giftCardToken;
     private String dynamicDescriptor;
+    private String sessionId;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -234,6 +235,16 @@ public class PaymentRequest<T extends PaymentRequest<T>>
     @SuppressWarnings("unchecked")
     public T setDynamicDescriptor(String dynamicDescriptor) {
         this.dynamicDescriptor = dynamicDescriptor;
+        return (T)this;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setSessionId(String sessionId) {
+        this.sessionId = sessionId;
         return (T)this;
     }
 
