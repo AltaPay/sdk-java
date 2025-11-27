@@ -360,6 +360,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (paymentRequest.getDynamicDescriptor() != null) {
             addParam(params, "dynamic_descriptor", paymentRequest.getDynamicDescriptor());
         }
+        if (paymentRequest.getSessionId() != null) {
+            addParam(params, "session_id", paymentRequest.getSessionId());
+        }
 	}
 
 	protected void setInvoiceReservationRequestParameters(
