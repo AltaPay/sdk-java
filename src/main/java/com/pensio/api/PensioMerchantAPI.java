@@ -254,7 +254,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			}
 			reader.close();
 
-
 			return result;
 		}
 		catch (Exception e)
@@ -682,32 +681,32 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return getAPIResponse("cardWallet/authorize", HttpMethod.POST, params);
 	}
 
-    public CheckoutSessionResponse createCheckoutSession(CheckoutSessionRequest checkoutSessionRequest) throws PensioAPIException
+    public CheckoutSessionResponse createCheckoutSession(CreateCheckoutSessionRequest createCheckoutSessionRequest) throws PensioAPIException
     {
         String apiUrl = "checkoutSession";
 
         HashMap<String, String> params = new HashMap<>();
-        if (checkoutSessionRequest.getSessionId() != null) {
-            addParam(params, "session_id", checkoutSessionRequest.getSessionId());
+        if (createCheckoutSessionRequest != null && createCheckoutSessionRequest.getSessionId() != null) {
+            addParam(params, "session_id", createCheckoutSessionRequest.getSessionId());
         }
 
         return checkoutSession(apiUrl, params);
     }
 
-    public CheckoutSessionResponse updateCheckoutSession(String checkoutSessionId, CheckoutSessionRequest checkoutSessionRequest) throws PensioAPIException
+    public CheckoutSessionResponse updateCheckoutSession(UpdateCheckoutSessionRequest updateCheckoutSessionRequest) throws PensioAPIException
     {
-        if (checkoutSessionId == null) {
-            throw new PensioAPIException("checkoutSessionId cannot be null for updateCheckoutSession");
+        if (updateCheckoutSessionRequest == null || updateCheckoutSessionRequest.sessionId() == null) {
+            throw new PensioAPIException("updateCheckoutSessionRequest.sessionId cannot be null for updateCheckoutSession");
         }
-        if (checkoutSessionRequest == null || checkoutSessionRequest.getStatus() == null) {
-            throw new PensioAPIException("checkoutSessionRequest.sessionStatus cannot be null for updateCheckoutSession");
+        if (updateCheckoutSessionRequest.status() == null) {
+            throw new PensioAPIException("updateCheckoutSessionRequest.sessionStatus cannot be null for updateCheckoutSession");
         }
 
-        String apiUrl = "checkoutSession/" + checkoutSessionId;
+        String apiUrl = "checkoutSession/" + updateCheckoutSessionRequest.sessionId();
 
         HashMap<String, String> params = new HashMap<>();
-        addParam(params, "session_id", checkoutSessionId);
-        addParam(params, "session_status", checkoutSessionRequest.getStatus().name());
+        addParam(params, "session_id", updateCheckoutSessionRequest.sessionId());
+        addParam(params, "session_status", updateCheckoutSessionRequest.status().name());
 
         return checkoutSession(apiUrl, params);
     }
