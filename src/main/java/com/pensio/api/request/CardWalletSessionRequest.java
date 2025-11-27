@@ -1,43 +1,22 @@
 package com.pensio.api.request;
 
-public class CardWalletSessionRequest {
+import com.pensio.Amount;
+import com.pensio.api.request.provider.ApplePayRequestData;
 
-    private String terminal;
-    private String validationUrl;
-    private String domain;
+public class CardWalletSessionRequest extends PaymentRequest<CardWalletSessionRequest> {
 
+    private ApplePayRequestData applePayRequestData;
 
-    public CardWalletSessionRequest(String terminal, String validationUrl, String domain) {
-        this.terminal = terminal;
-        this.validationUrl = validationUrl;
-        this.domain = domain;
-
+    public CardWalletSessionRequest(String terminal, String shopOrderId, Amount amount) {
+        super(shopOrderId, terminal, amount);
     }
 
-    public String getTerminal() {
-        return terminal;
+    public ApplePayRequestData getApplePayRequestData() {
+        return applePayRequestData;
     }
 
-    public CardWalletSessionRequest setTerminal(String terminal) {
-        this.terminal = terminal;
-        return this;
-    }
-
-    public String getValidationUrl() {
-        return validationUrl;
-    }
-
-    public CardWalletSessionRequest setValidationUrl(String validationUrl) {
-        this.validationUrl = validationUrl;
-        return this;
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public CardWalletSessionRequest setDomain(String domain) {
-        this.domain = domain;
+    public CardWalletSessionRequest setApplePayRequestData(ApplePayRequestData applePayRequestData) {
+        this.applePayRequestData = applePayRequestData;
         return this;
     }
 

@@ -656,15 +656,19 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 	}
 
-	public APIResponse cardWalletSession(CardWalletSessionRequest request) throws PensioAPIException
-	{
-		HashMap<String, String> params = new HashMap<String, String>();
-		addParam(params, "terminal", request.getTerminal());
-		addParam(params, "validationUrl", request.getValidationUrl());
-		addParam(params, "domain", request.getDomain());
+    public APIResponse cardWalletSession(CardWalletSessionRequest request) throws PensioAPIException
+    {
+        HashMap<String, String> params = new HashMap<>();
 
-		return getAPIResponse("cardWallet/session", HttpMethod.POST, params);
-	}
+        if (request.getApplePayRequestData() != null)
+        {
+            addParam(params, "applePayRequestData[validationUrl]", request.getApplePayRequestData().getValidationUrl());
+            addParam(params, "applePayRequestData[domain]", request.getApplePayRequestData().getDomain());
+        }
+        setPaymentRequestParameters(request, params);
+
+        return getAPIResponse("cardWallet/session", HttpMethod.POST, params);
+    }
 
 	public APIResponse cardWalletAuthorize(CardWalletAuthorizeRequest request) throws PensioAPIException
 	{
