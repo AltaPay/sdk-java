@@ -1,19 +1,18 @@
 package com.pensio.api.request;
 
-import com.pensio.Amount;
+public class CardWalletAuthorizeRequest {
 
-public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthorizeRequest> {
-
+    private String paymentId;
     private String providerData;
+    private final PaymentInfos paymentInfos = new PaymentInfos();
 
-    // Optional parameters
-    private String saleReconciliationIdentifier;
-    private String saleInvoiceNumber;
-    private String salesTax;
+    public PaymentInfos getPaymentInfos() {
+        return paymentInfos;
+    }
 
-    public CardWalletAuthorizeRequest(String providerData, String terminal, String shopOrderId, Amount amount) {
-        super(shopOrderId, terminal, amount);
-        this.providerData = providerData;
+    public CardWalletAuthorizeRequest addPaymentInfo(String key, String value) {
+        paymentInfos.add(key, value);
+        return this;
     }
 
     public String getProviderData() {
@@ -25,30 +24,12 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
         return this;
     }
 
-    public String getSaleReconciliationIdentifier() {
-        return saleReconciliationIdentifier;
+    public String getPaymentId() {
+        return paymentId;
     }
 
-    public CardWalletAuthorizeRequest setSaleReconciliationIdentifier(String saleReconciliationIdentifier) {
-        this.saleReconciliationIdentifier = saleReconciliationIdentifier;
-        return this;
-    }
-
-    public String getSaleInvoiceNumber() {
-        return saleInvoiceNumber;
-    }
-
-    public CardWalletAuthorizeRequest setSaleInvoiceNumber(String saleInvoiceNumber) {
-        this.saleInvoiceNumber = saleInvoiceNumber;
-        return this;
-    }
-
-    public String getSalesTax() {
-        return salesTax;
-    }
-
-    public CardWalletAuthorizeRequest setSalesTax(String salesTax) {
-        this.salesTax = salesTax;
+    public CardWalletAuthorizeRequest setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
         return this;
     }
 
