@@ -1,16 +1,15 @@
-name: SonarQube Analysis
+name: Build
 
 on:
-  pull_request:
   push:
     branches:
-      - "**"
+      - main
 
 jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,7 +41,4 @@ jobs:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           chmod +x ./gradlew
-          ./gradlew clean build sonar \
-            -Dsonar.host.url="$SONAR_HOST_URL" \
-            -Dsonar.login="$SONAR_TOKEN" \
-            --info
+          ./gradlew clean build sonar --info
