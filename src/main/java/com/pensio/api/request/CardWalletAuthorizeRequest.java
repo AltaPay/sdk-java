@@ -5,15 +5,17 @@ import com.pensio.Amount;
 public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthorizeRequest> {
 
     private String providerData;
+    private String paymentId;
 
-    // Optional parameters
+    // Optional parameters -- deprecated as others payment request attributes (reusing existing payment by payment_id)
     private String saleReconciliationIdentifier;
     private String saleInvoiceNumber;
     private String salesTax;
 
-    public CardWalletAuthorizeRequest(String providerData, String terminal, String shopOrderId, Amount amount) {
+    public CardWalletAuthorizeRequest(String providerData, String paymentId, String terminal, String shopOrderId, Amount amount) {
         super(shopOrderId, terminal, amount);
         this.providerData = providerData;
+        this.paymentId = paymentId;
     }
 
     public String getProviderData() {
@@ -22,6 +24,15 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
 
     public CardWalletAuthorizeRequest setProviderData(String providerData) {
         this.providerData = providerData;
+        return this;
+    }
+
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public CardWalletAuthorizeRequest setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
         return this;
     }
 

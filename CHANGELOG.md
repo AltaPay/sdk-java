@@ -1,10 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.3]
+- Enhanced interface of the endpoint cardWallet/authorize to pass payment identifier created in the previous step of setting wallet session 
+
 ## [3.1.2]
 - Added new methods to Merchant API `createCheckoutSession` and `updateCheckoutSession`
 - Enhanced interface of the endpoint cardWallet/session to pass create payment request params
-- Added `sessionId` for for `MerchantAPI` operations:
+- Added `sessionId` for `MerchantAPI` operations:
     - `createPaymentRequest`
     - `reservation`
 

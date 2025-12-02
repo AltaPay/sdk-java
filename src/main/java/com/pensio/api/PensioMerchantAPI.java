@@ -675,7 +675,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 	{
 		HashMap<String, String> params = new HashMap<>();
 		addParam(params, "provider_data", request.getProviderData());
-		addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
+        addParam(params, "payment_id", request.getPaymentId());
+
+        addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
 		addParam(params, "sale_invoice_number", request.getSaleInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
 
