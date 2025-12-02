@@ -74,8 +74,8 @@ sonar {
   properties {
     property "sonar.projectKey", "AltaPay_sdk-java_69a0e28c-3133-48fd-8372-6c73a9cba728"
     property "sonar.projectName", "sdk-java"
-    property "sonar.host.url", System.getProperty("sonar.host.url", System.getenv("SONAR_HOST_URL"))
-    property "sonar.login", System.getProperty("sonar.login", System.getenv("SONAR_TOKEN"))
+    property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url")
+    property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
   }
 }
 
