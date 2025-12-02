@@ -83,15 +83,8 @@ jacocoTestReport {
 sonar {
   properties {
     property "sonar.projectKey", "AltaPay_sdk-java_69a0e28c-3133-48fd-8372-6c73a9cba728"
-    property "sonar.projectName", "sdk-java"
-    property "sonar.organization", "altapay"
-    property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url") ?: "https://sonarcloud.io"
+    property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url")
     property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
-    property "sonar.java.coveragePlugin", "jacoco"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-    property "sonar.sources", "src/main/java"
-    property "sonar.tests", "src/test/java"
-    property "sonar.java.binaries", "${project.buildDir}/classes/java/main"
   }
 }
 
