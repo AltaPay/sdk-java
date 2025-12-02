@@ -677,11 +677,11 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		addParam(params, "provider_data", request.getProviderData());
         addParam(params, "payment_id", request.getPaymentId());
 
-        addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
-		addParam(params, "sale_invoice_number", request.getSaleInvoiceNumber());
-		addParam(params, "sales_tax", request.getSalesTax());
-
-		setPaymentRequestParameters(request, params);
+        if (!request.getPaymentInfos().getAll().isEmpty()) {
+            for (PaymentInfo paymentInfo : request.getPaymentInfos().getAll()) {
+                addParam(params, "transaction_info[" + paymentInfo.getKey() + "]", paymentInfo.getValue());
+            }
+        }
 
 		return getAPIResponse("cardWallet/authorize", HttpMethod.POST, params);
 	}
