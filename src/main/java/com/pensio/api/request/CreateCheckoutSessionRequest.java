@@ -1,17 +1,19 @@
 package com.pensio.api.request;
 
-public class CreateCheckoutSessionRequest {
-    public String getSessionId() {
-        return sessionId;
-    }
+import java.util.List;
 
-    private String sessionId;
+public class CreateCheckoutSessionRequest extends PaymentRequest {
+
+    private List<String> terminals;
 
     public CreateCheckoutSessionRequest() {
     }
 
-    public CreateCheckoutSessionRequest(String sessionId) {
-        this.sessionId = sessionId;
+    public List<String> getTerminals() {
+        return terminals;
     }
 
+    public void setTerminals(List<String> terminals) {
+        this.terminals = terminals;
+    }
 }
