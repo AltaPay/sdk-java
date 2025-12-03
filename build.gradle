@@ -5,7 +5,6 @@ plugins {
     id "maven-publish"
     id "signing"
     id "org.jreleaser" version "1.20.0"
-    id "jacoco"
     id "org.sonarqube" version "6.0.1.5171"
 }
 
@@ -59,7 +58,6 @@ xjc {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
 }
 
 tasks.register("integrationTest", Test) {
@@ -72,19 +70,13 @@ tasks.register("integrationTest", Test) {
     useJUnitPlatform()
 }
 
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
 sonar {
   properties {
     property "sonar.projectKey", "AltaPay_sdk-java_69a0e28c-3133-48fd-8372-6c73a9cba728"
     property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url")
     property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
+    property "sonar.coverage.exclusions", "**/*"
+    property "sonar.java.coveragePlugin", "none"
   }
 }
 

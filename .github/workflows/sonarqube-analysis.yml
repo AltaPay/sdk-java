@@ -20,7 +20,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew clean build jacocoTestReport --no-daemon
+        run: ./gradlew clean build
 
       - name: Run SonarQube analysis
         env:
