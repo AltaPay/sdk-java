@@ -75,9 +75,14 @@ sonar {
     property "sonar.projectKey", "AltaPay_sdk-java_69a0e28c-3133-48fd-8372-6c73a9cba728"
     property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url")
     property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
+    // Disable SCM completely
+    property "sonar.scm.disabled", "true"
+
+    // Ignore duplication
     property "sonar.cpd.exclusions", "**/*"
     property "sonar.duplications.exclusions", "**/*"
-    property "sonar.scm.provider", "none"
+
+    // Fail build if Quality Gate fails
     property "sonar.qualitygate.wait", "true"
   }
 }
