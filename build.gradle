@@ -77,6 +77,7 @@ sonar {
     property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
     property "sonar.coverage.exclusions", "**/*"
     property "sonar.java.coveragePlugin", "none"
+    property "sonar.qualitygate.wait", "true"
   }
 }
 
