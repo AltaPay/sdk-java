@@ -691,8 +691,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         String apiUrl = "checkoutSession";
 
         HashMap<String, String> params = new HashMap<>();
-        if (createCheckoutSessionRequest != null && createCheckoutSessionRequest.getSessionId() != null) {
-            addParam(params, "session_id", createCheckoutSessionRequest.getSessionId());
+        setPaymentRequestParameters(createCheckoutSessionRequest, params);
+        if (createCheckoutSessionRequest.getTerminals() != null) {
+            addTerminals(params, createCheckoutSessionRequest.getTerminals());
         }
 
         return checkoutSession(apiUrl, params);
@@ -713,6 +714,16 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         addParam(params, "session_status", updateCheckoutSessionRequest.status().name());
 
         return checkoutSession(apiUrl, params);
+    }
+
+    private void addTerminals(HashMap<String, String> params, List<String> terminals)
+    {
+        int idx = 0;
+        for(String terminal : terminals)
+        {
+            addParam(params, "terminals["+idx+"]", terminal);
+            idx++;
+        }
     }
 
     private CheckoutSessionResponse checkoutSession(String apiUrl, HashMap<String, String> params) throws PensioAPIException {

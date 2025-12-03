@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [3.1.3]
-- Enhanced interface of the endpoint cardWallet/authorize to pass payment identifier created in the previous step of setting wallet session 
+- Enhanced interface of the endpoint cardWallet/authorize to pass payment identifier created in the previous step of setting wallet session
+- Change `CreateCheckoutSessionRequest` to be `PaymentRequest` based
 - Added `UniqueId` to `ReconciliationIdentifier`
 - Added `FormTemplates` field to `Terminal` in `/getTerminals` API response 
 
