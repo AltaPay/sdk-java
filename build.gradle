@@ -5,6 +5,7 @@ plugins {
     id "maven-publish"
     id "signing"
     id "org.jreleaser" version "1.20.0"
+    id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'com.altapay'
@@ -67,6 +68,24 @@ tasks.register("integrationTest", Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
     shouldRunAfter(tasks.test)
     useJUnitPlatform()
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "AltaPay_sdk-java_69a0e28c-3133-48fd-8372-6c73a9cba728"
+    property "sonar.host.url", System.getenv("SONAR_HOST_URL") ?: System.getProperty("sonar.host.url")
+    property "sonar.token", System.getenv("SONAR_TOKEN") ?: System.getProperty("sonar.token")
+    
+    property "sonar.scm.disabled", "true"
+    property "sonar.cpd.exclusions", "**/*"
+    property "sonar.duplications.exclusions", "**/*"
+
+    property "sonar.coverage.exclusions", "**/*"
+    property "sonar.java.coveragePlugin", "none"
+
+    // Fail build if Quality Gate fails
+    property "sonar.qualitygate.wait", "true"
+  }
 }
 
 java {
