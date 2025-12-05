@@ -7,6 +7,7 @@ import com.pensio.api.generated.APIResponse;
 import com.pensio.api.generated.Session;
 import com.pensio.api.request.*;
 
+import com.pensio.response.AuthenticationResponse;
 import com.pensio.response.CheckoutSessionResponse;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
@@ -35,6 +36,15 @@ public class PensioMerchantAPI extends PensioAbstractAPI
                 new HashMap<>());
 		return "OK".equals(response.getBody().getResult());
 	}
+
+    public AuthenticationResponse authenticate() throws PensioAPIException
+    {
+        APIResponse response = getAPIResponse("login",
+                HttpMethod.POST,
+                new HashMap<>());
+
+        return new AuthenticationResponse("OK".equals(response.getBody().getResult()), response.getVersion());
+    }
 	
 	public PaymentRequestResponse createPaymentRequest(PaymentRequest paymentRequest) throws PensioAPIException
 	{
