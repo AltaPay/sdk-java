@@ -2,12 +2,9 @@ package com.pensio.api.request;
 
 import java.util.List;
 
-public class CreateCheckoutSessionRequest extends PaymentRequest {
+public class CreateCheckoutSessionRequest extends PaymentRequest<CreateCheckoutSessionRequest> {
 
     private List<String> terminals;
-
-    public CreateCheckoutSessionRequest() {
-    }
 
     public List<String> getTerminals() {
         return terminals;
