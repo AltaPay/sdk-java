@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.6]
+- Update values for `SessionStatus`
+
 ## [3.1.5]
 - Restore backward compatibility to the gateway version for cardWallet/session and cardWallet/authorize API methods
 
