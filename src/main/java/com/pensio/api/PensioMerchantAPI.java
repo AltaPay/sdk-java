@@ -606,6 +606,30 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, String.format("%s[shipping_postal]",groupTag), customerInfo.getShippingAddress().getPostal());
 			addParam(params, String.format("%s[shipping_region]",groupTag), customerInfo.getShippingAddress().getRegion());
 		}
+        if(customerInfo.getDeviceInfo() != null)
+        {
+            DeviceInfo deviceInfo = customerInfo.getDeviceInfo();
+            addParam(params, String.format("%s[device_id]", groupTag), deviceInfo.getDeviceId());
+            addParam(params, String.format("%s[device_type]", groupTag), deviceInfo.getDeviceType());
+            addParam(params, String.format("%s[operating_system]", groupTag), deviceInfo.getOperatingSystem());
+        }
+        if(customerInfo.getGeolocationInfo() != null)
+        {
+            GeolocationInfo geoInfo = customerInfo.getGeolocationInfo();
+            addParam(params, String.format("%s[country_code]", groupTag), geoInfo.getCountryCode());
+            addParam(params, String.format("%s[country_name]", groupTag), geoInfo.getCountryName());
+            addParam(params, String.format("%s[state]", groupTag), geoInfo.getState());
+            addParam(params, String.format("%s[city]", groupTag), geoInfo.getCity());
+            addParam(params, String.format("%s[zip_code]", groupTag), geoInfo.getZipCode());
+            if(geoInfo.getLatitude() != null)
+            {
+                addParam(params, String.format("%s[latitude]", groupTag), String.valueOf(geoInfo.getLatitude()));
+            }
+            if(geoInfo.getLongitude() != null)
+            {
+                addParam(params, String.format("%s[longitude]", groupTag), String.valueOf(geoInfo.getLongitude()));
+            }
+        }
 	}
 
 	private void addOrderLines(String prepend, HashMap<String, String> params, List<OrderLine> orderLines)
