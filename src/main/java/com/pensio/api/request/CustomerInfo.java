@@ -21,6 +21,8 @@ public class CustomerInfo
 	private CustomerInfoAddress billingAddress;
 	private CustomerInfoAddress shippingAddress;
 	private BrowserData browserData;
+    private DeviceInfo deviceInfo;
+    private GeolocationInfo geolocationInfo;
 
 	public String getOrganisationNumber()
 	{
@@ -180,4 +182,22 @@ public class CustomerInfo
 	public void setOrganisationVatId(String organisationVatId) {
 		this.organisationVatId = organisationVatId;
 	}
+
+    public DeviceInfo getDeviceInfo() {
+        return deviceInfo;
+    }
+
+    public CustomerInfo setDeviceInfo(DeviceInfo deviceInfo) {
+        this.deviceInfo = deviceInfo;
+        return this;
+    }
+
+    public GeolocationInfo getGeolocationInfo() {
+        return geolocationInfo;
+    }
+
+    public CustomerInfo setGeolocationInfo(GeolocationInfo geolocationInfo) {
+        this.geolocationInfo = geolocationInfo;
+        return this;
+    }
 }
