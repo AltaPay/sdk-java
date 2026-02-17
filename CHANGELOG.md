@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [3.1.8]
+- Updated `APIResponse.xsd` to include `DeviceId`, replaced  `DeviceInfo` and `GeolocationInfo` in `CustomerInfo` with `DeviceId` retrieved from `BrowserData`
+
+## [3.1.8]
 - Updated `APIResponse.xsd` to include `DeviceInfo` and `GeolocationInfo`
 
 ## [3.1.7]

@@ -12,7 +12,6 @@ public class BrowserData {
     private String userAgent;
     private String accept;
     private String acceptLanguage;
-
     public String getTimeZone() {
         return timeZone;
     }
@@ -92,4 +91,5 @@ public class BrowserData {
     public void setAcceptLanguage(String acceptLanguage) {
         this.acceptLanguage = acceptLanguage;
     }
+
 }

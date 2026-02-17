@@ -121,6 +121,8 @@ public class PensioProcessorAPI extends PensioAbstractAPI
 		addParam(params, "customer_info[billing_postal]", billingAddress.getPostal());
 		addParam(params, "customer_info[billing_country]", billingAddress.getCountry());
 
+		addParam(params, "customer_info[device_id]", customerInfo.getDeviceId());
+
 		BrowserData browserData = customerInfo.getBrowserData();
 		addParam(params, "customer_info[client_time_zone]", browserData.getTimeZone());
 		addParam(params, "customer_info[client_javascript_enabled]", browserData.getJavascriptEnabled());
