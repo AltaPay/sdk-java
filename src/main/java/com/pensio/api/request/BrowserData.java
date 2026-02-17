@@ -12,8 +12,6 @@ public class BrowserData {
     private String userAgent;
     private String accept;
     private String acceptLanguage;
-    private String deviceId;
-
     public String getTimeZone() {
         return timeZone;
     }
@@ -94,11 +92,4 @@ public class BrowserData {
         this.acceptLanguage = acceptLanguage;
     }
 
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
 }
