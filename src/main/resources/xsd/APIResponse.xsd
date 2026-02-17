@@ -721,28 +721,7 @@
             <xs:element name="BillingAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"/>
             <xs:element name="ShippingAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"/>
             <xs:element name="RegisteredAddress" type="CustomerInfoAddress" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="DeviceInfo" type="DeviceInfo" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="GeolocationInfo" type="GeolocationInfo" maxOccurs="1" minOccurs="0"/>
-        </xs:all>
-    </xs:complexType>
-
-    <xs:complexType name="DeviceInfo">
-        <xs:all>
             <xs:element name="DeviceId" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="DeviceType" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="OperatingSystem" type="xs:string" maxOccurs="1" minOccurs="0"/>
-        </xs:all>
-    </xs:complexType>
-
-    <xs:complexType name="GeolocationInfo">
-        <xs:all>
-            <xs:element name="CountryCode" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="CountryName" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="State" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="City" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="ZipCode" type="xs:string" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="Latitude" type="xs:double" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="Longitude" type="xs:double" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
