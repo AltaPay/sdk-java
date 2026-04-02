@@ -14,7 +14,7 @@ import java.nio.file.Path;
 /**
  * Created by emerson on 7/5/17.
  */
-public class MerchantApi_ParsePostBackXmlResponseTests
+class MerchantApi_ParsePostBackXmlResponseTests
 {
 	private PensioMerchantAPI api;
 
@@ -25,7 +25,7 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_ReadCardHolderMessageMustBeShown() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_ReadCardHolderMessageMustBeShown() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/CardHolderMessageMustBeShownFalse.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertFalse(response.getBody().isCardHolderMessageMustBeShown());
@@ -45,7 +45,7 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_ReadReasonCode() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_ReadReasonCode() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/ReasonCode.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertEquals("NONE", response.getBody().getTransactions().getTransaction().get(0).getReasonCode());
@@ -53,7 +53,7 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_ReadPaymentId() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_ReadPaymentId() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/ReasonCode.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertEquals("17794956-9bb6-4854-9712-bce5931e6e3a", response.getBody().getTransactions().getTransaction().get(0).getPaymentId());
@@ -61,21 +61,21 @@ public class MerchantApi_ParsePostBackXmlResponseTests
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_ReadPaymentSource() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_ReadPaymentSource() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/PaymentSource.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertEquals("eCommerce", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_WrongPaymentSource() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_WrongPaymentSource() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/PaymentSource.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertNotSame("eCommerce_without3ds", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
 	}
 
 	@Test
-	public void ParsePostBackXmlResponse_ReadECommerceWithout3dSecurePaymentSource() throws PensioAPIException, IOException, URISyntaxException {
+	void ParsePostBackXmlResponse_ReadECommerceWithout3dSecurePaymentSource() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/PaymentSourceECommerceWithout3dSecure.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertEquals("eCommerce_without3ds", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
