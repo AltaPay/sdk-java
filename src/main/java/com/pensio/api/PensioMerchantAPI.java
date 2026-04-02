@@ -677,6 +677,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, "applePayRequestData[validationUrl]", request.getApplePayRequestData().getValidationUrl());
             addParam(params, "applePayRequestData[domain]", request.getApplePayRequestData().getDomain());
 
+            if (request.getApplePayRequestData().getSource() != null) {
+                addParam(params, "applePayRequestData[source]", request.getApplePayRequestData().getSource().name());
+            }
+
             // backward compatibility with legacy flow
             addParam(params, "validationUrl", request.getApplePayRequestData().getValidationUrl());
             addParam(params, "domain", request.getApplePayRequestData().getDomain());

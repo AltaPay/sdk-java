@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.10]
+- Add `source` parameter to Apple Pay request data to support APPLE_PAY_JS_API / PASSKIT scenarios 
+
 ## [3.1.9]
 - Updated `APIResponse.xsd` to include `DeviceId`, replaced  `DeviceInfo` and `GeolocationInfo` in `CustomerInfo` with `DeviceId`
 
