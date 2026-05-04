@@ -24,7 +24,6 @@ public class PaymentReservationRequest
 	protected String startMonth;
 	protected String startYear;
 	protected String paymentRequestId;
-	protected String chosenScheme;
 
 	public PaymentSource getSource() 
 	{
@@ -129,17 +128,6 @@ public class PaymentReservationRequest
 	public void setPaymentRequestId(String paymentRequestId)
 	{
 		this.paymentRequestId = paymentRequestId;
-	}
-
-	public String getChosenScheme()
-	{
-		return chosenScheme;
-	}
-
-	public PaymentReservationRequest setChosenScheme(String chosenScheme)
-	{
-		this.chosenScheme = chosenScheme;
-		return this;
 	}
 
 }
