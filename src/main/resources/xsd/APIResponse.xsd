@@ -188,8 +188,7 @@
             <xs:element name="LogoUrl" type="xs:string" maxOccurs="1" minOccurs="0"/>
             <xs:element name="Translations" type="Translations" maxOccurs="1" minOccurs="0"/>
             <xs:element name="FormTemplates" type="FormTemplates" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="SupportedSchemes" type="SupportedSchemes" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="DualBrandPairs"  type="DualBrandPairs"  maxOccurs="1" minOccurs="0"/>
+            <xs:element name="Schemes" type="Schemes" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
@@ -252,14 +251,9 @@
         <xs:attribute name="method" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="SupportedSchemes">
+    <xs:complexType name="Schemes">
         <xs:sequence>
             <xs:element name="Scheme" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="DualBrandPairs">
-        <xs:sequence>
             <xs:element name="DualBrandPair" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:attribute name="schemeA" type="xs:string" use="required"/>
