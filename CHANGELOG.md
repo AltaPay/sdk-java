@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.11]
+- Added `Schemes` element to `Terminal` in `/getTerminals` API response, carrying the per-terminal supported card schemes and the MarketPay dual-brand pairs (`DualBrandPair` with `schemeA`, `schemeB`, `default` attributes)
+
 ## [3.1.10]
 - Add `source` parameter to Apple Pay request data to support APPLE_PAY_JS_API / PASSKIT scenarios 
 
