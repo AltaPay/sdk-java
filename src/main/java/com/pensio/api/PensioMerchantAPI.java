@@ -89,16 +89,16 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		return getAPIResponse("updateOrder", HttpMethod.POST, params);
 	}
 	
-	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException 
+	public APIResponse reservation(PaymentReservationRequest request) throws PensioAPIException
 	{
 		HashMap<String, String> params = new HashMap<>();
 		setPaymentRequestParameters(request, params);
 		setCreditCardRequestParameters(request, params);
 		setPaymentSource(request, params);
-		
+
 		return getAPIResponse("reservation", HttpMethod.POST, params);
 	}
-	
+
 	private void setPaymentSource(PaymentReservationRequest request,
 			HashMap<String, String> params)
 	{
