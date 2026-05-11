@@ -16,8 +16,7 @@ public class CheckoutSessionExample {
 
     public static void main(String args[]) throws PensioAPIException {
         String orderId = "CheckoutSessionExample_" + new Random().nextInt();
-
-        // 1. Create a Checkout Session
+        
         CreateCheckoutSessionRequest createRequest = new CreateCheckoutSessionRequest();
         createRequest.setTerminal("AltaPay Test Terminal");
         createRequest.setShopOrderId(orderId);
