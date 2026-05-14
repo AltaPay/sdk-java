@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.12]
+- Added `AuthorisationCode` field to `Transaction` in API response
+
 ## [3.1.11]
 - Added `Schemes` element to `Terminal` in `/getTerminals` API response, carrying the per-terminal supported card schemes and dual-brand pairs (`DualBrandPair` with `schemeA`, `schemeB`, `default` attributes)
 
