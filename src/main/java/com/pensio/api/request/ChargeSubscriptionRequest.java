@@ -12,6 +12,7 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
  	private String callbackOk;
 	private String callbackFail;
     private String dynamicDescriptor;
+	private String terminal;
 
     {
         paymentInfos = new PaymentInfos();
@@ -121,4 +122,15 @@ public class ChargeSubscriptionRequest<T extends ChargeSubscriptionRequest<T>>
         this.dynamicDescriptor = dynamicDescriptor;
         return this;
     }
+
+	public String getTerminal()
+	{
+		return terminal;
+	}
+
+	public ChargeSubscriptionRequest setTerminal(String terminal)
+	{
+		this.terminal = terminal;
+		return this;
+	}
 }

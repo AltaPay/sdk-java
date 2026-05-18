@@ -160,6 +160,9 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (request.getDynamicDescriptor() != null) {
             addParam(params, "dynamic_descriptor", request.getDynamicDescriptor());
         }
+		if(request.getTerminal() != null) {
+			addParam(params, "terminal", request.getTerminal());
+		}
 
 		return getAPIResponse("chargeSubscription", HttpMethod.POST, params);
 	}
@@ -191,6 +194,10 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (request.getDynamicDescriptor() != null) {
             addParam(params, "dynamic_descriptor", request.getDynamicDescriptor());
         }
+
+		if(request.getTerminal() != null) {
+			addParam(params, "terminal", request.getTerminal());
+		}
 
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
 	}

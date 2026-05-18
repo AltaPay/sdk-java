@@ -11,8 +11,9 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private String callbackOk;
 	private String callbackFail;
     private String dynamicDescriptor;
+	private String terminal;
 
-    {
+	{
         paymentInfos = new PaymentInfos();
     }
 
@@ -109,4 +110,15 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
         this.dynamicDescriptor = dynamicDescriptor;
         return this;
     }
+
+	public String getTerminal()
+	{
+		return terminal;
+	}
+
+	public ReserveSubscriptionChargeRequest setTerminal(String terminal)
+	{
+		this.terminal = terminal;
+		return this;
+	}
 }
