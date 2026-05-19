@@ -27,6 +27,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	protected CustomerInfo recipientInfo;
 	private final PaymentInfos paymentInfos;
 	private final List<OrderLine> orderLines;
+	private final AcquirerTransactionData acquirerTransactionData;
 
 	/**
 	 *
@@ -38,6 +39,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	{
 		paymentInfos = new PaymentInfos();
 		orderLines = new ArrayList<>();
+		acquirerTransactionData = new AcquirerTransactionData();
 	}
 
 	public PaymentRequest()
@@ -197,6 +199,11 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	public PaymentInfos getPaymentInfos()
 	{
 		return paymentInfos;
+	}
+
+	public AcquirerTransactionData getAcquirerTransactionData()
+	{
+		return acquirerTransactionData;
 	}
 
 	@SuppressWarnings("unchecked")
