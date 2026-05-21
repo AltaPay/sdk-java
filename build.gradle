@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'com.altapay'
-version = '3.1.13'
+version = '3.1.14'
 
 repositories {
     mavenCentral()
@@ -82,6 +82,8 @@ sonar {
 
     property "sonar.coverage.exclusions", "**/*"
     property "sonar.java.coveragePlugin", "none"
+
+    property "sonar.exclusions", "**/com/pensio/api/generated/**"
 
     // Fail build if Quality Gate fails
     property "sonar.qualitygate.wait", "true"

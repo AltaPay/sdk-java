@@ -597,6 +597,7 @@
             <xs:element name="ReconciliationIdentifiers"
                         type="ReconciliationIdentifiers"/>
             <xs:element name="Authentication" type="Authentication" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="AcquirerTransactionData" type="AcquirerTransactionData" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
     <xs:complexType name="Authentication">
@@ -825,6 +826,27 @@
             </xs:element>
             <xs:element name="Scheme" type="xs:string"/>
         </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="AcquirerTransactionData">
+        <xs:sequence>
+            <xs:element name="Group" type="AcquirerTransactionDataGroup" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AcquirerTransactionDataGroup">
+        <xs:sequence>
+            <xs:element name="Entry" type="AcquirerTransactionDataEntry" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="AcquirerTransactionDataEntry">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="key" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="CustomerInfoAddress">

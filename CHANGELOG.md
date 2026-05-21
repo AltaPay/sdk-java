@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.14]
+- Added `AcquirerTransactionData`
+
 ## [3.1.13]
 - Added `terminal' field to `ChargeSubscriptionRequest` and `ReserveSubscriptionChargeRequest` in `MerchantAPI` to support charging subscription with specific terminal
 

@@ -665,6 +665,17 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		{
 			addParam(params, "transaction_info["+paymentInfo.getKey()+"]", paymentInfo.getValue());
 		}
+
+		if (!paymentRequest.getAcquirerTransactionData().isEmpty()) {
+			for (Map.Entry<String, Map<String, String>> g
+				: paymentRequest.getAcquirerTransactionData().getAll().entrySet()) {
+				for (Map.Entry<String, String> kv : g.getValue().entrySet()) {
+					addParam(params,
+						"acquirerTransactionData[" + g.getKey() + "][" + kv.getKey() + "]",
+						kv.getValue());
+				}
+			}
+		}
 	}
 
 	private void addAuthType(PaymentRequest<?> request, HashMap<String, String> params)
