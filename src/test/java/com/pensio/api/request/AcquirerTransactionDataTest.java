@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AcquirerTransactionDataTest {
+class AcquirerTransactionDataTest {
 
     @Test
-    public void emptyByDefault() {
+    void emptyByDefault() {
         AcquirerTransactionData d = new AcquirerTransactionData();
         assertTrue(d.isEmpty());
         assertTrue(d.getAll().isEmpty());
     }
 
     @Test
-    public void addChainsAndStoresByGroup() {
+    void addChainsAndStoresByGroup() {
         AcquirerTransactionData d = new AcquirerTransactionData()
             .add(PassCard.GROUP, PassCard.CREDITCODE,        "32")
             .add(PassCard.GROUP, PassCard.PAYMENTOCCURRENCE, "001");
@@ -29,7 +31,7 @@ public class AcquirerTransactionDataTest {
     }
 
     @Test
-    public void addOverwritesSameKey() {
+    void addOverwritesSameKey() {
         AcquirerTransactionData d = new AcquirerTransactionData()
             .add("g", "k", "v1")
             .add("g", "k", "v2");
