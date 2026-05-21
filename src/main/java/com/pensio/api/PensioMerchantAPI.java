@@ -766,14 +766,20 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
     private CheckoutSessionResponse checkoutSession(String apiUrl, HashMap<String, String> params) throws PensioAPIException {
         APIResponse response = getAPIResponse(apiUrl, HttpMethod.POST, params);
+        return mapCheckoutSessionResponse(response.getBody().getSession());
+    }
 
-        CheckoutSessionResponse checkoutSessionResponse = new CheckoutSessionResponse();
-        if (response.getBody().getSession() != null) {
-            Session session = response.getBody().getSession();
-            checkoutSessionResponse.setSessionId(session.getId());
-            checkoutSessionResponse.setSessionStatus(SessionStatus.valueOf(session.getStatus()));
+    static CheckoutSessionResponse mapCheckoutSessionResponse(com.pensio.api.generated.Session session) {
+        CheckoutSessionResponse out = new CheckoutSessionResponse();
+        if (session == null) {
+            return out;
         }
-        return checkoutSessionResponse;
+        out.setSessionId(session.getId());
+        out.setSessionStatus(SessionStatus.valueOf(session.getStatus()));
+        if (session.getSupportedTerminals() != null) {
+            out.setSupportedTerminals(new java.util.ArrayList<>(session.getSupportedTerminals().getTerminal()));
+        }
+        return out;
     }
 
 	protected String getAppAPIPath()

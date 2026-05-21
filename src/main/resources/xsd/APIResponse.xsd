@@ -338,6 +338,13 @@
         <xs:all>
             <xs:element name="Id" type="xs:string"/>
             <xs:element name="Status" type="xs:string"/>
+            <xs:element name="SupportedTerminals" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Terminal" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
         </xs:all>
     </xs:complexType>
 
