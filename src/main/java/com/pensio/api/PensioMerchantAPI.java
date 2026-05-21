@@ -769,7 +769,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         return mapCheckoutSessionResponse(response.getBody().getSession());
     }
 
-    static CheckoutSessionResponse mapCheckoutSessionResponse(com.pensio.api.generated.Session session) {
+    static CheckoutSessionResponse mapCheckoutSessionResponse(Session session) {
         CheckoutSessionResponse out = new CheckoutSessionResponse();
         if (session == null) {
             return out;
