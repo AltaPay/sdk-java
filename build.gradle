@@ -83,6 +83,8 @@ sonar {
     property "sonar.coverage.exclusions", "**/*"
     property "sonar.java.coveragePlugin", "none"
 
+    property "sonar.exclusions", "**/com/pensio/api/generated/**"
+
     // Fail build if Quality Gate fails
     property "sonar.qualitygate.wait", "true"
   }
