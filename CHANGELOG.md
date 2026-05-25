@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.15]
+- Added `SupportedTerminals` (list of `Terminal` titles) to `Session` in `/createCheckoutSession` and `/updateCheckoutSession` API responses, and corresponding nullable `List<String> supportedTerminals` field on `CheckoutSessionResponse`. Allows consumers to learn which terminals successfully initialised an external session (or didn't require one) in the checkout session, so that unsupported payment methods can be filtered out. Backward compatible: field is `null` when the gateway omits the element.
+
 ## [3.1.14]
 - Added `AcquirerTransactionData`
 
