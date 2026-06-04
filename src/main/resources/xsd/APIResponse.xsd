@@ -246,9 +246,10 @@
     </xs:complexType>
     <xs:complexType name="MethodConfig">
         <xs:sequence>
-            <xs:any minOccurs="0"/>
+            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
         </xs:sequence>
         <xs:attribute name="method" type="xs:string"/>
+        <xs:attribute name="identifier" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="Schemes">
