@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.17]
+- Added optional `Type` element (`CardType`: `CREDIT`, `DEBIT`, `CHARGE_CARD`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
+
 ## [3.1.16]
 - Added identifier attribute on `MethodConfig` in `/getTerminals`. Fix content of `MethodConfig` to support different configuration (unbounded), based on the gateway response.
 

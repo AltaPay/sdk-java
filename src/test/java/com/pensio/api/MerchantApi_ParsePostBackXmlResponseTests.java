@@ -80,4 +80,32 @@ class MerchantApi_ParsePostBackXmlResponseTests
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 		Assertions.assertEquals("eCommerce_without3ds", response.getBody().getTransactions().getTransaction().get(0).getPaymentSource());
 	}
+
+	@Test
+	void parseCardInformationType_credit() throws PensioAPIException, IOException, URISyntaxException {
+		String xmlResponse = readFile("com/pensio/api/txt/CardTypeCredit.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+
+		com.pensio.api.generated.CardType type = response.getBody()
+			.getTransactions()
+			.getTransaction()
+			.get(0)
+			.getCardInformation()
+			.getType();
+		Assertions.assertEquals(com.pensio.api.generated.CardType.CREDIT, type);
+	}
+
+	@Test
+	void parseCardInformationType_absentReturnsNull() throws PensioAPIException, IOException, URISyntaxException {
+		String xmlResponse = readFile("com/pensio/api/txt/CardInformationNoType.xml");
+		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
+
+		com.pensio.api.generated.CardType type = response.getBody()
+			.getTransactions()
+			.getTransaction()
+			.get(0)
+			.getCardInformation()
+			.getType();
+		Assertions.assertNull(type);
+	}
 }
