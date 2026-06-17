@@ -614,6 +614,19 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, String.format("%s[shipping_region]",groupTag), customerInfo.getShippingAddress().getRegion());
 		}
         addParam(params, String.format("%s[device_id]", groupTag), customerInfo.getDeviceId());
+		if(customerInfo.getBrowserData() != null)
+		{
+			addParam(params, String.format("%s[client_time_zone]",groupTag), customerInfo.getBrowserData().getTimeZone());
+			addParam(params, String.format("%s[client_javascript_enabled]",groupTag), customerInfo.getBrowserData().getJavascriptEnabled());
+			addParam(params, String.format("%s[client_screen_width]",groupTag), customerInfo.getBrowserData().getScreenWidth());
+			addParam(params, String.format("%s[client_screen_height]",groupTag), customerInfo.getBrowserData().getScreenHeight());
+			addParam(params, String.format("%s[client_color_depth]",groupTag), customerInfo.getBrowserData().getColorDepth());
+			addParam(params, String.format("%s[client_java_enabled]",groupTag), customerInfo.getBrowserData().getJavaEnabled());
+			addParam(params, String.format("%s[client_forwarded_ip]",groupTag), customerInfo.getBrowserData().getForwardedIp());
+			addParam(params, String.format("%s[client_user_agent]",groupTag), customerInfo.getBrowserData().getUserAgent());
+			addParam(params, String.format("%s[client_accept]",groupTag), customerInfo.getBrowserData().getAccept());
+			addParam(params, String.format("%s[client_accept_language]",groupTag), customerInfo.getBrowserData().getAcceptLanguage());
+		}
 	}
 
 	private void addOrderLines(String prepend, HashMap<String, String> params, List<OrderLine> orderLines)
