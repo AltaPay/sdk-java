@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.18]
+- Added possibility to pass client browser data in `MerchantApi` to support 3DS processing for wallet nontokenized flow (eg. GooglePay from desktop browser).
+
 ## [3.1.17]
 - Added optional `Type` element (`CardType`: `CREDIT`, `DEBIT`, `CHARGE_CARD`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
 
