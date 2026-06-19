@@ -82,7 +82,7 @@ class MerchantApi_ParsePostBackXmlResponseTests
 	}
 
 	@Test
-	void parseCardInformationType_credit() throws PensioAPIException, IOException, URISyntaxException {
+	void parseCardInformationType_consumerCredit() throws PensioAPIException, IOException, URISyntaxException {
 		String xmlResponse = readFile("com/pensio/api/txt/CardTypeCredit.xml");
 		APIResponse response = api.parsePostBackXMLParameter(xmlResponse);
 
@@ -92,7 +92,7 @@ class MerchantApi_ParsePostBackXmlResponseTests
 			.get(0)
 			.getCardInformation()
 			.getType();
-		Assertions.assertEquals(com.pensio.api.generated.CardType.CREDIT, type);
+		Assertions.assertEquals(com.pensio.api.generated.CardType.CONSUMER_CREDIT, type);
 	}
 
 	@Test

@@ -808,9 +808,10 @@
 
     <xs:simpleType name="CardType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="CREDIT"/>
-            <xs:enumeration value="DEBIT"/>
-            <xs:enumeration value="CHARGE_CARD"/>
+            <xs:enumeration value="Consumer Credit"/>
+            <xs:enumeration value="Consumer Debit"/>
+            <xs:enumeration value="Corporate"/>
+            <xs:enumeration value="Corporate Debit"/>
         </xs:restriction>
     </xs:simpleType>
 
