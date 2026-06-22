@@ -1,11 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [3.1.18]
+## [3.1.19]
 - Changed `CardType` values for the `CardInformation` `Type` element to the BIN interchange group classifications: `Consumer Credit`, `Consumer Debit`, `Corporate Credit`, `Corporate Debit`.
 
+## [3.1.18]
+- Added possibility to pass client browser data in `MerchantApi` to support 3DS processing for wallet nontokenized flow (eg. GooglePay from desktop browser).
+
 ## [3.1.17]
-- Added optional `Type` element (`CardType`: `CREDIT`, `DEBIT`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
+- Added optional `Type` element (`CardType`: `CREDIT`, `DEBIT`, `CHARGE_CARD`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
 
 ## [3.1.16]
 - Added identifier attribute on `MethodConfig` in `/getTerminals`. Fix content of `MethodConfig` to support different configuration (unbounded), based on the gateway response.
