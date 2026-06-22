@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.19]
+- Changed `CardType` values for the `CardInformation` `Type` element to the BIN interchange group classifications: `Consumer Credit`, `Consumer Debit`, `Corporate Credit`, `Corporate Debit`.
+
 ## [3.1.18]
 - Added possibility to pass client browser data in `MerchantApi` to support 3DS processing for wallet nontokenized flow (eg. GooglePay from desktop browser).
 

@@ -35,7 +35,7 @@
                     <IssuingCountry>GB</IssuingCountry>
                     <LastFourDigits>0466</LastFourDigits>
                     <Scheme>Visa</Scheme>
-                    <Type>CREDIT</Type>
+                    <Type>Consumer Credit</Type>
                 </CardInformation>
                 <ThreeDSecureResult>Not_Attempted</ThreeDSecureResult>
                 <LiableForChargeback>Merchant</LiableForChargeback>
