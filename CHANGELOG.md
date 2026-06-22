@@ -2,10 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [3.1.18]
-- Fix `Type` element from (`CardType`: `CREDIT`, `DEBIT`, `CHARGE_CARD`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
+- Changed `CardType` values for the `CardInformation` `Type` element to the BIN interchange group classifications: `Consumer Credit`, `Consumer Debit`, `Corporate Credit`, `Corporate Debit`.
 
 ## [3.1.17]
-- Added optional `Type` element (`CardType`: `Consumer Credit`, `Consumer Debit`, `Corporate`, `Corporate Debit`) to `CardInformation` in API responses, exposing the card type (BIN interchange group).
+- Added optional `Type` element (`CardType`: `CREDIT`, `DEBIT`) to `CardInformation` in API responses, exposing the card type derived from the BIN interchange group.
 
 ## [3.1.16]
 - Added identifier attribute on `MethodConfig` in `/getTerminals`. Fix content of `MethodConfig` to support different configuration (unbounded), based on the gateway response.

@@ -54,7 +54,7 @@ For integrating Java projects with the AltaPay gateway.
 
 ### Gradle
 
-    implementation 'com.altapay:sdk-java:3.1.17'
+    implementation 'com.altapay:sdk-java:3.1.18'
 
 ## Changelog
 

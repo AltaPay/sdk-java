@@ -810,7 +810,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="Consumer Credit"/>
             <xs:enumeration value="Consumer Debit"/>
-            <xs:enumeration value="Corporate"/>
+            <xs:enumeration value="Corporate Credit"/>
             <xs:enumeration value="Corporate Debit"/>
         </xs:restriction>
     </xs:simpleType>
