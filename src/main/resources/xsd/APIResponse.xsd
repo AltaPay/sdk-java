@@ -254,7 +254,7 @@
 
     <xs:complexType name="Schemes">
         <xs:sequence>
-            <xs:element name="Scheme" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Scheme" type="Scheme" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="DualBrandPair" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:attribute name="schemeA" type="xs:string" use="required"/>
@@ -263,6 +263,14 @@
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Scheme">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="code" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="FormTemplates">
