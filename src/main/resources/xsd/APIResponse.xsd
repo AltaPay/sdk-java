@@ -481,6 +481,8 @@
             <xs:element name="Terminal" type="xs:string"/>
             <xs:element name="TransactionStatus" type="xs:string"/>
             <xs:element name="ReasonCode" type="xs:string"/>
+            <xs:element name="MerchantErrorMessage" type="xs:string" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="MerchantErrorCode" type="xs:string" maxOccurs="1" minOccurs="0"/>
             <xs:element name="CardHolderMessageMustBeShown" type="xs:boolean" maxOccurs="1" minOccurs="0"/>
             <xs:element name="MerchantCurrency">
                 <xs:simpleType>

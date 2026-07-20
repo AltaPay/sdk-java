@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.20]
+- Added `MerchantErrorMessage` and `MerchantErrorCode` fields to `Transaction` in API response, exposing the failure reason and error code for failed/declined payments.
+
 ## [3.1.19]
 - Changed `CardType` values for the `CardInformation` `Type` element to the BIN interchange group classifications: `Consumer Credit`, `Consumer Debit`, `Corporate Credit`, `Corporate Debit`.
 
