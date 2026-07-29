@@ -746,6 +746,18 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (createCheckoutSessionRequest.getTerminals() != null) {
             addTerminals(params, createCheckoutSessionRequest.getTerminals());
         }
+        if (createCheckoutSessionRequest.getRiskManagerPolicyGroup() != null) {
+            addParam(params, "risk_manager_policy_group", createCheckoutSessionRequest.getRiskManagerPolicyGroup());
+        }
+        if (createCheckoutSessionRequest.getRiskManagerPolicy() != null) {
+            addParam(params, "risk_manager_policy", createCheckoutSessionRequest.getRiskManagerPolicy());
+        }
+        if (createCheckoutSessionRequest.getMaxConversionPolicyGroup() != null) {
+            addParam(params, "max_conversion_policy_group", createCheckoutSessionRequest.getMaxConversionPolicyGroup());
+        }
+        if (createCheckoutSessionRequest.getMaxConversionPolicy() != null) {
+            addParam(params, "max_conversion_policy", createCheckoutSessionRequest.getMaxConversionPolicy());
+        }
 
         return checkoutSession(apiUrl, params);
     }
