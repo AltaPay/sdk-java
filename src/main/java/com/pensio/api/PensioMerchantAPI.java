@@ -380,6 +380,18 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (paymentRequest.getSessionId() != null) {
             addParam(params, "session_id", paymentRequest.getSessionId());
         }
+        if (paymentRequest.getRiskManagerPolicyGroup() != null) {
+            addParam(params, "risk_manager_policy_group", paymentRequest.getRiskManagerPolicyGroup());
+        }
+        if (paymentRequest.getRiskManagerPolicy() != null) {
+            addParam(params, "risk_manager_policy", paymentRequest.getRiskManagerPolicy());
+        }
+        if (paymentRequest.getMaxConversionPolicyGroup() != null) {
+            addParam(params, "max_conversion_policy_group", paymentRequest.getMaxConversionPolicyGroup());
+        }
+        if (paymentRequest.getMaxConversionPolicy() != null) {
+            addParam(params, "max_conversion_policy", paymentRequest.getMaxConversionPolicy());
+        }
 	}
 
 	protected void setInvoiceReservationRequestParameters(
