@@ -380,18 +380,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (paymentRequest.getSessionId() != null) {
             addParam(params, "session_id", paymentRequest.getSessionId());
         }
-        if (paymentRequest.getRiskManagerPolicyGroup() != null) {
-            addParam(params, "risk_manager_policy_group", paymentRequest.getRiskManagerPolicyGroup());
-        }
-        if (paymentRequest.getRiskManagerPolicy() != null) {
-            addParam(params, "risk_manager_policy", paymentRequest.getRiskManagerPolicy());
-        }
-        if (paymentRequest.getMaxConversionPolicyGroup() != null) {
-            addParam(params, "max_conversion_policy_group", paymentRequest.getMaxConversionPolicyGroup());
-        }
-        if (paymentRequest.getMaxConversionPolicy() != null) {
-            addParam(params, "max_conversion_policy", paymentRequest.getMaxConversionPolicy());
-        }
 	}
 
 	protected void setInvoiceReservationRequestParameters(
@@ -757,6 +745,18 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         setPaymentRequestParameters(createCheckoutSessionRequest, params);
         if (createCheckoutSessionRequest.getTerminals() != null) {
             addTerminals(params, createCheckoutSessionRequest.getTerminals());
+        }
+        if (createCheckoutSessionRequest.getRiskManagerPolicyGroup() != null) {
+            addParam(params, "risk_manager_policy_group", createCheckoutSessionRequest.getRiskManagerPolicyGroup());
+        }
+        if (createCheckoutSessionRequest.getRiskManagerPolicy() != null) {
+            addParam(params, "risk_manager_policy", createCheckoutSessionRequest.getRiskManagerPolicy());
+        }
+        if (createCheckoutSessionRequest.getMaxConversionPolicyGroup() != null) {
+            addParam(params, "max_conversion_policy_group", createCheckoutSessionRequest.getMaxConversionPolicyGroup());
+        }
+        if (createCheckoutSessionRequest.getMaxConversionPolicy() != null) {
+            addParam(params, "max_conversion_policy", createCheckoutSessionRequest.getMaxConversionPolicy());
         }
 
         return checkoutSession(apiUrl, params);

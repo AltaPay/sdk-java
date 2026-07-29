@@ -21,10 +21,6 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	private String giftCardToken;
     private String dynamicDescriptor;
     private String sessionId;
-    private String riskManagerPolicyGroup;
-    private String riskManagerPolicy;
-    private String maxConversionPolicyGroup;
-    private String maxConversionPolicy;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -256,46 +252,6 @@ public class PaymentRequest<T extends PaymentRequest<T>>
     @SuppressWarnings("unchecked")
     public T setSessionId(String sessionId) {
         this.sessionId = sessionId;
-        return (T)this;
-    }
-
-    public String getRiskManagerPolicyGroup() {
-        return riskManagerPolicyGroup;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setRiskManagerPolicyGroup(String riskManagerPolicyGroup) {
-        this.riskManagerPolicyGroup = riskManagerPolicyGroup;
-        return (T)this;
-    }
-
-    public String getRiskManagerPolicy() {
-        return riskManagerPolicy;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setRiskManagerPolicy(String riskManagerPolicy) {
-        this.riskManagerPolicy = riskManagerPolicy;
-        return (T)this;
-    }
-
-    public String getMaxConversionPolicyGroup() {
-        return maxConversionPolicyGroup;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setMaxConversionPolicyGroup(String maxConversionPolicyGroup) {
-        this.maxConversionPolicyGroup = maxConversionPolicyGroup;
-        return (T)this;
-    }
-
-    public String getMaxConversionPolicy() {
-        return maxConversionPolicy;
-    }
-
-    @SuppressWarnings("unchecked")
-    public T setMaxConversionPolicy(String maxConversionPolicy) {
-        this.maxConversionPolicy = maxConversionPolicy;
         return (T)this;
     }
 
