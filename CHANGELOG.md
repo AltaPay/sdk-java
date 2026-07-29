@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [3.1.21]
-- Added `riskManager` and `maxConversion` objects to `configuration` in API request.
+- Added `riskManager` and `maxConversion` objects to `configuration` to /createCheckoutSession endpoint.
 
 ## [3.1.20]
 - Added `MerchantErrorMessage` and `MerchantErrorCode` fields to `Transaction` in API response, exposing the failure reason and error code for failed/declined payments.
