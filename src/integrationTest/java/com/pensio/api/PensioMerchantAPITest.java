@@ -26,6 +26,9 @@ import com.pensio.api.request.RefundRequest;
 import com.pensio.api.request.ReleaseReservationRequest;
 import com.pensio.api.request.ReserveSubscriptionChargeRequest;
 import com.pensio.api.request.TransactionsRequest;
+import com.pensio.api.request.CreateCheckoutSessionRequest;
+import com.pensio.response.CheckoutSessionResponse;
+import com.pensio.api.SessionStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -273,6 +276,20 @@ public class PensioMerchantAPITest extends PensioAPITestBase
 		assertEquals("Success",result.getBody().getResult());
 		assertNotNull(result.getBody().getTerminals());
 		assertTrue(result.getBody().getTerminals().getTerminal().size() > 0);
+	}
+
+	@Test
+	public void checkoutSessionTest() throws Throwable
+	{
+		CreateCheckoutSessionRequest request = new CreateCheckoutSessionRequest();
+		request.setTerminal("AltaPay Test Terminal");
+		request.setShopOrderId(getOrderId());
+		request.setAmount(Amount.get(1.00, Currency.EUR));
+		request.setTerminals(Arrays.asList("AltaPay Test Terminal"));
+
+		CheckoutSessionResponse response = api.createCheckoutSession(request);
+		assertNotNull(response.getSessionId());
+		assertEquals(SessionStatus.CREATED, response.getSessionStatus());
 	}
 
 	@Test
