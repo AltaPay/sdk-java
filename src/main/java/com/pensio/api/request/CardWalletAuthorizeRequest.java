@@ -9,7 +9,6 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
 
     // Optional parameters -- deprecated as others payment request attributes (reusing existing payment by payment_id)
     private String saleReconciliationIdentifier;
-    private String saleInvoiceNumber;
     private String salesTax;
 
     public CardWalletAuthorizeRequest(String providerData, String paymentId, String terminal, String shopOrderId, Amount amount) {
@@ -42,15 +41,6 @@ public class CardWalletAuthorizeRequest extends PaymentRequest<CardWalletAuthori
 
     public CardWalletAuthorizeRequest setSaleReconciliationIdentifier(String saleReconciliationIdentifier) {
         this.saleReconciliationIdentifier = saleReconciliationIdentifier;
-        return this;
-    }
-
-    public String getSaleInvoiceNumber() {
-        return saleInvoiceNumber;
-    }
-
-    public CardWalletAuthorizeRequest setSaleInvoiceNumber(String saleInvoiceNumber) {
-        this.saleInvoiceNumber = saleInvoiceNumber;
         return this;
     }
 
