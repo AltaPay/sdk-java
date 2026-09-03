@@ -380,6 +380,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         if (paymentRequest.getSessionId() != null) {
             addParam(params, "session_id", paymentRequest.getSessionId());
         }
+		addParam(params, "sale_invoice_number", paymentRequest.getSaleInvoiceNumber());
 	}
 
 	protected void setInvoiceReservationRequestParameters(
@@ -729,7 +730,6 @@ public class PensioMerchantAPI extends PensioAbstractAPI
         addParam(params, "payment_id", request.getPaymentId());
 
         addParam(params, "sale_reconciliation_identifier", request.getSaleReconciliationIdentifier());
-		addParam(params, "sale_invoice_number", request.getSaleInvoiceNumber());
 		addParam(params, "sales_tax", request.getSalesTax());
 
 		setPaymentRequestParameters(request, params);

@@ -21,6 +21,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
 	private String giftCardToken;
     private String dynamicDescriptor;
     private String sessionId;
+    private String saleInvoiceNumber;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -252,6 +253,16 @@ public class PaymentRequest<T extends PaymentRequest<T>>
     @SuppressWarnings("unchecked")
     public T setSessionId(String sessionId) {
         this.sessionId = sessionId;
+        return (T)this;
+    }
+
+    public String getSaleInvoiceNumber() {
+        return saleInvoiceNumber;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setSaleInvoiceNumber(String saleInvoiceNumber) {
+        this.saleInvoiceNumber = saleInvoiceNumber;
         return (T)this;
     }
 
