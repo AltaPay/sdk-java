@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.22]
+- Added `saleInvoiceNumber` support to `PaymentRequest` and mapped `sale_invoice_number` parameter in `PensioMerchantAPI`.
+
 ## [3.1.21]
 - Added `riskManager` and `maxConversion` objects to `configuration` to /createCheckoutSession endpoint.
 
