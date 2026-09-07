@@ -29,6 +29,7 @@ class PensioAPIResponseParserTest {
             "      <Transaction>" +
             "        <TransactionId>1</TransactionId>" +
             "        <AcquirerTransactionData>" +
+            "          <MerchantIdentifier>mid_123456</MerchantIdentifier>" +
             "          <Group name=\"passcard\">" +
             "            <Entry key=\"creditcode\">32</Entry>" +
             "            <Entry key=\"paymentoccurrence\">001</Entry>" +
@@ -46,6 +47,7 @@ class PensioAPIResponseParserTest {
 
         AcquirerTransactionData atd = t.getAcquirerTransactionData();
         assertNotNull(atd);
+        assertEquals("mid_123456", atd.getMerchantIdentifier());
         assertEquals(1, atd.getGroup().size());
 
         AcquirerTransactionDataGroup group = atd.getGroup().get(0);
