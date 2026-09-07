@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.23]
+- Extend `AcquirerTransactionData` with `MerchantIdentifier` attribute
+
 ## [3.1.22]
 - Added `saleInvoiceNumber` support to `PaymentRequest` and mapped `sale_invoice_number` parameter in `PensioMerchantAPI`.
 
