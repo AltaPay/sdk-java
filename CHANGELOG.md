@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.25]
+- Added `Metadatas` node with `Metadata` and `KeyValue` elements to `Terminal` in `getTerminals` API response.
+
 ## [3.1.24]
 - Added `Processor` field to `Transaction` in API response, exposing the name of the payment processor handling the transaction.
 

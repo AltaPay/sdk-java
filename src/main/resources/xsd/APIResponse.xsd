@@ -189,6 +189,7 @@
             <xs:element name="Translations" type="Translations" maxOccurs="1" minOccurs="0"/>
             <xs:element name="FormTemplates" type="FormTemplates" maxOccurs="1" minOccurs="0"/>
             <xs:element name="Schemes" type="Schemes" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="Metadatas" type="Metadatas" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
@@ -269,6 +270,26 @@
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute name="code" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="Metadatas">
+        <xs:sequence>
+            <xs:element name="Metadata" type="Metadata" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Metadata">
+        <xs:sequence>
+            <xs:element name="KeyValue" type="KeyValue" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="KeyValue">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="key" type="xs:string" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
