@@ -681,14 +681,23 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 		}
 
 		if (!paymentRequest.getAcquirerTransactionData().isEmpty()) {
-			for (Map.Entry<String, Map<String, String>> g
+			for (Map.Entry<String, Map<String, List<String>>> g
 				: paymentRequest.getAcquirerTransactionData().getAll().entrySet()) {
-				for (Map.Entry<String, String> kv : g.getValue().entrySet()) {
-					addParam(params,
-						"acquirerTransactionData[" + g.getKey() + "][" + kv.getKey() + "]",
-						kv.getValue());
+				for (Map.Entry<String, List<String>> kv : g.getValue().entrySet()) {
+					addAcquirerTransactionDataParams(params, g.getKey(), kv.getKey(), kv.getValue());
 				}
 			}
+		}
+	}
+
+	private void addAcquirerTransactionDataParams(HashMap<String, String> params, String group, String key, List<String> values)
+	{
+		if (values.size() == 1) {
+			addParam(params, "acquirerTransactionData[" + group + "][" + key + "]", values.get(0));
+			return;
+		}
+		for (int i = 0; i < values.size(); i++) {
+			addParam(params, "acquirerTransactionData[" + group + "][" + key + "][" + i + "]", values.get(i));
 		}
 	}
 
