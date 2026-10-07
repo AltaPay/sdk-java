@@ -2,8 +2,7 @@ package com.pensio.api;
 
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.generated.AcquirerTransactionData;
-import com.pensio.api.generated.AcquirerTransactionDataEntry;
-import com.pensio.api.generated.AcquirerTransactionDataGroup;
+import com.pensio.api.generated.AcquirerAttribute;
 import com.pensio.api.generated.Transaction;
 import com.pensio.api.generated.Terminal;
 import com.pensio.api.generated.Metadatas;
@@ -34,10 +33,7 @@ class PensioAPIResponseParserTest {
             "        <TransactionId>1</TransactionId>" +
             "        <AcquirerTransactionData>" +
             "          <MerchantIdentifier>mid_123456</MerchantIdentifier>" +
-            "          <Group name=\"passcard\">" +
-            "            <Entry key=\"creditcode\">32</Entry>" +
-            "            <Entry key=\"paymentoccurrence\">001</Entry>" +
-            "          </Group>" +
+            "          <Attribute key=\"someKey\">someValue</Attribute>" +
             "        </AcquirerTransactionData>" +
             "      </Transaction>" +
             "    </Transactions>" +
@@ -52,19 +48,12 @@ class PensioAPIResponseParserTest {
         AcquirerTransactionData atd = t.getAcquirerTransactionData();
         assertNotNull(atd);
         assertEquals("mid_123456", atd.getMerchantIdentifier());
-        assertEquals(1, atd.getGroup().size());
+        assertEquals(1, atd.getAttribute().size());
 
-        AcquirerTransactionDataGroup group = atd.getGroup().get(0);
-        assertEquals("passcard", group.getName());
-        assertEquals(2, group.getEntry().size());
+        AcquirerAttribute attribute = atd.getAttribute().get(0);
+        assertEquals("someKey", attribute.getKey());
+        assertEquals("someValue", attribute.getValue());
 
-        AcquirerTransactionDataEntry e0 = group.getEntry().get(0);
-        assertEquals("creditcode", e0.getKey());
-        assertEquals("32", e0.getValue());
-
-        AcquirerTransactionDataEntry e1 = group.getEntry().get(1);
-        assertEquals("paymentoccurrence", e1.getKey());
-        assertEquals("001", e1.getValue());
     }
 
     @Test

@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.27]
+- Added custom acquirer attributes (`Attribute` of type `AcquirerAttribute`) to `AcquirerTransactionData` in API response.
+- Removed `Group` (`AcquirerTransactionDataGroup`) from `AcquirerTransactionData` in API response schema as parameters are scenario-dependent and not all of them could be used in the transaction.
+
 ## [3.1.26]
 - `AcquirerTransactionData.getAll()` now returns `Map<String, Map<String, List<String>>>` instead of `Map<String, Map<String, String>>`. A `(group, key)` pair holds a list of values, and `add` appends rather than overwrites, so a repeated key keeps every value it was given.
 - `acquirerTransactionData` parameters are emitted as `acquirerTransactionData[group][key]` for a single value and `acquirerTransactionData[group][key][0]`, `[1]`, ... for two or more. Single values keep the previous unindexed form, so existing integrations are unaffected on the wire.
