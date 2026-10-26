@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.28]
+- Added `Group` (`AcquirerTransactionDataGroup` with `Entry` elements) to `AcquirerTransactionData` in API response. Used for the `destinationText` group carrying acquirer destination texts, e.g. `<Group name="destinationText"><Entry key="IssuerOption">003101</Entry></Group>`. A group may contain several entries with the same key.
+
 ## [3.1.27]
 - Added custom acquirer attributes (`Attribute` of type `AcquirerAttribute`) to `AcquirerTransactionData` in API response.
 - Removed `Group` (`AcquirerTransactionDataGroup`) from `AcquirerTransactionData` in API response schema as parameters are scenario-dependent and not all of them could be used in the transaction.
