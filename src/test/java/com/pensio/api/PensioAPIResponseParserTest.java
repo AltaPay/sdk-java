@@ -3,6 +3,8 @@ package com.pensio.api;
 import com.pensio.api.generated.APIResponse;
 import com.pensio.api.generated.AcquirerTransactionData;
 import com.pensio.api.generated.AcquirerAttribute;
+import com.pensio.api.generated.AcquirerTransactionDataEntry;
+import com.pensio.api.generated.AcquirerTransactionDataGroup;
 import com.pensio.api.generated.Transaction;
 import com.pensio.api.generated.Terminal;
 import com.pensio.api.generated.Metadatas;
@@ -54,6 +56,56 @@ class PensioAPIResponseParserTest {
         assertEquals("someKey", attribute.getKey());
         assertEquals("someValue", attribute.getValue());
 
+    }
+
+    @Test
+    void parsesAcquirerTransactionDataDestinationTextGroup() throws Exception {
+        String xml =
+            "<?xml version=\"1.0\"?>" +
+            "<APIResponse version=\"20170228\">" +
+            "  <Header>" +
+            "    <Date>2026-10-26T14:04:52+02:00</Date>" +
+            "    <Path>API/reservation</Path>" +
+            "    <ErrorCode>0</ErrorCode>" +
+            "    <ErrorMessage>Success</ErrorMessage>" +
+            "  </Header>" +
+            "  <Body>" +
+            "    <Result>Success</Result>" +
+            "    <Transactions>" +
+            "      <Transaction>" +
+            "        <TransactionId>1</TransactionId>" +
+            "        <AcquirerTransactionData>" +
+            "          <MerchantIdentifier>1893965</MerchantIdentifier>" +
+            "          <Attribute key=\"someKey\">someValue</Attribute>" +
+            "          <Group name=\"destinationText\">" +
+            "            <Entry key=\"IssuerOption\">003101</Entry>" +
+            "            <Entry key=\"IssuerOption\">113101</Entry>" +
+            "          </Group>" +
+            "        </AcquirerTransactionData>" +
+            "      </Transaction>" +
+            "    </Transactions>" +
+            "  </Body>" +
+            "</APIResponse>";
+
+        PensioMerchantAPI api = new PensioMerchantAPI("url", "username", "password");
+        APIResponse parsed = api.parsePostBackXMLParameter(xml);
+
+        AcquirerTransactionData atd = parsed.getBody().getTransactions().getTransaction().get(0).getAcquirerTransactionData();
+        assertNotNull(atd);
+        assertEquals(1, atd.getAttribute().size());
+        assertEquals(1, atd.getGroup().size());
+
+        AcquirerTransactionDataGroup group = atd.getGroup().get(0);
+        assertEquals("destinationText", group.getName());
+        assertEquals(2, group.getEntry().size());
+
+        AcquirerTransactionDataEntry e0 = group.getEntry().get(0);
+        assertEquals("IssuerOption", e0.getKey());
+        assertEquals("003101", e0.getValue());
+
+        AcquirerTransactionDataEntry e1 = group.getEntry().get(1);
+        assertEquals("IssuerOption", e1.getKey());
+        assertEquals("113101", e1.getValue());
     }
 
     @Test

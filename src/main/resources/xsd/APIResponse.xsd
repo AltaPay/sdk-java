@@ -883,7 +883,23 @@
         <xs:sequence>
             <xs:element name="MerchantIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="Attribute" type="AcquirerAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="Group" type="AcquirerTransactionDataGroup" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AcquirerTransactionDataGroup">
+        <xs:sequence>
+            <xs:element name="Entry" type="AcquirerTransactionDataEntry" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="AcquirerTransactionDataEntry">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="key" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="AcquirerAttribute">
