@@ -190,6 +190,7 @@
             <xs:element name="FormTemplates" type="FormTemplates" maxOccurs="1" minOccurs="0"/>
             <xs:element name="Schemes" type="Schemes" maxOccurs="1" minOccurs="0"/>
             <xs:element name="Metadatas" type="Metadatas" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="ProfileGroups" type="ProfileGroups" maxOccurs="1" minOccurs="0"/>
         </xs:all>
     </xs:complexType>
 
@@ -232,6 +233,12 @@
     <xs:complexType name="Currencies">
         <xs:sequence>
             <xs:element name="Currency" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProfileGroups">
+        <xs:sequence>
+            <xs:element name="ProfileGroup" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -543,6 +550,7 @@
             </xs:element>
             <xs:element name="ReservedAmount" type="xs:double"/>
             <xs:element name="CapturedAmount" type="xs:double"/>
+            <xs:element name="ReleasedAmount" type="xs:double"/>
             <xs:element name="RefundedAmount" type="xs:double"/>
             <xs:element name="CreditedAmount" type="xs:double"/>
             <xs:element name="RecurringDefaultAmount" type="xs:double"/>

@@ -10,6 +10,7 @@ import com.pensio.api.generated.Terminal;
 import com.pensio.api.generated.Metadatas;
 import com.pensio.api.generated.Metadata;
 import com.pensio.api.generated.KeyValue;
+import com.pensio.api.generated.ProfileGroups;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -162,5 +163,87 @@ class PensioAPIResponseParserTest {
         KeyValue kv2 = metadata.getKeyValue().get(1);
         assertEquals("key2", kv2.getKey());
         assertEquals("value2", kv2.getValue());
+    }
+
+    @Test
+    void parsesTerminalProfileGroups() throws Exception {
+        String xml =
+            "<?xml version=\"1.0\"?>" +
+            "<APIResponse version=\"3.1.29\">" +
+            "  <Header>" +
+            "    <Date>2026-09-21T11:50:45+02:00</Date>" +
+            "    <Path>API/getTerminals</Path>" +
+            "    <ErrorCode>0</ErrorCode>" +
+            "    <ErrorMessage>Success</ErrorMessage>" +
+            "  </Header>" +
+            "  <Body>" +
+            "    <Result>Success</Result>" +
+            "    <Terminals>" +
+            "      <Terminal>" +
+            "        <Title>Test Terminal</Title>" +
+            "        <ShopName>Test Shop</ShopName>" +
+            "        <Country>DK</Country>" +
+            "        <ProfileGroups>" +
+            "          <ProfileGroup>GroupA</ProfileGroup>" +
+            "          <ProfileGroup>GroupB</ProfileGroup>" +
+            "        </ProfileGroups>" +
+            "      </Terminal>" +
+            "    </Terminals>" +
+            "  </Body>" +
+            "</APIResponse>";
+
+        PensioMerchantAPI api = new PensioMerchantAPI("url", "username", "password");
+        APIResponse parsed = api.parsePostBackXMLParameter(xml);
+
+        assertNotNull(parsed.getBody().getTerminals());
+        assertEquals(1, parsed.getBody().getTerminals().getTerminal().size());
+
+        Terminal terminal = parsed.getBody().getTerminals().getTerminal().get(0);
+        ProfileGroups profileGroups = terminal.getProfileGroups();
+        assertNotNull(profileGroups);
+        assertEquals(2, profileGroups.getProfileGroup().size());
+        assertEquals("GroupA", profileGroups.getProfileGroup().get(0));
+        assertEquals("GroupB", profileGroups.getProfileGroup().get(1));
+    }
+
+    @Test
+    void parsesTerminalProfileGroupsWhenEmptyOrAbsent() throws Exception {
+        String xml =
+            "<?xml version=\"1.0\"?>" +
+            "<APIResponse version=\"3.1.29\">" +
+            "  <Header>" +
+            "    <Date>2026-09-21T11:50:45+02:00</Date>" +
+            "    <Path>API/getTerminals</Path>" +
+            "    <ErrorCode>0</ErrorCode>" +
+            "    <ErrorMessage>Success</ErrorMessage>" +
+            "  </Header>" +
+            "  <Body>" +
+            "    <Result>Success</Result>" +
+            "    <Terminals>" +
+            "      <Terminal>" +
+            "        <Title>Terminal Without ProfileGroups</Title>" +
+            "      </Terminal>" +
+            "      <Terminal>" +
+            "        <Title>Terminal With Empty ProfileGroups</Title>" +
+            "        <ProfileGroups/>" +
+            "      </Terminal>" +
+            "    </Terminals>" +
+            "  </Body>" +
+            "</APIResponse>";
+
+        PensioMerchantAPI api = new PensioMerchantAPI("url", "username", "password");
+        APIResponse parsed = api.parsePostBackXMLParameter(xml);
+
+        assertNotNull(parsed.getBody().getTerminals());
+        assertEquals(2, parsed.getBody().getTerminals().getTerminal().size());
+
+        Terminal terminalWithoutProfileGroups = parsed.getBody().getTerminals().getTerminal().get(0);
+        assertEquals("Terminal Without ProfileGroups", terminalWithoutProfileGroups.getTitle());
+        assertEquals(null, terminalWithoutProfileGroups.getProfileGroups());
+
+        Terminal terminalWithEmptyProfileGroups = parsed.getBody().getTerminals().getTerminal().get(1);
+        assertEquals("Terminal With Empty ProfileGroups", terminalWithEmptyProfileGroups.getTitle());
+        assertNotNull(terminalWithEmptyProfileGroups.getProfileGroups());
+        assertEquals(0, terminalWithEmptyProfileGroups.getProfileGroups().getProfileGroup().size());
     }
 }

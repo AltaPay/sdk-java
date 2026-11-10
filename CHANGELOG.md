@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.29]
+- Added `ProfileGroups` element (`ProfileGroups` with `ProfileGroup` elements) to `Terminal` in `getTerminals` API response to indicate configuration groups.
+
 ## [3.1.28]
 - Added `Group` (`AcquirerTransactionDataGroup` with `Entry` elements) to `AcquirerTransactionData` in API response. Used for the `destinationText` group carrying acquirer destination texts, e.g. `<Group name="destinationText"><Entry key="IssuerOption">003101</Entry></Group>`. A group may contain several entries with the same key.
 
