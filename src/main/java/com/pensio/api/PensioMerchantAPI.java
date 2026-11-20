@@ -206,7 +206,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 
 	private static String booleanParam(Boolean value)
 	{
-		return value == null ? null : (value ? "true" : "false");
+		return value == null ? null : value.toString();
 	}
 
 	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException
