@@ -199,7 +199,14 @@ public class PensioMerchantAPI extends PensioAbstractAPI
 			addParam(params, "terminal", request.getTerminal());
 		}
 
+		addParam(params, "estimatedAmount", booleanParam(request.getEstimatedAmount()));
+
 		return getAPIResponse("reserveSubscriptionCharge", HttpMethod.POST, params);
+	}
+
+	private static String booleanParam(Boolean value)
+	{
+		return value == null ? null : value.toString();
 	}
 
 	public APIResponse fundingList(FundingListRequest request) throws PensioAPIException
@@ -381,6 +388,7 @@ public class PensioMerchantAPI extends PensioAbstractAPI
             addParam(params, "session_id", paymentRequest.getSessionId());
         }
 		addParam(params, "sale_invoice_number", paymentRequest.getSaleInvoiceNumber());
+		addParam(params, "estimatedAmount", booleanParam(paymentRequest.getEstimatedAmount()));
 	}
 
 	protected void setInvoiceReservationRequestParameters(

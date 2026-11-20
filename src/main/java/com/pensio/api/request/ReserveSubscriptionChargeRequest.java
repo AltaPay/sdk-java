@@ -12,6 +12,7 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
 	private String callbackFail;
     private String dynamicDescriptor;
 	private String terminal;
+	private Boolean estimatedAmount;
 
 	{
         paymentInfos = new PaymentInfos();
@@ -20,6 +21,18 @@ public class ReserveSubscriptionChargeRequest<T extends ReserveSubscriptionCharg
     public PaymentInfos getPaymentInfos()
     {
         return paymentInfos;
+    }
+
+    public Boolean getEstimatedAmount()
+    {
+        return estimatedAmount;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setEstimatedAmount(Boolean estimatedAmount)
+    {
+        this.estimatedAmount = estimatedAmount;
+        return (T) this;
     }
 
     @SuppressWarnings("unchecked")
