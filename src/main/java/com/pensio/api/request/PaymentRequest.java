@@ -22,6 +22,7 @@ public class PaymentRequest<T extends PaymentRequest<T>>
     private String dynamicDescriptor;
     private String sessionId;
     private String saleInvoiceNumber;
+    private Boolean estimatedAmount;
 	
 	protected PaymentRequestConfig config;
 	protected CustomerInfo customerInfo;
@@ -263,6 +264,16 @@ public class PaymentRequest<T extends PaymentRequest<T>>
     @SuppressWarnings("unchecked")
     public T setSaleInvoiceNumber(String saleInvoiceNumber) {
         this.saleInvoiceNumber = saleInvoiceNumber;
+        return (T)this;
+    }
+
+    public Boolean getEstimatedAmount() {
+        return estimatedAmount;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setEstimatedAmount(Boolean estimatedAmount) {
+        this.estimatedAmount = estimatedAmount;
         return (T)this;
     }
 

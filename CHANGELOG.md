@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.1.30]
+- Added `estimatedAmount` to `paymentRequest` and `ReserveSubscriptionChargeRequest`.
+
 ## [3.1.29]
 - Added `ProfileGroups` element (`ProfileGroups` with `ProfileGroup` elements) to `Terminal` in `getTerminals` API response to indicate configuration groups.
 
